@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.rmd": "markdown",
+        "*.py": "python",
+        "ostream": "cpp",
+        "iosfwd": "cpp"
+    },
+    "workbench.iconTheme": "vscode-icons"
+}
