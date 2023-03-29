@@ -13,6 +13,8 @@ Version built based on TEM-Hydro, Biogeography ins Based on BIOME4 Model
 #Getting Started
 Follow these steps to set up and run the model:
 
+# MODIFY .xlm FILES AS NEEDED!
+
 1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
 
 ```
@@ -46,6 +48,7 @@ TEM_Biogeography
 │  
 ├───runs
 │   ├───climate_data
+│   ├───dat_files
 │   └───multi_model
 │       
 └───tem_core #main tem code

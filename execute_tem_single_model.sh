@@ -1,46 +1,69 @@
 #!/bin/bash
 
-set -e # Exit immediately if a command exits with a non-zero status.
+set -euo pipefail
 
-# Navigate to tem_core directory
-cd /tem_core
+# Directories
+tem_core="/tem_core"
+tem_biogeography="/TEM_Biogeography"
+runs="$tem_biogeography/runs"
+processing_biogeo="$tem_biogeography/processing/biogeo"
+data="$processing_biogeo/data"
+output_bakeoff="$data/output_bakeoff"
+output_summary="$data/output_summary"
 
-# Remove all .o files
-echo "Removing all .o files..."
-rm -f *.o
+# Functions
+clean_tem_core() {
+  cd "$tem_core"
+  echo "Removing all .o files..."
+  rm -f *.o
+}
 
-# Compile tem
-echo "Compiling tem..."
-make -f Makefile_biogeo.xtem xtem45_biogeo
+compile_tem() {
+  echo "Compiling tem..."
+  make -f Makefile_biogeo.xtem xtem45_biogeo
+}
 
-# Copy tem executable to run directory
-echo "Copying tem executable to run directory..."
-cp xtem45_biogeo /TEM_Biogeography/runs
+copy_executable() {
+  echo "Copying tem executable to run directory..."
+  cp xtem45_biogeo "$runs"
+}
 
-# Navigate to runs directory
-cd /TEM_Biogeography/runs
+remove_csv_files() {
+  local dir="$1"
+  echo "Removing all .csv files from $dir directory..."
+  rm -f "$dir"/*.csv
+}
 
-# Remove all .csv files from runs directory
-echo "Removing all .csv files from runs directory..."
-rm -f *.csv
+remove_unnecessary_files() {
+  echo "Removing unnecessary files..."
+  rm -f FIRE.csv FIRE_VARS.csv MMDI.csv
+}
 
-# Remove files not needed
-echo "Removing unnecessary files..."
-rm -f FIRE.csv FIRE_VARS.csv MMDI.csv
+run_tem_executable() {
+  echo "Running the executable..."
+  ./xtem45_biogeo > junk &
+  wait
+}
 
-# Run the executable
-echo "Running the executable..."
-./xtem45_biogeo > junk &
+copy_csv_files() {
+  local src="$1"
+  local dest="$2"
+  echo "Copying files from $src to $dest directory..."
+  cp "$src"/*.csv "$dest"
+}
 
-wait
+# Main script
+clean_tem_core
+compile_tem
+copy_executable
 
-# Copy files to biogeo/data directory
-echo "Copying files to biogeo/data directory..."
-cp *.csv /TEM_Biogeography/processing/biogeo/data
+cd "$runs"
+remove_csv_files "$runs"
+remove_unnecessary_files
+run_tem_executable
+copy_csv_files "$runs" "$data/output_bakeoff"
 
-# Run python biogeography_and_bakeoff_module.py script in biogeo directory
-echo "Running python script in biogeo directory..."
-cd /TEM_Biogeography/processing/biogeo
+cd "$processing_biogeo"
 python biogeography_and_bakeoff_module.py
 
 # Define the directories where the .csv files are located
@@ -133,5 +156,7 @@ echo "Processing .SUMMARY files..."
 process_summary_files "$model"
 
 # Display completion message
-echo "Finished processing .SUMMARY files"
+echo "################################################### 100%"
+echo "________________Finished processing .SUMMARY Files_________________________"
+echo "_________________________Execution Done______________________________________"
 
