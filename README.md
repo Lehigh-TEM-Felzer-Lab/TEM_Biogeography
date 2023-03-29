@@ -16,7 +16,7 @@ Follow these steps to set up and run the model:
 1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
 
 ```
-TEM_Biogeography/
+TEM_Biogeography/biogeo
 │
 ├── biogeography_and_bakeoff_module.py  # Main Python script containing the code
 │
