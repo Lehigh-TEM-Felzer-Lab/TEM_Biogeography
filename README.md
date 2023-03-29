@@ -55,9 +55,14 @@ npp_bakeoff_result.csv, vegc_bakeoff_result.csv, nep_bakeoff_result.csv, availn_
 Columns: [LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION]
 
 ```
-** user can automate by modifing and running 
-```execute_tem_single_model.sh # for single model or 
- execute_tem_multi_model.sh # for multi model```  for manual execution follow the next instructions**
+# user can automate the process by modifing and running: 
+
+```
+execute_tem_single_model.sh # for single model or 
+execute_tem_multi_model.sh # for multi model
+ 
+ ```  
+# for manual execution follow the next instructions:
 
 2. **Compile the tem_core:** Begin by compiling the tem_core using the appropriate compiler command for your system.
 
