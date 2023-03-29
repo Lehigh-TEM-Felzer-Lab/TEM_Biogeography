@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Toolik_Lake LTER, Alaska USA"
+  longitude = "-150.0"
+  latitude = "68.5"
+  developedBy = "BSF/TWC"
+  updated = "20070110">
+
+  <community type = "2"
+    description = "Polar Desert">
+  
+    <leafcb>100.0</leafcb>
+    <sapwoodcb>100.0</sapwoodcb>
+    <heartwoodcb>50.0</heartwoodcb>
+    <rootcb>100.0</rootcb>
+    <seedcb>0.0</seedcb>
+    <labilecb>100.0</labilecb>
+    <leafnb>1.4</leafnb>
+    <sapwoodnb>1.4</sapwoodnb>
+    <heartwoodnb>.7</heartwoodnb>
+    <rootnb>1.4</rootnb>
+    <seednb>0.0</seednb>
+    <labilenb>1.4</labilenb>
+    <solcb>6000.0</solcb>
+    <solnb>260.0</solnb>
+    <avlnb>0.4</avlnb>
+
+    <vegcmax1b>45.25</vegcmax1b>
+    <vegtauleaf>1.0</vegtauleaf>
+    <vegtausapwood>10.0</vegtausapwood>
+    <vegtauheartwood>28.5</vegtauheartwood>
+    <vegtauroot>1.0</vegtauroot>
+    <vegtauseed>1.0</vegtauseed>
+    <vegkra>0.75</vegkra>
+    <microbekdb>0.0031</microbekdb>
+    <microbelcclnc>130.0</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmax1b>15.0</vegnmax1b>
+    <microbenupb>2.3</microbenupb>
+    <soilnloss>2.00</soilnloss>
+    <soildenitr>1.0</soildenitr>
+    <microbecnsoil>20.0</microbecnsoil>
+    <vegcnltr>69.0</vegcnltr>
+    <o3para>2.6</o3para>
+    <o3parb>1.0</o3parb>
+    <o3parc>0.0080782</o3parc>
+  </community>
+</siteECD>

@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Guanica_Puerto_Rico"
+  longitude = "-67.0"
+  latitude = "18.0"
+  developedBy = "BSF/TWC"
+  updated = "20070110">
+
+  <community type = "11"
+    description = "Xeromorphic Forests/Woodlands">
+  
+    <leafcb>400.0</leafcb>
+    <sapwoodcb>1500.0</sapwoodcb>
+    <heartwoodcb>15000.0</heartwoodcb>
+    <rootcb>400.0</rootcb>
+    <seedcb>0.0</seedcb>
+    <labilecb>1000.0</labilecb>
+    <leafnb>10.0</leafnb>
+    <sapwoodnb>5.0</sapwoodnb>
+    <heartwoodnb>50.0</heartwoodnb>
+    <rootnb>12.0</rootnb>
+    <seednb>0.0</seednb>
+    <labilenb>10.0</labilenb>
+    <solcb>4770.0</solcb>
+    <solnb>238.5</solnb>
+    <avlnb>2.20</avlnb>
+
+    <vegcmax1b>14.85</vegcmax1b>
+    <vegtauleaf>1.0</vegtauleaf>
+    <vegtausapwood>10.0</vegtausapwood>
+    <vegtauheartwood>14.0</vegtauheartwood>
+    <vegtauroot>1.0</vegtauroot>
+    <vegtauseed>1.0</vegtauseed>
+    <vegkra>0.1</vegkra>
+    <microbekdb>0.0081</microbekdb>
+    <microbelcclnc>70.87</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmax1b>2500.0</vegnmax1b>
+    <microbenupb>10.0</microbenupb>
+    <soilnloss>0.1</soilnloss>
+    <soildenitr>6.8</soildenitr>
+    <microbecnsoil>20.0</microbecnsoil>
+    <vegcnltr>52.0</vegcnltr>
+    <o3para>2.6</o3para>
+    <o3parb>1.0</o3parb>
+    <o3parc>0.0080782</o3parc>
+  </community>
+</siteECD>

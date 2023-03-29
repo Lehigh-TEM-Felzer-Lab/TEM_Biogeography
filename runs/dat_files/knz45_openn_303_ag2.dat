@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Konza, Kansas USA"
+  longitude = "-97.0"
+  latitude = "39.0"
+  developedBy = "TWC/BSF/DWK"
+  updated = "20090121">
+
+  <community type = "18"
+    description = "Grassland">
+  
+    <leafcb>100.0</leafcb>
+    <sapwoodcb>100.0</sapwoodcb>
+    <heartwoodcb>0.0</heartwoodcb>
+    <rootcb>100.0</rootcb>
+    <seedcb>0.0</seedcb>
+    <labilecb>100.0</labilecb>
+    <leafnb>5.0</leafnb>
+    <sapwoodnb>1.0</sapwoodnb>
+    <heartwoodnb>0.0</heartwoodnb>
+    <rootnb>5.0</rootnb>
+    <seednb>0.0</seednb>
+    <labilenb>5.0</labilenb>
+    <solcb>7193.0</solcb>
+    <solnb>586.005</solnb>
+    <avlnb>0.80</avlnb>
+
+    <vegcmax1b>18.0</vegcmax1b>
+    <vegtauleaf>1.0</vegtauleaf>
+    <vegtausapwood>1.0</vegtausapwood>
+    <vegtauheartwood>0.2696</vegtauheartwood>
+    <vegtauroot>1.0</vegtauroot>
+    <vegtauseed>1.0</vegtauseed>
+    <vegkra>0.24</vegkra>
+    <microbekdb>0.0064</microbekdb>
+    <microbelcclnc>57.1</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmax1b>930.0</vegnmax1b>
+    <microbenupb>33.0</microbenupb>
+    <soilnloss>10.0</soilnloss>
+    <soildenitr>3.15</soildenitr>
+    <microbecnsoil>11.12</microbecnsoil>
+    <vegcnltr>45.0</vegcnltr>
+    <o3para>3.9</o3para>
+    <o3parb>2.0</o3parb>
+    <o3parc>0.0402712</o3parc>
+  </community>
+</siteECD>

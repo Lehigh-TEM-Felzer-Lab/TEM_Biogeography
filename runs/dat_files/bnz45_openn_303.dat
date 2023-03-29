@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Bonanza Creek, AK USA"
+  longitude = "-148.5"
+  latitude = "64.5"
+  developedBy = "TWC/BSF/DWK "
+  updated = "20090629">
+
+  <community type = "4"
+    description = "Boreal Forest">
+  
+    <leafcb>400.0</leafcb>
+    <sapwoodcb>900.0</sapwoodcb>
+    <heartwoodcb>7500.0</heartwoodcb>
+    <rootcb>150.0</rootcb>
+    <seedcb>0.0</seedcb>
+    <labilecb>500.0</labilecb>
+    <leafnb>10.0</leafnb>
+    <sapwoodnb>1.5</sapwoodnb>
+    <heartwoodnb>15.0</heartwoodnb>
+    <rootnb>5.0</rootnb>
+    <seednb>0.0</seednb>
+    <labilenb>5.0</labilenb>
+    <solcb>11000.0</solcb>
+    <solnb>370.0</solnb>
+    <avlnb>0.5</avlnb>
+
+    <vegcmax1b>9.9</vegcmax1b>
+    <vegtauleaf>2.0</vegtauleaf>
+    <vegtausapwood>39.0</vegtausapwood>
+    <vegtauheartwood>135.0</vegtauheartwood>
+    <vegtauroot>1.0</vegtauroot>
+    <vegtauseed>1.0</vegtauseed>
+    <vegkra>0.495</vegkra>
+    <microbekdb>0.008</microbekdb>
+    <microbelcclnc>95.0</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmax1b>260.0</vegnmax1b>
+    <microbenupb>9.0</microbenupb>
+    <soilnloss>1.0</soilnloss>
+    <soildenitr>2.0</soildenitr>
+    <microbecnsoil>29.73</microbecnsoil>
+    <vegcnltr>60.0</vegcnltr>
+    <o3para>0.7</o3para>
+    <o3parb>1.0</o3parb>
+    <o3parc>0.0080782</o3parc>
+  </community>
+</siteECD>

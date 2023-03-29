@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Curlew"
+  longitude = "-113.5"
+  latitude = "41.0"
+  developedBy = "BSF/TWC"
+  updated = "20100604">
+
+  <community type = "9"
+    description = "Xeric_Shrubland">
+  
+    <leafcb>100.0</leafcb>
+    <sapwoodcb>200.0</sapwoodcb>
+    <heartwoodcb>100.0</heartwoodcb>
+    <rootcb>100.0</rootcb>
+    <seedcb>0.0</seedcb>
+    <labilecb>1000.0</labilecb>
+    <leafnb>5.0</leafnb>
+    <sapwoodnb>5.0</sapwoodnb>
+    <heartwoodnb>5.0</heartwoodnb>
+    <rootnb>5.0</rootnb>
+    <seednb>0.0</seednb>
+    <labilenb>10.0</labilenb>
+    <solcb>2500.0</solcb>
+    <solnb>210.0</solnb>
+    <avlnb>1.6</avlnb>
+
+    <vegcmax1b>13.4</vegcmax1b>
+    <vegtauleaf>2.0</vegtauleaf>
+    <vegtausapwood>10.0</vegtausapwood>
+    <vegtauheartwood>14.00</vegtauheartwood>
+    <vegtauroot>1.0</vegtauroot>
+    <vegtauseed>1.0</vegtauseed>
+    <vegkra>0.235</vegkra>
+    <microbekdb>0.0088</microbekdb>
+    <microbelcclnc>70.87</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmax1b>620.0</vegnmax1b>
+    <microbenupb>55</microbenupb>
+    <soilnloss>0.00</soilnloss>
+    <soildenitr>1.00</soildenitr>
+    <microbecnsoil>11.9</microbecnsoil>
+    <vegcnltr>30.0</vegcnltr>
+    <o3para>2.6</o3para>
+    <o3parb>1.0</o3parb>
+    <o3parc>0.0080782</o3parc>
+  </community>
+</siteECD>

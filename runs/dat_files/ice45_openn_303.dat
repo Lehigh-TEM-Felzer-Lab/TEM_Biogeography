@@ -1,0 +1,85 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Dummy File"
+  longitude = "-999.9"
+  latitude = "-999.9"
+  developedBy = "BSF/TWC"
+  updated = "20070110">
+
+  <community type = "1"
+    description = "Ice/Missing">
+  
+    <leafca>0.0</leafca>
+    <leafcb>0.0</leafcb>
+    <sapwoodca>0.0</sapwoodca>
+    <sapwoodcb>1500.0</sapwoodcb>
+    <heartwoodca>0.0</heartwoodca>
+    <heartwoodcb>15000.0</heartwoodcb>
+    <rootca>0.0</rootca>
+    <rootcb>300.0</rootcb>
+    <seedca>0.0</seedca>
+    <seedcb>0.0</seedcb>
+    <labileca>0.0</labileca>
+    <labilecb>1000.0</labilecb>
+    <leafna>0.0</leafna>
+    <leafnb>0.0</leafnb>
+    <sapwoodna>0.0</sapwoodna>
+    <sapwoodnb>5.0</sapwoodnb>
+    <heartwoodna>0.0</heartwoodna>
+    <heartwoodnb>50.0</heartwoodnb>
+    <rootna>0.0</rootna>
+    <rootnb>12.0</rootnb>
+    <seedna>0.0</seedna>
+    <seednb>0.0</seednb>
+    <labilena>0.0</labilena>
+    <labilenb>10.0</labilenb>
+    <solca>0.0</solca>
+    <solcb>4770.0</solcb>
+    <solna>0.0</solna>
+    <solnb>238.5</solnb>
+    <avlna>0.0</avlna>
+    <avlnb>2.20</avlnb>
+
+    <unleaf12>0.50</unleaf12>
+    <initleafmx>1.00</initleafmx>
+
+    <vegcmaxcut>0.55</vegcmaxcut>
+    <vegcmax1a>0.0</vegcmax1a>
+    <vegcmax1b>700.0</vegcmax1b>
+    <vegcmax2a>0.0</vegcmax2a>
+    <vegcmax2b>700.0</vegcmax2b>
+    <vegtauleaf>1.0</vegtauleaf>
+    <vegtausapwood>10.0</vegtausapwood>
+    <vegtauheartwood>57.5</vegtauheartwood>
+    <vegtauroot>1.0</vegtauroot>
+    <vegtauseed>1.0</vegtauseed>
+    <vegkra>5.8</vegkra>
+    <vegkrb>0.13</vegkrb>
+    <microbekda>0.0</microbekda>
+    <microbekdb>0.047</microbekdb>
+    <microbelcclnc>70.87</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmaxcut>0.35</vegnmaxcut>
+    <vegnmax1a>0.0</vegnmax1a>
+    <vegnmax1b>91.0</vegnmax1b>
+    <vegnmax2a>0.0</vegnmax2a>
+    <vegnmax2b>91.0</vegnmax2b>
+    <vegnfall>0.0118</vegnfall>
+    <microbenupa>0.0</microbenupa>
+    <microbenupb>2.17</microbenupb>
+    <soilnloss>0.00</soilnloss>
+    <soildenitr>1.50</soildenitr>
+    <microbenfixpar>0.00</microbenfixpar>
+    <veginitcneven>59.35</veginitcneven>
+    <vegcnmin>0.00</vegcnmin>
+    <vegc2na>0.0000</vegc2na>
+    <vegc2nb>300.0</vegc2nb>
+    <vegc2nmin>300.0</vegc2nmin>
+    <microbecnsoil>20.0</microbecnsoil>
+    <vegcnltr>52.0</vegcnltr>
+    <o3para>2.6</o3para>
+    <o3parb>1.0</o3parb>
+    <o3parc>0.0080782</o3parc>
+  </community>
+</siteECD>

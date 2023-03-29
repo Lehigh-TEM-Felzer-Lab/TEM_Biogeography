@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Chicago suburb"
+  longitude = "-72.5"
+  latitude = "42.5"
+  developedBy = "BSF "
+  updated = "20150828">
+
+  <community type = "17"
+    description = "Turf Lawn">
+  
+    <leafcb>80.0</leafcb>
+    <sapwoodcb>0.0</sapwoodcb>
+    <heartwoodcb>0.0</heartwoodcb>
+    <rootcb>80.0</rootcb>
+    <seedcb>0.0</seedcb>
+    <labilecb>40.0</labilecb>
+    <leafnb>3.0</leafnb>
+    <sapwoodnb>0.0</sapwoodnb>
+    <heartwoodnb>0.0</heartwoodnb>
+    <rootnb>3.0</rootnb>
+    <seednb>0.0</seednb>
+    <labilenb>2.0</labilenb>
+    <solcb>16260.0</solcb>
+    <solnb>1406.0</solnb>
+    <avlnb>2.00</avlnb>
+
+    <vegcmax1b>7.24</vegcmax1b>
+    <vegtauleaf>1.0</vegtauleaf>
+    <vegtausapwood>1.0</vegtausapwood>
+    <vegtauheartwood>1.0</vegtauheartwood>
+    <vegtauroot>2.0</vegtauroot>
+    <vegtauseed>2.0</vegtauseed>
+    <vegkra>0.088</vegkra>
+    <microbekdb>0.0068</microbekdb>
+    <microbelcclnc>32.0</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmax1b>2500.0</vegnmax1b>
+    <microbenupb>40.0</microbenupb>
+    <soilnloss>7.0</soilnloss>
+    <soildenitr>1.00</soildenitr>
+    <microbecnsoil>11.56</microbecnsoil>
+    <vegcnltr>45.0</vegcnltr>
+    <o3para>3.9</o3para>
+    <o3parb>2.0</o3parb>
+    <o3parc>0.0402712</o3parc>
+  </community>
+</siteECD>

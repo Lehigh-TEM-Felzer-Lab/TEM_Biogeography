@@ -1,0 +1,364 @@
+<?xml version = "1.0"?>
+
+<microbeECD version = "4.5">
+  <community type = "1"
+    description = "Ice"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.000000</docfr>
+    <docdon>1.000000</docdon>
+  </community>
+
+  <community type = "2"
+    description = "Alpine Tundra/Polar Desert"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0186</docfr>
+    <docdon>43.05</docdon>
+  </community>
+
+  <community type = "3"
+    description = "Wet Tundra"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0186</docfr>
+    <docdon>43.05</docdon>
+  </community>
+
+  <community type = "4"
+    description = "Boreal Forest"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+   <docfr>0.006</docfr>
+    <docdon>11.97</docdon>
+  </community>
+
+  <community type = "5"
+    description = "Temperate Coniferous Forest"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0072</docfr>
+    <docdon>61.86</docdon>
+  </community>
+
+  <community type = "6"
+    description = "Temperate Deciduous Forest"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0059</docfr>
+    <docdon>61.86</docdon>
+  </community>
+
+  <community type = "7"
+    description = "Tall Grassland"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.000000</docfr>
+    <docdon>9.58</docdon>
+  </community>
+
+  <community type = "8"
+    description = "Short Grassland"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.000000</docfr>
+    <docdon>9.58</docdon>
+  </community>
+
+  <community type = "9"
+    description = "Xeric Shrubland"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.000000</docfr>
+    <docdon>43.43</docdon>
+  </community>
+
+  <community type = "10"
+    description = "Tropical Forest"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.002</docfr>
+    <docdon>78.13</docdon>
+  </community>
+
+  <community type = "11"
+    description = "Xeric Woodland"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0049</docfr>
+    <docdon>43.43</docdon>
+  </community>
+
+  <community type = "12"
+    description = "Temperate Broadleaved Evergreen Forest"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.01</docfr>
+    <docdon>61.86</docdon>
+  </community>
+
+  <community type = "13"
+    description = "Mediterranean Shrubland"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0049</docfr>
+    <docdon>43.43</docdon>
+  </community>
+  
+  <community type = "14"
+    description = "Switchgrass"
+    developedBy = "TWC"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.000000</docfr>
+    <docdon>9.58</docdon>
+  </community>
+  
+  <community type = "15"
+    description = "Maize"
+    developedBy = "TWC"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.002400</docfr>
+    <docdon>10.32</docdon>
+  </community>
+  
+  <community type = "16"
+    description = "Soybean"
+    developedBy = "TWC"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.000000</docfr>
+    <docdon>10.32</docdon>
+  </community>
+
+  <community type = "17"
+    description = "Turf Lawn"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.012300</docfr>
+    <docdon>10.32</docdon>
+  </community>
+
+  <community type = "18"
+    description = "Pasture"
+    developedBy = "A. David McGuire"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0123</docfr>
+    <docdon>10.32</docdon>
+  </community>
+
+  <community type = "19"
+    description = "Vegetable Farm"
+    developedBy = "TWC"
+    updated = "20070108">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>  
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.002400</docfr>
+    <docdon>10.32</docdon>
+  </community>
+
+  <community type = "20"
+    description = "Moist Pasture"
+    developedBy = "BSF"
+    updated = "2015">
+    <rhq10>2.00</rhq10>
+    <rhalpha>0.009</rhalpha>
+    <rhbeta>-10.0</rhbeta>
+    <rhgamma>100.0</rhgamma>
+    <rhqref>1.83</rhqref>
+    <rhtref>25.0</rhtref>
+    <kn2>0.0042</kn2>
+    <moistmin>0.000000</moistmin>
+    <moistopt>0.500000</moistopt>
+    <moistmax>1.000000</moistmax>
+    <docfr>0.0123</docfr>
+    <docdon>10.32</docdon>
+  </community>
+</microbeECD>
+

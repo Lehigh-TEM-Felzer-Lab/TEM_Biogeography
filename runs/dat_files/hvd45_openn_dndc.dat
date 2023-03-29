@@ -1,0 +1,49 @@
+<?xml version = "1.0"?>
+
+<siteECD version = "4.5" 
+  site = "Harvard Forest, Petersham,MA USA"
+  longitude = "-72.5"
+  latitude = "42.5"
+  developedBy = "TWC/BSF "
+  updated = "20090108">
+
+  <community type = "6"
+    description = "Temperate Deciduous Forest">
+  
+    <leafcb>400.0</leafcb>
+    <sapwoodcb>1500.0</sapwoodcb>
+    <heartwoodcb>15000.0</heartwoodcb>
+    <rootcb>300.0</rootcb>
+    <seedcb>0.0</seedcb>
+    <labilecb>1000.0</labilecb>
+    <leafnb>10.0</leafnb>
+    <sapwoodnb>5.0</sapwoodnb>
+    <heartwoodnb>50.0</heartwoodnb>
+    <rootnb>12.0</rootnb>
+    <seednb>0.0</seednb>
+    <labilenb>10.0</labilenb>
+    <solcb>8290.0</solcb>
+    <solnb>419.948</solnb>
+    <avlnb>2.20</avlnb>
+
+    <vegcmax1b>18.6</vegcmax1b>
+    <vegtauleaf>1.0</vegtauleaf>
+    <vegtausapwood>10.0</vegtausapwood>
+    <vegtauheartwood>61.0</vegtauheartwood>
+    <vegtauroot>1.0</vegtauroot>
+    <vegtauseed>1.0</vegtauseed>
+    <vegkra>0.328</vegkra>
+    <microbekdb>0.0248</microbekdb>
+    <microbelcclnc>70.87</microbelcclnc>
+    <microbepropftos>0.2000</microbepropftos>
+    <vegnmax1b>530.0</vegnmax1b>
+    <microbenupb>6.3</microbenupb>
+    <soilnloss>0.05</soilnloss>
+    <soildenitr>3.00</soildenitr>
+    <microbecnsoil>20.0</microbecnsoil>
+    <vegcnltr>57.3</vegcnltr>
+    <o3para>2.6</o3para>
+    <o3parb>1.0</o3parb>
+    <o3parc>0.0080782</o3parc>
+  </community>
+</siteECD>
