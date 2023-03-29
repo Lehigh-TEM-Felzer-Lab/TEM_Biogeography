@@ -18,7 +18,7 @@ Follow these steps to set up and run the model:
 ```
 TEM_Biogeography/
 │
-├── mainbiogeography_and_bakeoff_module.py  # Main Python script containing the code
+├── biogeography_and_bakeoff_module.py  # Main Python script containing the code
 │
 └── data/  # Contains .csv files
     ├── MMDI.csv          # TEM output
@@ -35,7 +35,7 @@ TEM_Biogeography/
     ├── SOILORGC.csv      # TEM output
     ├── VEGINNPP.csv      # TEM output
     └── NCE.csv           # TEM output
-    └── data/output_bakeoff/
+    └── output_bakeoff/
     
     
 #CSV Files
