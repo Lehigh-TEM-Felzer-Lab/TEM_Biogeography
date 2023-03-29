@@ -13,7 +13,7 @@ Version built based on TEM-Hydro, Biogeography ins Based on BIOME4 Model
 #Getting Started
 Follow these steps to set up and run the model:
 
-# MODIFY .xlm FILES AS NEEDED!
+ Modify .xlm files as needed
 
 1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
 
