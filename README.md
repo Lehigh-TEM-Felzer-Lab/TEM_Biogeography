@@ -1,5 +1,4 @@
-# Temhydro Disturb
-The Terrestrial Ecosystem Model (TEM)
+# The Terrestrial Ecosystem Model (TEM) + Biogeography
 
 The Terrestrial Ecosystem Model (TEM) is a process-based ecosystem model that describes carbon, nitrogen and water dynamics of plants and soils for terrestrial ecosystems of the globe. 
 The TEM uses spatially referenced information on climate, elevation, soils and vegetation as well as soil- and vegetation-specific parameters to make estimates of important carbon, nitrogen and water fluxes and pool sizes of terrestrial ecosystems. 
@@ -11,73 +10,72 @@ This Model has to be compiled using a C++ compiler.
 
 Version built based on TEM-Hydro, Biogeography ins Based on BIOME4 Model
 
-To run Follow the following steps
+#Getting Started
+Follow these steps to set up and run the model:
 
-1. Make sure the directory structure looks like this
+1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
 
+```
 TEM_Biogeography/
 │
-├── mainbiogeography_and_bakeoff_module.py  # The main Python script containing the code above
+├── mainbiogeography_and_bakeoff_module.py  # Main Python script containing the code
 │
-└── data/ # contains .csv files
-    ├── MMDI.csv # TEM output
-    ├── temp-gdd-prec.csv # temperature, growing degree days and precipitation 
-    ├── bio_limit.csv # bioclimatic limits for each PFT
-    ├── NPP.csv # TEM output
-    ├── VEGC.csv # TEM output
-    ├── NEP.csv # TEM output
-    ├── AVAILN.csv # TEM output
-    ├── GPP.csv # TEM output
-    ├── H2OYIELD.csv # TEM output
-    ├── NETNMIN.csv # TEM output
-    ├── SMOIS.csv # TEM output
-    ├── SOILORGC.csv # TEM output
-    ├── VEGINNPP.csv # TEM output
-    └── NCE.csv # TEM output
+└── data/  # Contains .csv files
+    ├── MMDI.csv          # TEM output
+    ├── temp-gdd-prec.csv # Temperature, growing degree days, and precipitation
+    ├── bio_limit.csv     # Bioclimatic limits for each PFT
+    ├── NPP.csv           # TEM output
+    ├── VEGC.csv          # TEM output
+    ├── NEP.csv           # TEM output
+    ├── AVAILN.csv        # TEM output
+    ├── GPP.csv           # TEM output
+    ├── H2OYIELD.csv      # TEM output
+    ├── NETNMIN.csv       # TEM output
+    ├── SMOIS.csv         # TEM output
+    ├── SOILORGC.csv      # TEM output
+    ├── VEGINNPP.csv      # TEM output
+    └── NCE.csv           # TEM output
     └── data/output_bakeoff/
-
-
-2. Compile the tem_core: Begin by compiling the tem_core using the appropriate compiler command for your system.
-
-3. Run tem_core with input data: After successful compilation, execute the tem_core using the required input data.
-
-4. Prepare input files for Biogegraphy module: Ensure that the input files have the required columns, as specified in the Python code. Modify the input files as necessary to match the expected format.(variable names are descriptive of the file and columns needed)
-
-5. Finalize input files: Prepare the final version of input files with the required columns and formats before running the code.
-
-6. Apply the Biogeography module:
-a. If using only one model (e.g., CCSM4), navigate to the "biogeo" directory and apply the Biogeography module (written in Python) to all TEM output files.
-b. If using multiple models and aggregating the results, follow the steps outlined in the "processing" directory. Each model should have its own subdirectory.
-
-7. Execute Biogeography for each model: Run the Biogeography module for each model as described in the previous step.
-
-8. Check the Aggregate directory: Locate the aggregation scripts in the "aggregate" directory. Adjust the scripts (paths) if needed.
-
-9. Modify code and data paths: Correct any issues with data paths and formats in the code as needed.
-
-
+    
+    
 #CSV Files
 MMDI.csv
-Columns: LON, LAT, ICOHORT, POTVEG, SUBTYPE, MONTH, YEAR, AET, PET, AET/PET, PET-AET/PET, THETA
+Columns: [LON, LAT, ICOHORT, POTVEG, SUBTYPE, MONTH, YEAR, AET, PET, AET/PET, PET-AET/PET, THETA]
 MDI.csv
-Columns: LON, LAT, POTVEG, SUBTYPE, YEAR, AET, PET, AET/PET, (PET-AET)/PET, THETA
+Columns: [LON, LAT, POTVEG, SUBTYPE, YEAR, AET, PET, AET/PET, (PET-AET)/PET, THETA]
 temp-gdd-prec.csv
-Columns: LON, LAT, YEAR, T_MAX, T_MIN, GDD, TOTAL_PREC
+Columns: [LON, LAT, YEAR, T_MAX, T_MIN, GDD, TOTAL_PREC]
 bio_limit.csv
-Columns: POTVEG, SUBTYPE, MIN_GDD, max_GDD, Tc, Tw, MIN_PREC, MIN_AET/PET
+Columns: [POTVEG, SUBTYPE, MIN_GDD, max_GDD, Tc, Tw, MIN_PREC, MIN_AET/PET]
 NPP.csv, VEGC.csv, NEP.csv, AVAILN.csv, GPP.csv, H2OYIELD.csv, NETNMIN.csv, SMOIS.csv, SOILORGC.csv, VEGINNPP.csv, NCE.csv
-Columns: LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION
+Columns: [LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION]
 
 #Output CSV Files
 npp_bakeoff_result.csv, vegc_bakeoff_result.csv, nep_bakeoff_result.csv, availn_bakeoff_result.csv, gpp_bakeoff_result.csv, h2oyield_bakeoff_result.csv, netnmin_bakeoff_result.csv, smois_bakeoff_result.csv, soilorgc_bakeoff_result.csv, veginnpp_bakeoff_result.csv, nce_bakeoff_result.csv
-Columns: LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION
+Columns: [LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION]
 
+```
 
-By following these steps, you can ensure a smooth and efficient workflow for running the Biogeography module and processing the TEM output files
+2. **Compile the tem_core:** Begin by compiling the tem_core using the appropriate compiler command for your system.
+
+3. **Run tem_core with input data:** After successful compilation, execute the tem_core using the required input data.
+
+4. **Prepare input files for the Biogeography module:** Ensure that the input files have the required columns, as specified in the Python code. Modify the input files as necessary to match the expected format (variable names are descriptive of the file and columns needed).
+
+5. **Finalize input files:** Prepare the final version of input files with the required columns and formats before running the code.
+
+6. **Apply the Biogeography module:** If using only one model (e.g., CCSM4), navigate to the "biogeo" directory and apply the Biogeography module (written in Python) to all TEM output files. If using multiple models and aggregating the results, follow the steps outlined in the "processing" directory. Each model should have its own subdirectory.
+
+7. **Execute Biogeography for each model:** Run the Biogeography module for each model as described in the previous step.
+
+8. **Check the Aggregate directory:** Locate the aggregation scripts in the "aggregate" directory. Adjust the scripts (paths) if needed.
+
+9. **Modify code and data paths:** Correct any issues with data paths and formats in the code as needed.
+
 
 # Model framework
 
-![image](https://user-images.githubusercontent.com/47959376/145250181-c099ed9a-2fa7-4d0e-9081-7eb262d83f38.png)
+![tem_biogeog](https://user-images.githubusercontent.com/47959376/228410012-0da8310f-9e86-4e41-ad2f-d1de4f6ebb91.svg)
 
 
 # TEM history review
