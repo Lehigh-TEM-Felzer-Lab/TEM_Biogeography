@@ -16,26 +16,40 @@ Follow these steps to set up and run the model:
 1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
 
 ```
-TEM_Biogeography/
-│
-├── biogeography_and_bakeoff_module.py  # Main Python script containing the code
-│
-└── data/  # Contains .csv files
-    ├── MMDI.csv          # TEM output
-    ├── temp-gdd-prec.csv # Temperature, growing degree days, and precipitation
-    ├── bio_limit.csv     # Bioclimatic limits for each PFT
-    ├── NPP.csv           # TEM output
-    ├── VEGC.csv          # TEM output
-    ├── NEP.csv           # TEM output
-    ├── AVAILN.csv        # TEM output
-    ├── GPP.csv           # TEM output
-    ├── H2OYIELD.csv      # TEM output
-    ├── NETNMIN.csv       # TEM output
-    ├── SMOIS.csv         # TEM output
-    ├── SOILORGC.csv      # TEM output
-    ├── VEGINNPP.csv      # TEM output
-    └── NCE.csv           # TEM output
-    └── output_bakeoff/
+TEM_Biogeography
+│ 
+├───biogeo
+│   │ 
+│   ├───biogeography_and_bakeoff_module.py  # Main Python script containing the code
+│   │ 
+│   └───data  # Contains .csv files
+│       │ 
+│       ├───AVAILN.csv        # TEM output
+│       ├───bio_limit.csv     # Bioclimatic limits for each PFT
+│       ├───GPP.csv           # TEM output
+│       ├───H2OYIELD.csv      # TEM output
+│       ├───MMDI.csv          # TEM output
+│       ├───NCE.csv           # TEM output
+│       ├───NEP.csv           # TEM output
+│       ├───NETNMIN.csv       # TEM output
+│       ├───NPP.csv           # TEM output
+│       ├───SMOIS.csv         # TEM output
+│       ├───SOILORGC.csv      # TEM output
+│       ├───temp-gdd-prec.csv # Temperature, growing degree days, and precipitation
+│       ├───VEGC.csv          # TEM output
+│       ├───output_bakeoff    # Contains output files for the bakeoff module
+│       └───output_summary    # Contains summary output files
+│ 
+├───interpolation_of_input_climate # used for making climate input files from NETCDF
+│  
+├───processing # used for multimodel runs and aggregation
+│  
+├───runs
+│   ├───climate_data
+│   └───multi_model
+│       
+└───tem_core #main tem code
+
     
     
 #CSV Files
@@ -55,9 +69,14 @@ npp_bakeoff_result.csv, vegc_bakeoff_result.csv, nep_bakeoff_result.csv, availn_
 Columns: [LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION]
 
 ```
-** user can automate by modifing and running 
-```execute_tem_single_model.sh # for single model or 
- execute_tem_multi_model.sh # for multi model```  for manual execution follow the next instructions**
+# user can automate the process by modifing and running: 
+
+```
+execute_tem_single_model.sh # for single model or 
+execute_tem_multi_model.sh # for multi model
+ 
+ ```  
+# for manual execution follow the next instructions:
 
 2. **Compile the tem_core:** Begin by compiling the tem_core using the appropriate compiler command for your system.
 
