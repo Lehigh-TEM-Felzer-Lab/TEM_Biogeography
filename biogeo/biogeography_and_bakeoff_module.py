@@ -295,7 +295,6 @@ nce_bakeoff_result = clean_dataframe(nce_bakeoff_result)
 # export data to .csv
 def export_to_csv(df, file_name):
     df.to_csv("../data/output_bakeoff/" + file_name, index=False, header=False) #save to local
-    df.to_csv( "T:/m8/kodero/runs/australia/xtran/" + file_name, index=False, header=False) # save to monocacy server
 
 
 # Apply the export_to_csv function to the three datasets
