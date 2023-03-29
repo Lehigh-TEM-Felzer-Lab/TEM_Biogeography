@@ -5,7 +5,7 @@ CLMOBJ = tclm45_ndep.o
 
 LULCOBJ = tbiome45.o tlcluc45a.o tdisturb.o
 
-TEMOBJ = ttem45_kodero.o atms45_ndep.o penmon45_equil.o tveg45_equil.o tmcrb45_lulc.o \
+TEMOBJ = ttem45_biogeo.o atms45_ndep.o penmon45_equil.o tveg45_equil.o tmcrb45_lulc.o \
 tsoil45_lulc.o humnact45_cwd.o
 
 ELMNTOBJ = elmnt45.o telm45_disturb.o latdat45.o \
@@ -16,8 +16,8 @@ atmdepdat.o tatmdep.o
 
 OBJ =  tprocessXML45.o
 
-xtem45_kodero : ${CLMOBJ} ${LULCOBJ} ${TEMOBJ} ${ELMNTOBJ} ${OBJ} xtem45_disturb.cpp 
-	${CXX} ${CFLAGS} -o xtem45_kodero ${CLMOBJ} ${LULCOBJ} ${TEMOBJ} ${ELMNTOBJ} ${OBJ} xtem45_disturb.cpp
+xtem45_biogeo : ${CLMOBJ} ${LULCOBJ} ${TEMOBJ} ${ELMNTOBJ} ${OBJ} xtem45_disturb.cpp 
+	${CXX} ${CFLAGS} -o xtem45_biogeo ${CLMOBJ} ${LULCOBJ} ${TEMOBJ} ${ELMNTOBJ} ${OBJ} xtem45_disturb.cpp
 
 atms45_ndep.o : atms45_ndep.cpp atms45_ndep.h
 	${CXX} ${CFLAGS} -c atms45_ndep.cpp
@@ -76,8 +76,8 @@ tsoil45_lulc.o : tsoil45_lulc.cpp tsoil45_lulc.h
 tsoldat45.o : tsoldat45.cpp tsoldat45.h
 	${CXX} ${CFLAGS} -c tsoldat45.cpp
 
-ttem45_kodero.o : ttem45_kodero.cpp ttem45_disturb.h
-	${CXX} ${CFLAGS} -c ttem45_kodero.cpp
+ttem45_biogeo.o : ttem45_biogeo.cpp ttem45_disturb.h
+	${CXX} ${CFLAGS} -c ttem45_biogeo.cpp
 
 ttemdat45a.o : ttemdat45a.cpp ttemdat45a.h
 	${CXX} ${CFLAGS} -c ttemdat45a.cpp

@@ -2,30 +2,30 @@
 
 # array of source directories
 src_dirs=(
-"/t/m8/kodero/runs/historical/hist_original_lc"
-"/t/m8/kodero/runs/australia"
-"/t/m8/kodero/runs/canada"
-"/t/m8/kodero/runs/china"
-"/t/m8/kodero/runs/france"
-"/t/m8/kodero/runs/japan"
-"/t/m8/kodero/runs/norway"
-"/t/m8/kodero/runs/united_kingdom"
-"/t/m8/kodero/runs/usa_ccsm4_MAIN/west"
-"/t/m8/kodero/runs/usa_gfdl"
+"/runs/historical/hist_original_lc"
+"/runs/australia"
+"/runs/canada"
+"/runs/china"
+"/runs/france"
+"/runs/japan"
+"/runs/norway"
+"/runs/united_kingdom"
+"/runs/usa_ccsm4_MAIN/west"
+"/runs/usa_gfdl"
 )
 
 # array of destination directories
 dest_dirs=(
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/historical/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/australia/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/canada/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/china/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/france/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/japan/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/norway/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/united_kingdom/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/united_states_1/data"
-"/c/Users/jmkod/OneDrive/Desktop/Lehigh University/Research/Data/tem/processing/united_states_2/data"
+"/processing/historical/data"
+"/processing/australia/data"
+"/processing/canada/data"
+"/processing/china/data"
+"/processing/france/data"
+"/processing/japan/data"
+"/processing/norway/data"
+"/processing/united_kingdom/data"
+"/processing/united_states_1/data"
+"/processing/united_states_2/data"
 )
 # loop through all source directories
 for ((i=0;i<${#src_dirs[@]};i++))

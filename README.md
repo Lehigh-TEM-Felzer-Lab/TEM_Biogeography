@@ -11,6 +11,29 @@ This Model has to be compiled using a C++ compiler.
 
 Version built based on TEM-Hydro.
 
+To run Follow the following steps
+
+1. Compile the tem_core: Begin by compiling the tem_core using the appropriate compiler command for your system.
+
+2. Run tem_core with input data: After successful compilation, execute the tem_core using the required input data.
+
+3. Prepare input files for Biogegraphy module: Ensure that the input files have the required columns, as specified in the Python code. Modify the input files as necessary to match the expected format.(variable names are descriptive of the file and columns needed)
+
+4. Finalize input files: Prepare the final version of input files with the required columns and formats before running the code.
+
+5. Apply the Biogeography module:
+a. If using only one model (e.g., CCSM4), navigate to the "biogeo" directory and apply the Biogeography module (written in Python) to all TEM output files.
+b. If using multiple models and aggregating the results, follow the steps outlined in the "processing" directory. Each model should have its own subdirectory.
+
+6. Execute Biogeography for each model: Run the Biogeography module for each model as described in the previous step.
+
+7. Check the Aggregate directory: Locate the aggregation scripts in the "aggregate" directory. Adjust the scripts (paths) if needed.
+
+8. Modify code and data paths: Correct any issues with data paths and formats in the code as needed.
+
+
+By following these steps, you can ensure a smooth and efficient workflow for running the Biogeography module and processing the TEM output files
+
 # Model framework
 
 ![image](https://user-images.githubusercontent.com/47959376/145250181-c099ed9a-2fa7-4d0e-9081-7eb262d83f38.png)
