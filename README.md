@@ -16,26 +16,40 @@ Follow these steps to set up and run the model:
 1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
 
 ```
-TEM_Biogeography/biogeo
-│
-├── biogeography_and_bakeoff_module.py  # Main Python script containing the code
-│
-└── data/  # Contains .csv files
-    ├── MMDI.csv          # TEM output
-    ├── temp-gdd-prec.csv # Temperature, growing degree days, and precipitation
-    ├── bio_limit.csv     # Bioclimatic limits for each PFT
-    ├── NPP.csv           # TEM output
-    ├── VEGC.csv          # TEM output
-    ├── NEP.csv           # TEM output
-    ├── AVAILN.csv        # TEM output
-    ├── GPP.csv           # TEM output
-    ├── H2OYIELD.csv      # TEM output
-    ├── NETNMIN.csv       # TEM output
-    ├── SMOIS.csv         # TEM output
-    ├── SOILORGC.csv      # TEM output
-    ├── VEGINNPP.csv      # TEM output
-    └── NCE.csv           # TEM output
-    └── output_bakeoff/
+TEM_Biogeography
+│ 
+├───biogeo
+│   │ 
+│   ├───biogeography_and_bakeoff_module.py  # Main Python script containing the code
+│   │ 
+│   └───data  # Contains .csv files
+│       │ 
+│       ├───AVAILN.csv        # TEM output
+│       ├───bio_limit.csv     # Bioclimatic limits for each PFT
+│       ├───GPP.csv           # TEM output
+│       ├───H2OYIELD.csv      # TEM output
+│       ├───MMDI.csv          # TEM output
+│       ├───NCE.csv           # TEM output
+│       ├───NEP.csv           # TEM output
+│       ├───NETNMIN.csv       # TEM output
+│       ├───NPP.csv           # TEM output
+│       ├───SMOIS.csv         # TEM output
+│       ├───SOILORGC.csv      # TEM output
+│       ├───temp-gdd-prec.csv # Temperature, growing degree days, and precipitation
+│       ├───VEGC.csv          # TEM output
+│       ├───output_bakeoff    # Contains output files for the bakeoff module
+│       └───output_summary    # Contains summary output files
+│ 
+├───interpolation_of_input_climate # used for making climate input files from NETCDF
+│  
+├───processing # used for multimodel runs and aggregation
+│  
+├───runs
+│   ├───climate_data
+│   └───multi_model
+│       
+└───tem_core #main tem code
+
     
     
 #CSV Files
