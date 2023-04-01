@@ -18,58 +18,19 @@ Follow these steps to set up and run the model:
 1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
 
 ```
-TEM_Biogeography
-│ 
-├───biogeo
-│   │ 
-│   ├───biogeography_and_bakeoff_module.py  # Main Python script containing the code
-│   │ 
-│   └───data  # Contains .csv files
-│       │ 
-│       ├───AVAILN.csv        # TEM output
-│       ├───bio_limit.csv     # Bioclimatic limits for each PFT
-│       ├───GPP.csv           # TEM output
-│       ├───H2OYIELD.csv      # TEM output
-│       ├───MMDI.csv          # TEM output
-│       ├───NCE.csv           # TEM output
-│       ├───NEP.csv           # TEM output
-│       ├───NETNMIN.csv       # TEM output
-│       ├───NPP.csv           # TEM output
-│       ├───SMOIS.csv         # TEM output
-│       ├───SOILORGC.csv      # TEM output
-│       ├───temp-gdd-prec.csv # Temperature, growing degree days, and precipitation
-│       ├───VEGC.csv          # TEM output
-│       ├───output_bakeoff    # Contains output files for the bakeoff module
-│       └───output_summary    # Contains summary output files
-│ 
-├───interpolation_of_input_climate # used for making climate input files from NETCDF
-│  
-├───processing # used for multimodel runs and aggregation
-│  
-├───runs
-│   ├───climate_data
-│   ├───dat_files
-│   └───multi_model
+TEM_Biogeograohy:
+├───biogeography_module
+│   ├───data
+│   │   ├───output_bakeoff
+│   │   └───output_summary
+│   └───module
 │       
-└───tem_core #main tem code
+├───interpolation_of_input_climate
+│   
+├───processing
+└───tem_core
 
-    
-    
-#CSV Files
-MMDI.csv
-Columns: [LON, LAT, ICOHORT, POTVEG, SUBTYPE, MONTH, YEAR, AET, PET, AET/PET, PET-AET/PET, THETA]
-MDI.csv
-Columns: [LON, LAT, POTVEG, SUBTYPE, YEAR, AET, PET, AET/PET, (PET-AET)/PET, THETA]
-temp-gdd-prec.csv
-Columns: [LON, LAT, YEAR, T_MAX, T_MIN, GDD, TOTAL_PREC]
-bio_limit.csv
-Columns: [POTVEG, SUBTYPE, MIN_GDD, max_GDD, Tc, Tw, MIN_PREC, MIN_AET/PET]
-NPP.csv, VEGC.csv, NEP.csv, AVAILN.csv, GPP.csv, H2OYIELD.csv, NETNMIN.csv, SMOIS.csv, SOILORGC.csv, VEGINNPP.csv, NCE.csv
-Columns: [LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION]
-
-#Output CSV Files
-npp_bakeoff_result.csv, vegc_bakeoff_result.csv, nep_bakeoff_result.csv, availn_bakeoff_result.csv, gpp_bakeoff_result.csv, h2oyield_bakeoff_result.csv, netnmin_bakeoff_result.csv, smois_bakeoff_result.csv, soilorgc_bakeoff_result.csv, veginnpp_bakeoff_result.csv, nce_bakeoff_result.csv
-Columns: [LON, LAT, TMPVARNAME, ICOHORT, STANDAGE, POTVEG, CURRENTVEG, SUBTYPE, CMNT, PSIPLUSC, QLCON, CAREA, SUBAREA, YEAR, TOTAL, MAX, AVE, MIN, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, REGION]
+  
 
 ```
 # user can automate the process by modifing and running: 
