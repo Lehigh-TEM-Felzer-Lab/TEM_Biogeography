@@ -1,5 +1,6 @@
+import dependencies 
 from paths import moisture_stress_path, mean_moisture_stress_path
-import dependencies
+
 
 # Import moisture stress data (Drought Index)
 moisture_stress_columns = [

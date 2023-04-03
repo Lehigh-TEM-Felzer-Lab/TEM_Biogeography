@@ -1,6 +1,5 @@
-import  dependencies
+import dependencies 
 from paths import bakeoff_results_path, early_century_persisting_pft_output_path, mid_century_persisting_pft_output_path, end_century_persisting_pft_output_path
-from tqdm import tqdm
 from climate_data import climate, climate_limits
 from moisture_stress_data import moisture_stress
 from tem_output_data import npp, vegc, nep, availn, gpp, h2oyield, netnmin, smois,soilorgc,veginnpp,nce,var_cols
@@ -59,7 +58,7 @@ def main():
     nce_bakeoff_result = nce_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
 
     # Applying possible_pft_with_max_npp function to each dataframe with progress bar
-    for result in tqdm([npp_bakeoff_result, vegc_bakeoff_result, nep_bakeoff_result, availn_bakeoff_result, gpp_bakeoff_result, h2oyield_bakeoff_result, netnmin_bakeoff_result, smois_bakeoff_result, soilorgc_bakeoff_result, veginnpp_bakeoff_result, nce_bakeoff_result]):
+    for result in dependencies.tqdm([npp_bakeoff_result, vegc_bakeoff_result, nep_bakeoff_result, availn_bakeoff_result, gpp_bakeoff_result, h2oyield_bakeoff_result, netnmin_bakeoff_result, smois_bakeoff_result, soilorgc_bakeoff_result, veginnpp_bakeoff_result, nce_bakeoff_result]):
         result.apply(possible_pft_with_max_npp)
 
 

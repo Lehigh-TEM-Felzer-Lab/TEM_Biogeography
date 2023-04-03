@@ -1,5 +1,6 @@
+import dependencies 
 from paths import climate_path, climate_limits_path
-import dependencies
+
 
 # Import climate data
 climate_columns = [
