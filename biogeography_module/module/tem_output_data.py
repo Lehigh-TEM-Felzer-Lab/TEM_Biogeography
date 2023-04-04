@@ -1,6 +1,7 @@
 import dependencies 
 from paths import tem_output_paths
 
+
 # columns names for all TEM  outputs (NPP, VEGC, NEP, AVAILN, GPP, H2OYIELD, NETNMIN, SMOIS, SOILORGC, VEGINNPP, NCE)
 var_cols = [
     "LON",          # The longitude coordinate of the location being modelled.
@@ -29,10 +30,8 @@ var_cols = [
 def read_csv_add_npp(filename):
     # Read the CSV file with the given filename and column names
     df = dependencies.pd.read_csv(filename, names=var_cols)
-    # Add a new column named "NPP" to the dataframe with values from the "TOTAL" column of the "npp" dataframe
-    df["NPP"] = npp["TOTAL"]
-    # Return the modified dataframe
     return df
+
 
 npp = read_csv_add_npp(tem_output_paths["npp_path"])
 vegc = read_csv_add_npp(tem_output_paths["vegc_path"])
@@ -45,3 +44,22 @@ smois = read_csv_add_npp(tem_output_paths["smois_path"])
 soilorgc = read_csv_add_npp(tem_output_paths["soilorgc_path"])
 veginnpp = read_csv_add_npp(tem_output_paths["veginnpp_path"])
 nce = read_csv_add_npp(tem_output_paths["nce_path"])
+
+
+#  function to add NPP column to all dataframes
+def add_npp_column(df, npp):
+    df["NPP"] = npp["TOTAL"]
+
+        
+add_npp_column(npp, npp)
+add_npp_column(vegc, npp)
+add_npp_column(nep, npp)
+add_npp_column(availn, npp)
+add_npp_column(gpp, npp)
+add_npp_column(h2oyield, npp)
+add_npp_column(netnmin, npp)
+add_npp_column(smois, npp)
+add_npp_column(soilorgc, npp)
+add_npp_column(veginnpp, npp)
+add_npp_column(nce, npp)
+
