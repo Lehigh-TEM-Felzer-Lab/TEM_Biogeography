@@ -1,5 +1,6 @@
 import dependencies 
 from tem_output_data import var_cols
+from paths import bakeoff_results_dir_path
 
 
 
@@ -57,7 +58,7 @@ def clean_dataframe(df):
 
 # Function to export dataframe to csv
 def export_to_csv(df, file_name):
-    file_path = dependencies.os.path.join("..", "data", "output_bakeoff", file_name)
+    file_path = (bakeoff_results_dir_path, file_name)
     df.to_csv(file_path, index=False, header=False)
 
     
