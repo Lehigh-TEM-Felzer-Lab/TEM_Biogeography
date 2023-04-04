@@ -14,21 +14,7 @@ Version built based on TEM-Hydro, Biogeography ins Based on BIOME4 Model
 Follow these steps to set up and run the model:
 
  Modify .xlm files as needed
-
-1. **Prepare the directory structure:** Ensure that the directory structure is organized as follows:
-
-```
-TEM_Biogeograohy:
-├───biogeography_module
-│   ├───data
-│   │   ├───output_bakeoff
-│   │   └───output_summary
-│   └───module
-│       
-├───interpolation_of_input_climate
-│   
-├───processing
-└───tem_core
+ Modify paths.py as needed
 
   
 
