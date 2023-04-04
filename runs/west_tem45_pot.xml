@@ -304,7 +304,7 @@
   <temoutvars>VEGC,NPP,NEP,GPP,SMOIST,NETNMIN,AVAILN,SOILORGC,H2OYIELD,VEGINNPP,VSM,NCE,RH,VOLAC,CONVERTC</temoutvars>
 
     <!-- temoutfiles (string): comma-delimited list of ntemout output files to contain variables specificied by temoutvars -->
-  <temoutfiles>VEGC.csv,NPP.csv,NEP.csv,GPP.csv,SMOIS.csv,NETNMIN.csv,AVAILN.csv,SOILORGC.csv,H2OYIELD.csv,VEGINNPP.csv,VSM.csv,NCE.csv,RH.csv,VOLAC.csv,CONVERTC.csv</temoutfiles>  
+  <temoutfiles>VEGC.TEMOUT,NPP.TEMOUT,NEP.TEMOUT,GPP.TEMOUT,SMOIS.TEMOUT,NETNMIN.TEMOUT,AVAILN.TEMOUT,SOILORGC.TEMOUT,H2OYIELD.TEMOUT,VEGINNPP.TEMOUT,VSM.TEMOUT,NCE.TEMOUT,RH.TEMOUT,VOLAC.TEMOUT,CONVERTC.TEMOUT</temoutfiles>  
 
     <!-- spinoutflag (int): output for all years (1), output for some years (2), or do not output (0) tem variables during spinup -->  
   <spinoutflag>0</spinoutflag>

@@ -32,7 +32,8 @@ def determine_possible_pft(df, bakeoff_variables):
 
 
 #Function to apply bakeoff logic to each gridcell, and return the PFT which is possible in the gridcell based on climate and has  the maximum NPP.
-# If there are no possible PFTs in the gridcell, return the PFT with the maximum NPP.
+# If there are no possible PFTs in the gridcell, return the PFT with the maximum NPP, 
+# Only calculate other outputs for the PFT with the maximum NPP
 def possible_pft_with_max_npp(group):
     # select max possible cohort in a group
     if group["POSSIBLE"].any():

@@ -1,5 +1,5 @@
 import dependencies 
-from paths import tem_output_paths
+from paths import temout_files_path
 
 
 # columns names for all TEM  outputs (NPP, VEGC, NEP, AVAILN, GPP, H2OYIELD, NETNMIN, SMOIS, SOILORGC, VEGINNPP, NCE)
@@ -33,17 +33,17 @@ def read_csv_add_npp(filename):
     return df
 
 
-npp = read_csv_add_npp(tem_output_paths["npp_path"])
-vegc = read_csv_add_npp(tem_output_paths["vegc_path"])
-nep = read_csv_add_npp(tem_output_paths["nep_path"])
-availn = read_csv_add_npp(tem_output_paths["availn_path"])
-gpp = read_csv_add_npp(tem_output_paths["gpp_path"])
-h2oyield = read_csv_add_npp(tem_output_paths["h2oyield_path"])
-netnmin = read_csv_add_npp(tem_output_paths["netnmin_path"])
-smois = read_csv_add_npp(tem_output_paths["smois_path"])
-soilorgc = read_csv_add_npp(tem_output_paths["soilorgc_path"])
-veginnpp = read_csv_add_npp(tem_output_paths["veginnpp_path"])
-nce = read_csv_add_npp(tem_output_paths["nce_path"])
+npp = read_csv_add_npp(temout_files_path["npp_path"])
+vegc = read_csv_add_npp(temout_files_path["vegc_path"])
+nep = read_csv_add_npp(temout_files_path["nep_path"])
+availn = read_csv_add_npp(temout_files_path["availn_path"])
+gpp = read_csv_add_npp(temout_files_path["gpp_path"])
+h2oyield = read_csv_add_npp(temout_files_path["h2oyield_path"])
+netnmin = read_csv_add_npp(temout_files_path["netnmin_path"])
+smois = read_csv_add_npp(temout_files_path["smois_path"])
+soilorgc = read_csv_add_npp(temout_files_path["soilorgc_path"])
+veginnpp = read_csv_add_npp(temout_files_path["veginnpp_path"])
+nce = read_csv_add_npp(temout_files_path["nce_path"])
 
 
 #  function to add NPP column to all dataframes

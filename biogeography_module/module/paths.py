@@ -9,7 +9,7 @@ source_dir = dependencies.os.path.join("..", "..", "runs")
 target_dir = dependencies.os.path.join("..", "data")
 
 # Get a list of all CSV files in the source directory
-csv_files = [f for f in dependencies.os.listdir(source_dir) if f.endswith(".csv")]
+csv_files = [f for f in dependencies.os.listdir(source_dir) if f.endswith(".TEMOUT")]
 
 # Copy each CSV file to the target directory
 for f in csv_files:
@@ -25,21 +25,20 @@ mean_moisture_stress_path = THIS_FOLDER / ".." / "data" / "MDI.csv"  # Path to m
 climate_path = THIS_FOLDER / ".." / "data" / "temp-gdd-prec.csv"  # Path to climate data (temperature, precipitation, growing degree days)
 climate_limits_path = THIS_FOLDER / ".." / "data" / "bio_limit.csv"  # Path to limits on climate variables required for vegetation growth
 
-# Output file paths
-tem_output_paths = {
-    "npp_path": THIS_FOLDER / ".." / "data" / "NPP.csv",  # Path to net primary productivity data
-    "vegc_path": THIS_FOLDER / ".." / "data" / "VEGC.csv",  # Path to vegetation carbon data
-    "nep_path": THIS_FOLDER / ".." / "data" / "NEP.csv",  # Path to net ecosystem productivity data
-    "availn_path": THIS_FOLDER / ".." / "data" / "AVAILN.csv",  # Path to available nitrogen data
-    "gpp_path": THIS_FOLDER / ".." / "data" / "GPP.csv",  # Path to gross primary productivity data
-    "h2oyield_path": THIS_FOLDER / ".." / "data" / "H2OYIELD.csv",  # Path to water yield data
-    "netnmin_path": THIS_FOLDER / ".." / "data" / "NETNMIN.csv",  # Path to net nitrogen mineralization data
-    "smois_path": THIS_FOLDER / ".." / "data" / "SMOIS.csv",  # Path to soil moisture data
-    "soilorgc_path": THIS_FOLDER / ".." / "data" / "SOILORGC.csv",  # Path to soil organic carbon data
-    "veginnpp_path": THIS_FOLDER / ".." / "data" / "VEGINNPP.csv",  # Path to vegetation input NPP data
-    "nce_path": THIS_FOLDER / ".." / "data" / "NCE.csv"  # Path to net carbon exchange data
+#TEM output file paths, update these paths to point to the TEM output files you want to use
+TEMOUT_files_path = {
+    "npp_path": THIS_FOLDER / ".." / "data" / "NPP.TEMOUT",  # Path to net primary productivity data
+    "vegc_path": THIS_FOLDER / ".." / "data" / "VEGC.TEMOUT",  # Path to vegetation carbon data
+    "nep_path": THIS_FOLDER / ".." / "data" / "NEP.TEMOUT",  # Path to net ecosystem productivity data
+    "availn_path": THIS_FOLDER / ".." / "data" / "AVAILN.TEMOUT",  # Path to available nitrogen data
+    "gpp_path": THIS_FOLDER / ".." / "data" / "GPP.TEMOUT",  # Path to gross primary productivity data
+    "h2oyield_path": THIS_FOLDER / ".." / "data" / "H2OYIELD.TEMOUT",  # Path to water yield data
+    "netnmin_path": THIS_FOLDER / ".." / "data" / "NETNMIN.TEMOUT",  # Path to net nitrogen mineralization data
+    "smois_path": THIS_FOLDER / ".." / "data" / "SMOIS.TEMOUT",  # Path to soil moisture data
+    "soilorgc_path": THIS_FOLDER / ".." / "data" / "SOILORGC.TEMOUT",  # Path to soil organic carbon data
+    "veginnpp_path": THIS_FOLDER / ".." / "data" / "VEGINNPP.TEMOUT",  # Path to vegetation input NPP data
+    "nce_path": THIS_FOLDER / ".." / "data" / "NCE.TEMOUT"  # Path to net carbon exchange data
 }
-
 # Model bakeoff results file path
 npp_bakeoff_results_path = THIS_FOLDER / ".." / "data" / "output_bakeoff" / "npp_bakeoff_result.csv" # path to model npp bakeoff results
 bakeoff_results_dir_path = THIS_FOLDER / ".." / "data" / "output_bakeoff" # path to model bakeoff results directory

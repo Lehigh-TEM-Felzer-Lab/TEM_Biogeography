@@ -9,7 +9,7 @@
 
   <community type = "13"
     description = "Mediterranean Shrublands">
-  
+
     <leafcb>400.0</leafcb>
     <sapwoodcb>1500.0</sapwoodcb>
     <heartwoodcb>15000.0</heartwoodcb>
