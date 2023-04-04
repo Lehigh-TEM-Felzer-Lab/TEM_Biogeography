@@ -44,15 +44,18 @@ def possible_pft_with_max_npp(group):
     return group.loc[x]
 
 
+
 # Function to clean dataframe
 def clean_dataframe(df):
-    # delete unwanted  columns
-    del df["POSSIBLE"]
-    del df["NPP"]
+    # create a copy of the dataframe
+    cleaned_df = df.copy()
 
-    df.loc[df["ICOHORT"] > 0, "ICOHORT"] = 1
-    df["SUBAREA"] = df["CAREA"]
-    return df
+    # drop unwanted columns from the copy
+    cleaned_df = cleaned_df.drop(["POSSIBLE", "NPP"], axis=1)
+
+    cleaned_df.loc[cleaned_df["ICOHORT"] > 0, "ICOHORT"] = 1
+    cleaned_df["SUBAREA"] = cleaned_df["CAREA"]
+    return cleaned_df
 
 
 
