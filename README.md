@@ -13,8 +13,7 @@ Version built based on TEM-Hydro, Biogeography ins Based on BIOME4 Model
 #Getting Started
 Follow these steps to set up and run the model:
 
- Modify .xlm files as needed
- Modify paths.py as needed
+ Modify .xlm files and  paths.py as needed
 
   
 
