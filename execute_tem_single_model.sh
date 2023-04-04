@@ -2,14 +2,17 @@
 
 set -euo pipefail
 
+cd .
 # Directories
 tem_core="/tem_core"
-tem_biogeography="/TEM_Biogeography"
+tem_biogeography="."
 runs="$tem_biogeography/runs"
-processing_biogeo="$tem_biogeography/processing/biogeo"
-data="$processing_biogeo/data"
+biogeography_module="$tem_biogeography/biogeography_module/module"
+data="$biogeography_module/data"
 output_bakeoff="$data/output_bakeoff"
 output_summary="$data/output_summary"
+
+
 
 # Functions
 clean_tem_core() {
@@ -28,10 +31,10 @@ copy_executable() {
   cp xtem45_biogeo "$runs"
 }
 
-remove_csv_files() {
+remove_temout_files() {
   local dir="$1"
   echo "Removing all .csv files from $dir directory..."
-  rm -f "$dir"/*.csv
+  rm -f "$dir"/*.TEMOUT
 }
 
 remove_unnecessary_files() {
@@ -45,12 +48,6 @@ run_tem_executable() {
   wait
 }
 
-copy_csv_files() {
-  local src="$1"
-  local dest="$2"
-  echo "Copying files from $src to $dest directory..."
-  cp "$src"/*.csv "$dest"
-}
 
 # Main script
 clean_tem_core
@@ -58,17 +55,18 @@ compile_tem
 copy_executable
 
 cd "$runs"
-remove_csv_files "$runs"
+remove_temout_files "$runs"
 remove_unnecessary_files
 run_tem_executable
-copy_csv_files "$runs" "$data/output_bakeoff"
 
-cd "$processing_biogeo"
-python biogeography_and_bakeoff_module.py
 
+cd "$biogeography_module/module"
+python main.py
+
+wait 
 # Define the directories where the .csv files are located
 directories=(
-  /TEM_Biogeography/processing/biogeo/data/output_bakeoff
+  /TEM_Biogeography/biogeography_module/data/output_bakeoff
 )
 
 # Define the name of the batch file
@@ -76,11 +74,11 @@ batch_file="xbatch"
 
 # Loop through all the directories
 for dir in "${directories[@]}"; do
-  # Change the current directory to the directory with .csv files
+  # Change the current directory to the directory with .temout files
   cd "$dir"
 
   # Loop through all the .csv files in the directory
-  for file in *.csv; do
+  for file in *.TEMOUT; do
     # Change the first line of the batch file with the current file name
     sed -i "1s/.*/$file/" "$batch_file"
 
@@ -110,12 +108,12 @@ done
 
 # Array of source directories
 src_dirs=(
-  /TEM_Biogeography/processing/biogeo/data/output_bakeoff
+  /TEM_Biogeography/biogeography_module/data/output_bakeoff
 )
 
 # Array of destination directories
 dest_dirs=(
-  /TEM_Biogeography/processing/biogeo/data/output_summary
+  /TEM_Biogeography/biogeography_module/data/output_summary
 )
 
 # Loop through all source directories
