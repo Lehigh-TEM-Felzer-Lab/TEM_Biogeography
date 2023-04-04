@@ -3,6 +3,20 @@ import dependencies
 THIS_FOLDER = dependencies.Path(__file__).parent.resolve()
 dependencies.os.chdir(THIS_FOLDER)
 
+# Construct the source directory path using os.path.join()
+source_dir = dependencies.os.path.join("..", "..", "runs")
+# Construct the target directory path using os.path.join()
+target_dir = dependencies.os.path.join("..", "data")
+
+# Get a list of all CSV files in the source directory
+csv_files = [f for f in dependencies.os.listdir(source_dir) if f.endswith(".csv")]
+
+# Copy each CSV file to the target directory
+for f in csv_files:
+    source_file = dependencies.os.path.join(source_dir, f)
+    target_file = dependencies .os.path.join(target_dir, f)
+    dependencies.shutil.copyfile(source_file, target_file)
+
 
 # Define the file paths using pathlib, which works across different operating systems
 # Input file paths
