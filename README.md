@@ -8,9 +8,9 @@ The TEM normally operates on a monthly time step and at a 0.5 degrees latitude/l
 This Model has to be compiled using a C++ compiler.
 
 
-Version built based on TEM-Hydro, Biogeography ins Based on BIOME4 Model
+Version built based on TEM-Hydro, Biogeography in based on BIOME4 Model
 
-#Getting Started
+# Getting Started
 Follow these steps to set up and run the model:
 
  Modify .xlm files and  paths.py as needed
@@ -19,11 +19,12 @@ Follow these steps to set up and run the model:
 
 
 # user can automate the process by modifing and running: 
+```
 
 execute_tem_single_model.sh # for single model or 
 execute_tem_multi_model.sh # for multi model
  
-
+```
 # for manual execution follow the next instructions:
 
 2. **Compile the tem_core:** Begin by compiling the tem_core using the appropriate compiler command for your system.
