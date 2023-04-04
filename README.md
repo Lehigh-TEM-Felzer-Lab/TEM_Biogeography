@@ -21,11 +21,10 @@ Follow these steps to set up and run the model:
 
 # user can automate the process by modifing and running: 
 
-```
 execute_tem_single_model.sh # for single model or 
 execute_tem_multi_model.sh # for multi model
  
- ```  
+
 # for manual execution follow the next instructions:
 
 2. **Compile the tem_core:** Begin by compiling the tem_core using the appropriate compiler command for your system.
