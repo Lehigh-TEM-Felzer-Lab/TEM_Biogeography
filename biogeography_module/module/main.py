@@ -7,11 +7,11 @@ from functions import merge_variables, determine_possible_pft, possible_pft_with
 
 def main():
     
-    
-    print("\033[92mAPPLYING BIOGEOGRAPHY MODULE TO TEM OUTPUT DATA\033[0m")
+    print("\n")
+    print("\033[92m****APPLYING BIOGEOGRAPHY MODULE TO TEM OUTPUT DATA****\033[0m")
     print("\n")
     # Merge tem output data with climate data and moisture stress data
-    print("\033[92mPreparing climate datasets and merging with TEM output files...\033[0m")
+    print("\033[92m1: Preparing climate datasets and merging with TEM output files...\033[0m")
     print("\n")
     npp_bakeoff_variables = merge_variables( npp, climate_limits, climate, moisture_stress)
     vegc_bakeoff_variables = merge_variables( vegc, climate_limits, climate, moisture_stress)
@@ -27,7 +27,7 @@ def main():
     nce_bakeoff_variables = merge_variables(nce, climate_limits, climate, moisture_stress)
 
 
-    print("\033[92mDeterming possible PFTs based on climate in each gridcell...\033[0m")
+    print("\033[92m2: Determing possible PFTs based on climate in each gridcell...\033[0m")
     print("\n")
     # Determine Possible PFTs depending on climate and moisture stress
     npp_result_out = determine_possible_pft(npp, npp_bakeoff_variables)
@@ -43,7 +43,7 @@ def main():
     nce_result_out = determine_possible_pft(nce, nce_bakeoff_variables)
 
 
-    print("\033[92mApplying bakeoff logic...\033[0m")
+    print("\033[92m3: Applying bakeoff logic...\033[0m")
     print("\n")
     # Applying Bakeoff Logic by first grouping by col, row & year for each dataset bassed on NPP
     # Should take about 30 minutes to run, depending on the number of cores available
@@ -64,7 +64,7 @@ def main():
         result.apply(possible_pft_with_max_npp)
 
 
-    print("\033[92mCleaning dataframes...\033[0m")
+    print("\033[92m4: Cleaning dataframes...\033[0m")
     print("\n")
     # Cleaning the dataframes by removing the columns that are not needed
     npp_bakeoff_result = clean_dataframe(npp_bakeoff_result)
@@ -80,7 +80,7 @@ def main():
     nce_bakeoff_result = clean_dataframe(nce_bakeoff_result)
 
 
-    print("\033[92mExporting dataframes to .csv files...\033[0m")
+    print("\033[92m5: Exporting dataframes to .csv files...\033[0m")
     print("\n")
     # Apply the export_to_csv function to the dataframes 
     export_to_csv(npp_bakeoff_result, "npp_bakeoff_result.csv")
