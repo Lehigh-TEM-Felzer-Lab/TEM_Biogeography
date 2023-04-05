@@ -47,22 +47,20 @@ def main():
     print("\n")
     # Applying Bakeoff Logic by first grouping by col, row & year for each dataset bassed on NPP
     # Should take about 30 minutes to run, depending on the number of cores available
-    npp_bakeoff_result = npp_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    vegc_bakeoff_result = vegc_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    nep_bakeoff_result = nep_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    availn_bakeoff_result = availn_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    gpp_bakeoff_result = gpp_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    h2oyield_bakeoff_result = h2oyield_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    netnmin_bakeoff_result = netnmin_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    smois_bakeoff_result = smois_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    soilorgc_bakeoff_result = soilorgc_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    veginnpp_bakeoff_result = veginnpp_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-    nce_bakeoff_result = nce_result_out.groupby(["LON", "LAT", "YEAR"], sort=False)
-
-    # Applying possible_pft_with_max_npp function to each dataframe with progress bar
-    for result in dependencies.tqdm([npp_bakeoff_result, vegc_bakeoff_result, nep_bakeoff_result, availn_bakeoff_result, gpp_bakeoff_result, h2oyield_bakeoff_result, netnmin_bakeoff_result, smois_bakeoff_result, soilorgc_bakeoff_result, veginnpp_bakeoff_result, nce_bakeoff_result]):
-        result.apply(possible_pft_with_max_npp)
-
+    npp_bakeoff_result = npp_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    vegc_bakeoff_result = vegc_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    nep_bakeoff_result = nep_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    availn_bakeoff_result = availn_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    gpp_bakeoff_result = gpp_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    h2oyield_bakeoff_result = h2oyield_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    netnmin_bakeoff_result = netnmin_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    smois_bakeoff_result = smois_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    soilorgc_bakeoff_result = soilorgc_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    veginnpp_bakeoff_result = veginnpp_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    nce_bakeoff_result = nce_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
+    
+    
+   
 
     print("\033[92m4: Cleaning dataframes...\033[0m")
     print("\n")
