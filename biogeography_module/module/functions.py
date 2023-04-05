@@ -32,8 +32,7 @@ def determine_possible_pft(df, bakeoff_variables):
 
 
 #Function to apply bakeoff logic to each gridcell, and return the PFT which is possible in the gridcell based on climate and has  the maximum NPP.
-# If there are no possible PFTs in the gridcell, return the PFT with the maximum NPP, 
-# Only calculate other outputs for the PFT with the maximum NPP
+# If there are no possible PFTs in the gridcell, return the PFT with the maximum NPP.
 def possible_pft_with_max_npp(group):
     # select max possible cohort in a group
     if group["POSSIBLE"].any():
@@ -43,8 +42,6 @@ def possible_pft_with_max_npp(group):
     else:
         x = group["NPP"].idxmax()
     return group.loc[x]
-
-
 
 
 # Function to clean dataframe
@@ -60,8 +57,7 @@ def clean_dataframe(df):
 
 # Function to export dataframe to csv
 def export_to_csv(df, file_name):
-    file_path = (bakeoff_results_dir_path, file_name)
-    df.to_csv(file_path, index=False, header=False)
+    df.to_csv(bakeoff_results_dir_path+file_name, index=False, header=False)
 
     
     
