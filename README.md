@@ -13,7 +13,7 @@ Version built based on TEM-Hydro, Biogeography in based on BIOME4 Model
 # Getting Started
 Follow these steps to set up and run the model:
 
- Modify .xlm files and  paths.py as needed
+ Modify .xlm files, bash scripts  and  paths.py as needed
 
   
 
@@ -35,7 +35,7 @@ execute_tem_multi_model.sh # for multi model
 
 5. **Finalize input files:** Prepare the final version of input files with the required columns and formats before running the code.
 
-6. **Apply the Biogeography module:** If using only one model (e.g., CCSM4), navigate to the "biogeo" directory and apply the Biogeography module (written in Python) to all TEM output files. If using multiple models and aggregating the results, follow the steps outlined in the "processing" directory. Each model should have its own subdirectory.
+6. **Apply the Biogeography module:** If using only one model (e.g., CCSM4), navigate to the "biogeography_module/module" directory and apply the Biogeography module  to all TEM output files. If using multiple models and aggregating the results, follow the steps outlined in the "processing" directory. Each model should have its own subdirectory.
 
 7. **Execute Biogeography for each model:** Run the Biogeography module for each model as described in the previous step.
 
