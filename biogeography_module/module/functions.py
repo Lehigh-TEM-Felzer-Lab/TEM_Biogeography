@@ -1,7 +1,5 @@
 import dependencies 
 from tem_output_data import var_cols
-from paths import bakeoff_results_dir_path
-
 
 
 # Function to merge bakeoff variables
