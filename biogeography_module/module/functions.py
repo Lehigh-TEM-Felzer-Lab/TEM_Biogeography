@@ -57,7 +57,7 @@ def clean_dataframe(df):
 
 # Function to export dataframe to csv
 def export_to_csv(df, file_name):
-    df.to_csv(bakeoff_results_dir_path+file_name, index=False, header=False)
+    df.to_csv(file_name, index=False, header=False)
 
     
     
