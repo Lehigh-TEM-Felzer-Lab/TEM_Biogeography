@@ -1,5 +1,5 @@
 import dependencies 
-from paths import npp_bakeoff_results_path, early_century_persisting_pft_output_path, mid_century_persisting_pft_output_path, end_century_persisting_pft_output_path
+from paths import npp_bakeoff_results_path, early_century_persisting_pft_output_path, mid_century_persisting_pft_output_path, end_century_persisting_pft_output_path,bakeoff_results_dir_path
 from climate_data import climate, climate_limits
 from moisture_stress_data import moisture_stress
 from tem_output_data import npp, vegc, nep, availn, gpp, h2oyield, netnmin, smois,soilorgc,veginnpp,nce,var_cols
@@ -47,6 +47,7 @@ def main():
     print("\n")
     # Applying Bakeoff Logic by first grouping by col, row & year for each dataset bassed on NPP
     # Should take about 30 minutes to run, depending on the number of cores available
+
     npp_bakeoff_result = npp_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
     vegc_bakeoff_result = vegc_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
     nep_bakeoff_result = nep_result_out.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
@@ -81,8 +82,7 @@ def main():
     print("\033[92m5: Exporting dataframes to .csv files...\033[0m")
     print("\n")
     # Apply the export_to_csv function to the dataframes 
-
-    export_to_csv(npp_bakeoff_result, "npp_bakeoff_result.csv")
+    export_to_csv(npp_bakeoff_result,"npp_bakeoff_result.csv")
     export_to_csv(vegc_bakeoff_result, "vegc_bakeoff_result.csv")
     export_to_csv(nep_bakeoff_result, "nep_bakeoff_result.csv")
     export_to_csv(availn_bakeoff_result, "availn_bakeoff_result.csv")
@@ -93,6 +93,20 @@ def main():
     export_to_csv(soilorgc_bakeoff_result, "soilorgc_bakeoff_result.csv")
     export_to_csv(veginnpp_bakeoff_result, "veginnpp_bakeoff_result.csv")
     export_to_csv(nce_bakeoff_result, "nce_bakeoff_result.csv")
+
+
+    export_to_csv(npp_bakeoff_result, bakeoff_results_dir_path.joinpath("npp_bakeoff_result.csv"))
+    export_to_csv(vegc_bakeoff_result, bakeoff_results_dir_path.joinpath("vegc_bakeoff_result.csv"))
+    export_to_csv(nep_bakeoff_result, bakeoff_results_dir_path.joinpath("nep_bakeoff_result.csv"))
+    export_to_csv(availn_bakeoff_result, bakeoff_results_dir_path.joinpath("availn_bakeoff_result.csv"))
+    export_to_csv(gpp_bakeoff_result, bakeoff_results_dir_path.joinpath("gpp_bakeoff_result.csv"))
+    export_to_csv(h2oyield_bakeoff_result, bakeoff_results_dir_path.joinpath("h2oyield_bakeoff_result.csv"))
+    export_to_csv(netnmin_bakeoff_result, bakeoff_results_dir_path.joinpath("netnmin_bakeoff_result.csv"))
+    export_to_csv(smois_bakeoff_result, bakeoff_results_dir_path.joinpath("smois_bakeoff_result.csv"))
+    export_to_csv(soilorgc_bakeoff_result, bakeoff_results_dir_path.joinpath("soilorgc_bakeoff_result.csv"))
+    export_to_csv(veginnpp_bakeoff_result, bakeoff_results_dir_path.joinpath("veginnpp_bakeoff_result.csv"))
+    export_to_csv(nce_bakeoff_result, bakeoff_results_dir_path.joinpath("nce_bakeoff_result.csv"))
+
 
 
 

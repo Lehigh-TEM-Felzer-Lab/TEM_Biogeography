@@ -28,12 +28,11 @@ tem_output_paths = {
 
 # Model bakeoff results file path
 npp_bakeoff_results_path = THIS_FOLDER / ".." / "data" / "output_bakeoff" / "npp_bakeoff_result.csv" # path to model npp bakeoff results
-bakeoff_results_dir_path = THIS_FOLDER / ".." / "data" / "output_bakeoff/"# path to model bakeoff results directory
+bakeoff_results_dir_path = THIS_FOLDER / ".." / "data" / "output_bakeoff"  # path to model bakeoff results directory
 
 # Model output file paths for different time periods
 early_century_persisting_pft_output_path = THIS_FOLDER / ".." / "data" / "output_bakeoff" / "2015-2045_bakeoff.csv"  # Path to output data for 2015-2045, assuming  PFTs persist
 mid_century_persisting_pft_output_path = THIS_FOLDER / ".." / "data" / "output_bakeoff" / "2045-2070_bakeoff.csv"  # Path to output data for 2045-2070, assuming PFTs persist
 end_century_persisting_pft_output_path = THIS_FOLDER / ".." / "data" / "output_bakeoff" / "2070-100_bakeoff.csv" # Path to output data for 2070-2100, assuming PFTs persist
-
 
 
