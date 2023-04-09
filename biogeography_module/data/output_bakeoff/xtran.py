@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 import re
+
 def process_file(input_filename,filter_params):
     var_cols = [
         "LON",
@@ -38,6 +39,7 @@ def process_file(input_filename,filter_params):
         "REGION",
     ]
     df = pd.read_csv(input_filename,names=var_cols)
+    #df["VARIABLE"] = df["VARIABLE"].str.strip()
     df["REGION"] = df["REGION"].str.strip()
     def filter_dataframe(df, filter_params):
         if filter_params is not None:
@@ -208,7 +210,7 @@ def get_file_list(input_path):
     
     return file_list, filter_params
 
-input_path = input("Please enter the file name, path or a .XML file containing file paths and filter info: ")
+input_path = input("Please enter the file name, path or a .XML file containing file paths and filter infomation: ")
 file_list, filter_params = get_file_list(input_path)
 
 for file_path in file_list:
