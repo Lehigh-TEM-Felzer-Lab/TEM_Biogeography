@@ -3,9 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 import re
-
-
-
+import sys
 def process_file(input_filename,filter_params):
     var_cols = [
         "LON",
@@ -41,30 +39,52 @@ def process_file(input_filename,filter_params):
         "REGION",
     ]
     df = pd.read_csv(input_filename,names=var_cols)
-    #df["VARIABLE"] = df["VARIABLE"].str.strip()
     df["REGION"] = df["REGION"].str.strip()
+    
+    # Function to filter the dataframe based on the filter parameters
     def filter_dataframe(df, filter_params):
         if filter_params is not None:
             filter_criteria = {}
             if filter_params.get("lat_min") is not None:
-                filter_criteria["LAT >= "] = float(filter_params["lat_min"])
+                try:
+                    filter_criteria["LAT >= "] = float(filter_params["lat_min"])
+                except ValueError:
+                    print("Invalid value for lat_min. Must be a float.")
             if filter_params.get("lat_max") is not None:
-                filter_criteria["LAT <= "] = float(filter_params["lat_max"])
+                try:
+                    filter_criteria["LAT <= "] = float(filter_params["lat_max"])
+                except ValueError:
+                    print("Invalid value for lat_max. Must be a float.")
             if filter_params.get("lon_min") is not None:
-                filter_criteria["LON >= "] = float(filter_params["lon_min"])
+                try:
+                    filter_criteria["LON >= "] = float(filter_params["lon_min"])
+                except ValueError:
+                    print("Invalid value for lon_min. Must be a float.")
             if filter_params.get("lon_max") is not None:
-                filter_criteria["LON <= "] = float(filter_params["lon_max"])
+                try:
+                    filter_criteria["LON <= "] = float(filter_params["lon_max"])
+                except ValueError:
+                    print("Invalid value for lon_max. Must be a float.")
             if filter_params.get("region") is not None:
-                filter_criteria["REGION == "] = f"'{filter_params['region']}'"
-
+                try:
+                    filter_criteria["REGION == "] = f"'{filter_params['region']}'"
+                except KeyError:
+                    print("region parameter missing from filter_params.")
+            
             if filter_criteria:
                 query_string = " and ".join([k + str(v) for k, v in filter_criteria.items()])
-                df = df.query(query_string)
+                try:
+                    df = df.query(query_string)
+                except ValueError:
+                    print("Invalid filter criteria. Please check your parameters in the XML file and try again.")
+                except KeyError:
+                    print("Invalid filter criteria. Please check your parameters in the XML file and try again.")
 
         return df
-    
+
     df = filter_dataframe(df, filter_params)
-            
+
+        
     
   
     # Function to calculate summary statistics for each POTVEG and REGION
@@ -269,8 +289,25 @@ def get_file_list(input_path):
     
     return file_list, filter_params
 
-input_path = input("Please enter the file name, path or a .XML file containing file paths and filter info: ")
-file_list, filter_params = get_file_list(input_path)
 
-for file_path in file_list:
-    process_file(file_path, filter_params)
+
+
+try:
+    input_path = input("Please enter the file name, path or a XML file containing file paths and filter info: ")
+    file_list, filter_params = get_file_list(input_path)
+except KeyError as e:
+    print(f"KeyError: The key '{e.args[0]}' does not exist in the dictionary.")
+    sys.exit(1)
+except ValueError:
+    print("Invalid input: The input value is not of the expected type.")
+    sys.exit(1)
+
+for i, file_path in enumerate(file_list):
+    try:
+        process_file(file_path, filter_params)
+    except KeyError as e:
+        print(f"KeyError: Check the filter parameters in the XML file")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error in filter parameters, check XML file: {e}")
+        sys.exit(1)
