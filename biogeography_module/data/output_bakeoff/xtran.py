@@ -4,6 +4,8 @@ import numpy as np
 import os
 import re
 
+
+
 def process_file(input_filename,filter_params):
     var_cols = [
         "LON",
@@ -100,7 +102,7 @@ def process_file(input_filename,filter_params):
 
     summary_stats_region = summary_stats(df, "REGION")
     summary_stats_region= summary_stats_region.round(2)
-    summary_stats_region["POTVEG"] = "ALL PFTs"
+    summary_stats_region["POTVEG"] = "0000"
     summary_stats_region["YEAR"] = summary_stats_region["YEAR"].astype(int).astype(str)
     
 
@@ -114,9 +116,66 @@ def process_file(input_filename,filter_params):
     units_out_file = variable_first_part + ".UNITS"
 
     summary_stats_final=summary_stats_final.drop("REGION",axis=1)
-    summary_stats_final= summary_stats_final.reindex(columns=['VARIABLE', 'POTVEG', 'YEAR', 'NGRID', 'TOTFORECOZONE', 'MNBYAR', 'MXPRED', 'MNPRED', 'MNTOTYR', 'STNDEV', 'SIMPMN'])
+    
+    pft_description = {
+        1: 'Ice',
+        4: 'Boreal Forest',
+        5: 'Forested Boreal Wetlands',
+        6: 'Boreal Woodlands',
+        8: 'Mixed Temperate Forests',
+        9: 'Temperate Coniferous Forests',
+        10: 'Temperate Deciduous Forests',
+        11: 'Temperate Forested Wetlands',
+        12: 'Tall Grasslands',
+        13: 'Short Grasslands',
+        14: 'Tropical Savannas',
+        15: 'Arid Shrublands',
+        16: 'Tropical Evergreen Forests',
+        17: 'Tropical Forested Wetlands',
+        18: 'Tropical Deciduous Forests',
+        19: 'Xeromorphic Forests and Woodlands',
+        20: 'Tropical Forested Floodplains',
+        21: 'Deserts',
+        25: 'Temperate Forested Floodplains',
+        27: 'Wet Savannas',
+        28: 'Salt Marsh',
+        29: 'Mangroves',
+        30: 'Tidal Freshwater Marshes',
+        31: 'Temperate Savannas',
+        32: 'Reserved',
+        33: 'Temperate Broadleaved Evergreen Forests',
+        34: 'Reserved2',
+        35: 'Mediterranean Shrublands',
+        36: 'Reserved3',
+        37: 'Reserved4',
+        38: 'Reserved5',
+        39: 'Reserved6',
+        40: 'Reserved7',
+        41: 'Reserved8',
+        42: 'Reserved9',
+        43: 'Reserved10',
+        44: 'Reserved11',
+        45: 'Reserved12',
+        46: 'Suburban',
+        47: 'Rodale Pasture',
+        48: 'Turflawn',
+        49: 'Vegetable Farm',
+        50: 'Crops',
+        51: 'Pasture',
+        52: 'Maize',
+        53: 'Wheat',
+        54: 'Rice',
+        55: 'Soybean',
+        56: 'Potato',
+        "0000": 'All Plant Functional Types',
+        '': ''}
 
+    
+    
 
+    summary_stats_final["DESCRIPTION"] = summary_stats_final["POTVEG"].map(pft_description)
+    
+    summary_stats_final= summary_stats_final.reindex(columns=['VARIABLE', 'POTVEG','DESCRIPTION', 'YEAR', 'NGRID', 'TOTFORECOZONE', 'MNBYAR', 'MXPRED', 'MNPRED', 'MNTOTYR', 'STNDEV', 'SIMPMN'])
 
     # Save summary statistics to a CSV file
     summary_stats_final.to_csv(stats_out_file, index=False)
@@ -210,7 +269,7 @@ def get_file_list(input_path):
     
     return file_list, filter_params
 
-input_path = input("Please enter the file name, path or a .XML file containing file paths and filter infomation: ")
+input_path = input("Please enter the file name, path or a .XML file containing file paths and filter info: ")
 file_list, filter_params = get_file_list(input_path)
 
 for file_path in file_list:
