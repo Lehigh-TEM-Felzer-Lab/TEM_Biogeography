@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <!-- File Paths -->
+    <files>
+        <file>npp_bakeoff_result.csv</file>
+        <file>vegc_bakeoff_result.csv</file>
+        <!-- Add more file elements as needed -->
+    </files>
+
+  <!-- Filter Parameters-->
+    <filter_params>
+        <lat_min></lat_min>
+        <lat_max></lat_max>
+        <lon_min></lon_min>
+        <lon_max></lon_max>
+        <region>WEST</region>
+    </filter_params>
+</root>
