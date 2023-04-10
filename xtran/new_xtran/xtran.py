@@ -6,6 +6,7 @@ import numpy as np
 import os
 import re
 import sys
+import datetime
 
 
 # Define data columns for TEM output files
@@ -42,6 +43,8 @@ var_cols = [
         "DEC",
         "REGION",
     ]
+
+units_out_file = "UNITS.INFO"
 
 
 #Define PFT names based on TEM vegetation codes
@@ -105,6 +108,7 @@ def process_file(input_filename,filter_params):
     df = pd.read_csv(input_filename,names=var_cols)
     df["VARIABLE"] = df["VARIABLE"].str.strip()
     df["REGION"] = df["REGION"].str.strip()
+    df["YEAR"] = df["YEAR"].astype(int)
     df["LAT"]=df["LAT"].round(1)
     df["LON"]=df["LON"].round(1)
     
@@ -112,9 +116,9 @@ def process_file(input_filename,filter_params):
     variable_parts = df["VARIABLE"].unique()
     variable_first_part = variable_parts[0]
     
-    # Define the output file names
+    # Define the stats output file name
     stats_out_file = variable_first_part + ".SUMMARY"
-    units_out_file = variable_first_part + ".UNITS"
+    
     
     # Define the function to get units
     def get_units(variable, column):
@@ -165,53 +169,85 @@ def process_file(input_filename,filter_params):
         "MNBYAR"
     ]
 
-    # Open the output file and write the units for each variable and column
-    with open(units_out_file, "w") as f:
-        variables = df["VARIABLE"].unique()
-        for variable in variables:
-            for column in columns:
-                units = get_units(variable, column)
-                f.write(f"{variable}-{column}: {units}\n")
+# Create an empty DataFrame to store the results
+    df_units = pd.DataFrame(columns=["VARIABLE", "TOTCELLAREA", "TOTFORECOZONE", "MNBYAR", "DATE", "TIME"])
+
+    # get the current date and time
+    now = datetime.datetime.now()
+    date = now.strftime("%d %B %Y")
+    time = now.strftime("%H:%M")
+
+    # get unique variables in the dataframe
+    variables = df["VARIABLE"].unique()
+
+    # loop through each variable and column
+    for variable in variables:
+        row = {"VARIABLE": variable, "DATE": date, "TIME": time}
+        for column in columns:
+            # get the units for each variable and column
+            units = get_units(variable, column)
+
+            # store the units in the row
+            row[column] = units
+
+        # append the row to the DataFrame
+        df_units = df_units.append(row, ignore_index=True)
+
+    # save the units to a CSV file
+    df_units.to_csv(units_out_file, index=False,header=False,mode='a')
     
+    # Define the function to filter the dataframe
     def filter_dataframe(df, filter_params):
-        if filter_params is not None:
-            filter_criteria = []
-            if filter_params.get("lat_min") is not None:
-                try:
-                    lat_min = float(filter_params["lat_min"])
-                    filter_criteria.append(f"LAT >= {lat_min}")
-                except ValueError:
-                    print("Invalid value for lat_min. Must be a float.")
-            if filter_params.get("lat_max") is not None:
-                try:
-                    lat_max = float(filter_params["lat_max"])
-                    filter_criteria.append(f"LAT <= {lat_max}")
-                except ValueError:
-                    print("Invalid value for lat_max. Must be a float.")
-            if filter_params.get("lon_min") is not None:
-                try:
-                    lon_min = float(filter_params["lon_min"])
-                    filter_criteria.append(f"LON >= {lon_min}")
-                except ValueError:
-                    print("Invalid value for lon_min. Must be a float.")
-            if filter_params.get("lon_max") is not None:
-                try:
-                    lon_max = float(filter_params["lon_max"])
-                    filter_criteria.append(f"LON <= {lon_max}")
-                except ValueError:
-                    print("Invalid value for lon_max. Must be a float.")
-            if filter_params.get("region") is not None:
-                region = filter_params.get("region")
-                filter_criteria.append(f"REGION == '{region}'")
+            if filter_params is not None:
+                filter_criteria = []
+                if filter_params.get("lat_min") is not None:
+                    try:
+                        lat_min = float(filter_params["lat_min"])
+                        filter_criteria.append(f"LAT >= {lat_min}")
+                    except ValueError:
+                        print("Invalid value for lat_min. Must be a float.")
+                if filter_params.get("lat_max") is not None:
+                    try:
+                        lat_max = float(filter_params["lat_max"])
+                        filter_criteria.append(f"LAT <= {lat_max}")
+                    except ValueError:
+                        print("Invalid value for lat_max. Must be a float.")
+                if filter_params.get("lon_min") is not None:
+                    try:
+                        lon_min = float(filter_params["lon_min"])
+                        filter_criteria.append(f"LON >= {lon_min}")
+                    except ValueError:
+                        print("Invalid value for lon_min. Must be a float.")
+                if filter_params.get("lon_max") is not None:
+                    try:
+                        lon_max = float(filter_params["lon_max"])
+                        filter_criteria.append(f"LON <= {lon_max}")
+                    except ValueError:
+                        print("Invalid value for lon_max. Must be a float.")
+                if filter_params.get("region") is not None:
+                    region = filter_params.get("region")
+                    filter_criteria.append(f"REGION == '{region}'")
+                if filter_params.get("start_year") is not None:
+                    try:
+                        start_year = int(filter_params["start_year"])
+                        filter_criteria.append(f"YEAR >= {start_year}")
+                    except ValueError:
+                        print("Invalid value for start_year. Must be an integer.")
+                if filter_params.get("end_year") is not None:
+                    try:
+                        end_year = int(filter_params["end_year"])
+                        filter_criteria.append(f"YEAR <= {end_year}")
+                    except ValueError:
+                        print("Invalid value for end_year. Must be an integer.")
 
-            if filter_criteria:
-                query_string = " and ".join(filter_criteria)
-                try:
-                    df = df.query(query_string)
-                except ValueError:
-                    print("Invalid filter criteria. Please check your parameters and try again.")
+                if filter_criteria:
+                    query_string = " and ".join(filter_criteria)
+                    try:
+                        df = df.query(query_string)
+                    except ValueError:
+                        print("Invalid filter criteria. Please check your parameters and try again.")
 
-        return df
+            return df
 
     # Filter the dataframe based on the filter parameters
     df = filter_dataframe(df, filter_params)
@@ -290,12 +326,17 @@ def get_file_list(input_path):
             lon_min = filter_params_elem.findtext("lon_min")
             lon_max = filter_params_elem.findtext("lon_max")
             region = filter_params_elem.findtext("region")
-            if lat_min.strip() or lat_max.strip() or lon_min.strip() or lon_max.strip() or region.strip():
+            start_year = filter_params_elem.findtext("start_year")
+            end_year = filter_params_elem.findtext("end_year")
+            if lat_min.strip() or lat_max.strip() or lon_min.strip() or lon_max.strip() or region.strip() or start_year.strip() or end_year.strip():
                 filter_params["lat_min"] = round(float(lat_min), 1) if lat_min.strip() else None
                 filter_params["lat_max"] = round(float(lat_max), 1) if lat_max.strip() else None
                 filter_params["lon_min"] = round(float(lon_min), 1) if lon_min.strip() else None
                 filter_params["lon_max"] = round(float(lon_max), 1) if lon_max.strip() else None
                 filter_params["region"] = region.strip() if region.strip() else None
+                filter_params["start_year"] = int(start_year) if start_year.strip() else None
+                filter_params["end_year"] = int(end_year) if end_year.strip() else None
+                
         else:
             file_list = [input_path]
             filter_params = None
@@ -307,6 +348,12 @@ def get_file_list(input_path):
 
 # Main function
 def main():
+
+    # open the file in write mode
+    with open(units_out_file, "w") as f:
+        # write the string to the file
+        f.write("VARIABLE, TOTCELLAREA, TOTFORECOZONE, MNBYAR, DATE, TIME\n")
+
     try:
         input_path = input("Please enter the file name, path or a XML file containing file paths and filter info: ")
         file_list, filter_params = get_file_list(input_path)
@@ -326,7 +373,10 @@ def main():
         except Exception as e:
             print(f"Error in filter parameters, check XML file: {e}")
             sys.exit(1)
+            
 
-
+print("Success!, Please Check UNITS.INFO file for units of the variables, and .SUMMARY file for summary statistics")         
+            
+            
 if __name__ == "__main__":
     main()

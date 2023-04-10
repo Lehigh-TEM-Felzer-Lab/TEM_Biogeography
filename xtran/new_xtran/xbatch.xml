@@ -2,17 +2,26 @@
 <root>
   <!-- File Paths -->
     <files>
-        <file>npp_bakeoff_result.csv</file>
-        <file>vegc_bakeoff_result.csv</file>
+        <file>./output_bakeoff/npp_bakeoff_result.csv</file>
+        <file>./output_bakeoff/vegc_bakeoff_result.csv</file>
+        <file>./output_bakeoff/nep_bakeoff_result.csv</file>
+        <file>./output_bakeoff/nce_bakeoff_result.csv</file>
+        <file>./output_bakeoff/availn_bakeoff_result.csv</file>
+        <file>./output_bakeoff/netnmin_bakeoff_result.csv</file>
+        <file>./output_bakeoff/veginnpp_bakeoff_result.csv</file>
+        <file>./output_bakeoff/gpp_bakeoff_result.csv</file>
+        <file>./output_bakeoff/soilorgc_bakeoff_result.csv</file>
         <!-- Add more file elements as needed -->
     </files>
 
-  <!-- Filter Parameters-->
-    <filter_params>
-        <lat_min></lat_min>
-        <lat_max></lat_max>
-        <lon_min></lon_min>
-        <lon_max></lon_max>
-        <region>WEST</region>
-    </filter_params>
+<!-- Optinal Filter Parameters-->
+<filter_params>
+    <lat_min></lat_min>
+    <lat_max></lat_max>
+    <lon_min></lon_min>
+    <lon_max></lon_max>
+    <region></region>
+    <start_year></start_year>
+    <end_year></end_year>
+</filter_params>
 </root>
