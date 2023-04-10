@@ -1,5 +1,6 @@
-#Import modules
-import sys
+import warnings
+
+warnings.filterwarnings("ignore")  # setting ignore as a parameter
 import xml.etree.ElementTree as ET
 import pandas as pd
 import numpy as np
@@ -7,6 +8,7 @@ import os
 import re
 import sys
 import datetime
+from pathlib import Path
 
 
 # Define data columns for TEM output files
@@ -345,7 +347,6 @@ def get_file_list(input_path):
         filter_params = None
     
     return file_list, filter_params
-
 # Main function
 def main():
 
@@ -382,3 +383,4 @@ def main():
 # Call the main function            
 if __name__ == "__main__":
     main()
+

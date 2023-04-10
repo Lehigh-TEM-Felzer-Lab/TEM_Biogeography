@@ -2,15 +2,8 @@
 <root>
   <!-- File Paths -->
     <files>
-        <file>./output_bakeoff/npp_bakeoff_result.csv</file>
-        <file>./output_bakeoff/vegc_bakeoff_result.csv</file>
-        <file>./output_bakeoff/nep_bakeoff_result.csv</file>
-        <file>./output_bakeoff/nce_bakeoff_result.csv</file>
-        <file>./output_bakeoff/availn_bakeoff_result.csv</file>
-        <file>./output_bakeoff/netnmin_bakeoff_result.csv</file>
-        <file>./output_bakeoff/veginnpp_bakeoff_result.csv</file>
-        <file>./output_bakeoff/gpp_bakeoff_result.csv</file>
-        <file>./output_bakeoff/soilorgc_bakeoff_result.csv</file>
+        <file>./VEGC.csv</file>
+        
         <!-- Add more file elements as needed -->
     </files>
 
