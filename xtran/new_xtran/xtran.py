@@ -1,8 +1,4 @@
-import xml.etree.ElementTree as ET
-import pandas as pd
-import numpy as np
-import os
-import re
+#Import modules
 import sys
 import xml.etree.ElementTree as ET
 import pandas as pd
@@ -12,11 +8,8 @@ import re
 import sys
 
 
-
-
-def process_file(input_filename,filter_params):
-    
-    var_cols = [
+# Define data columns for TEM output files
+var_cols = [
         "LON",
         "LAT",
         "VARIABLE",
@@ -49,15 +42,77 @@ def process_file(input_filename,filter_params):
         "DEC",
         "REGION",
     ]
+
+
+#Define PFT names based on TEM vegetation codes
+pft_description = {
+        1: 'Ice',
+        4: 'Boreal Forest',
+        5: 'Forested Boreal Wetlands',
+        6: 'Boreal Woodlands',
+        8: 'Mixed Temperate Forests',
+        9: 'Temperate Coniferous Forests',
+        10: 'Temperate Deciduous Forests',
+        11: 'Temperate Forested Wetlands',
+        12: 'Tall Grasslands',
+        13: 'Short Grasslands',
+        14: 'Tropical Savannas',
+        15: 'Arid Shrublands',
+        16: 'Tropical Evergreen Forests',
+        17: 'Tropical Forested Wetlands',
+        18: 'Tropical Deciduous Forests',
+        19: 'Xeromorphic Forests and Woodlands',
+        20: 'Tropical Forested Floodplains',
+        21: 'Deserts',
+        25: 'Temperate Forested Floodplains',
+        27: 'Wet Savannas',
+        28: 'Salt Marsh',
+        29: 'Mangroves',
+        30: 'Tidal Freshwater Marshes',
+        31: 'Temperate Savannas',
+        32: 'Reserved',
+        33: 'Temperate Broadleaved Evergreen Forests',
+        34: 'Reserved2',
+        35: 'Mediterranean Shrublands',
+        36: 'Reserved3',
+        37: 'Reserved4',
+        38: 'Reserved5',
+        39: 'Reserved6',
+        40: 'Reserved7',
+        41: 'Reserved8',
+        42: 'Reserved9',
+        43: 'Reserved10',
+        44: 'Reserved11',
+        45: 'Reserved12',
+        46: 'Suburban',
+        47: 'Rodale Pasture',
+        48: 'Turflawn',
+        49: 'Vegetable Farm',
+        50: 'Crops',
+        51: 'Pasture',
+        52: 'Maize',
+        53: 'Wheat',
+        54: 'Rice',
+        55: 'Soybean',
+        56: 'Potato',
+        "0000": 'All Plant Functional Types',
+        '': ''}
+
+
+# Define the function to process the TEM output files
+def process_file(input_filename,filter_params):
+      
     df = pd.read_csv(input_filename,names=var_cols)
     df["VARIABLE"] = df["VARIABLE"].str.strip()
     df["REGION"] = df["REGION"].str.strip()
     df["LAT"]=df["LAT"].round(1)
     df["LON"]=df["LON"].round(1)
     
-    
+    # Get the first part of the variable name
     variable_parts = df["VARIABLE"].unique()
     variable_first_part = variable_parts[0]
+    
+    # Define the output file names
     stats_out_file = variable_first_part + ".SUMMARY"
     units_out_file = variable_first_part + ".UNITS"
     
@@ -158,7 +213,7 @@ def process_file(input_filename,filter_params):
 
         return df
 
-
+    # Filter the dataframe based on the filter parameters
     df = filter_dataframe(df, filter_params)
 
         
@@ -189,14 +244,14 @@ def process_file(input_filename,filter_params):
         
         return summary
 
-    # Calculate summary statistics for POTVEG and REGION
+    # Calculate summary statistics for POTVEG 
     summary_stats_potveg = summary_stats(df, "POTVEG")
     summary_stats_potveg  = summary_stats_potveg.round(2)
     summary_stats_potveg["POTVEG"]= summary_stats_potveg["POTVEG"].round().astype(int)
     summary_stats_potveg["YEAR"] = summary_stats_potveg["YEAR"].astype(int).astype(str)
 
 
-
+    # Calculate summary statistics for REGION
     summary_stats_region = summary_stats(df, "REGION")
     summary_stats_region= summary_stats_region.round(2)
     summary_stats_region["POTVEG"] = "0000"
@@ -207,72 +262,20 @@ def process_file(input_filename,filter_params):
     summary_stats_final = pd.concat([summary_stats_potveg, pd.DataFrame(np.nan, index=[0], columns=summary_stats_potveg.columns), summary_stats_region])
     summary_stats_final = summary_stats_final.round(2)
 
+    # Drop the REGION column
     summary_stats_final=summary_stats_final.drop("REGION",axis=1)
+  
     
-    pft_description = {
-        1: 'Ice',
-        4: 'Boreal Forest',
-        5: 'Forested Boreal Wetlands',
-        6: 'Boreal Woodlands',
-        8: 'Mixed Temperate Forests',
-        9: 'Temperate Coniferous Forests',
-        10: 'Temperate Deciduous Forests',
-        11: 'Temperate Forested Wetlands',
-        12: 'Tall Grasslands',
-        13: 'Short Grasslands',
-        14: 'Tropical Savannas',
-        15: 'Arid Shrublands',
-        16: 'Tropical Evergreen Forests',
-        17: 'Tropical Forested Wetlands',
-        18: 'Tropical Deciduous Forests',
-        19: 'Xeromorphic Forests and Woodlands',
-        20: 'Tropical Forested Floodplains',
-        21: 'Deserts',
-        25: 'Temperate Forested Floodplains',
-        27: 'Wet Savannas',
-        28: 'Salt Marsh',
-        29: 'Mangroves',
-        30: 'Tidal Freshwater Marshes',
-        31: 'Temperate Savannas',
-        32: 'Reserved',
-        33: 'Temperate Broadleaved Evergreen Forests',
-        34: 'Reserved2',
-        35: 'Mediterranean Shrublands',
-        36: 'Reserved3',
-        37: 'Reserved4',
-        38: 'Reserved5',
-        39: 'Reserved6',
-        40: 'Reserved7',
-        41: 'Reserved8',
-        42: 'Reserved9',
-        43: 'Reserved10',
-        44: 'Reserved11',
-        45: 'Reserved12',
-        46: 'Suburban',
-        47: 'Rodale Pasture',
-        48: 'Turflawn',
-        49: 'Vegetable Farm',
-        50: 'Crops',
-        51: 'Pasture',
-        52: 'Maize',
-        53: 'Wheat',
-        54: 'Rice',
-        55: 'Soybean',
-        56: 'Potato',
-        "0000": 'All Plant Functional Types',
-        '': ''}
-
-    
-    
-
+    # Add a description column
     summary_stats_final["DESCRIPTION"] = summary_stats_final["POTVEG"].map(pft_description)
     
+    # Reorder the columns
     summary_stats_final= summary_stats_final.reindex(columns=['VARIABLE', 'POTVEG','DESCRIPTION', 'YEAR', 'NGRID', 'TOTFORECOZONE', 'MNBYAR', 'MXPRED', 'MNPRED', 'MNTOTYR', 'STNDEV', 'SIMPMN'])
 
     # Save summary statistics to a CSV file
     summary_stats_final.to_csv(stats_out_file, index=False)
 
-  
+# Get the list of files to process, and optinal filters from the input XML file  
 def get_file_list(input_path):
     if input_path.endswith(".xml"):
         tree = ET.parse(input_path)
@@ -302,26 +305,28 @@ def get_file_list(input_path):
     
     return file_list, filter_params
 
-
-
-
-
-try:
-    input_path = input("Please enter the file name, path or a XML file containing file paths and filter info: ")
-    file_list, filter_params = get_file_list(input_path)
-except KeyError as e:
-    print(f"KeyError: The key '{e.args[0]}' does not exist in the dictionary.")
-    sys.exit(1)
-except ValueError:
-    print("Invalid input: The input value is not of the expected type.")
-    sys.exit(1)
-
-for i, file_path in enumerate(file_list):
+# Main function
+def main():
     try:
-        process_file(file_path, filter_params)
+        input_path = input("Please enter the file name, path or a XML file containing file paths and filter info: ")
+        file_list, filter_params = get_file_list(input_path)
     except KeyError as e:
-        print(f"KeyError: Check the filter parameters in the XML file")
+        print(f"KeyError: The key '{e.args[0]}' does not exist in the dictionary.")
         sys.exit(1)
-    except Exception as e:
-        print(f"Error in filter parameters, check XML file: {e}")
+    except ValueError:
+        print("Invalid input: The input value is not of the expected type.")
         sys.exit(1)
+
+    for i, file_path in enumerate(file_list):
+        try:
+            process_file(file_path, filter_params)
+        except KeyError as e:
+            print(f"KeyError: Check the filter parameters in the XML file")
+            sys.exit(1)
+        except Exception as e:
+            print(f"Error in filter parameters, check XML file: {e}")
+            sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
