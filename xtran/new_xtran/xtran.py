@@ -11,6 +11,7 @@ import datetime
 from pathlib import Path
 
 
+
 # Define data columns for TEM output files
 var_cols = [
         "LON",
@@ -122,7 +123,7 @@ def process_file(input_filename,filter_params):
     stats_out_file = variable_first_part + ".SUMMARY"
     
     
-    # Define the function to get units
+# Define the function to get units
     def get_units(variable, column):
         value = df["VARIABLE"][0]
         if value == "CH4FLUX" or value == "CH4EMISS" or value == "CH4CNSMP":
@@ -171,7 +172,7 @@ def process_file(input_filename,filter_params):
         "MNBYAR"
     ]
 
-# Create an empty DataFrame to store the results
+    # Create an empty DataFrame to store the results
     df_units = pd.DataFrame(columns=["VARIABLE", "TOTCELLAREA", "TOTFORECOZONE", "MNBYAR", "DATE", "TIME"])
 
     # get the current date and time
@@ -193,10 +194,11 @@ def process_file(input_filename,filter_params):
             row[column] = units
 
         # append the row to the DataFrame
-        df_units = df_units.append(row, ignore_index=True)
+        df_units = pd.concat([df_units, pd.DataFrame(row, index=[0])], ignore_index=True)
 
     # save the units to a CSV file
-    df_units.to_csv(units_out_file, index=False,header=False,mode='a')
+    df_units.to_csv(units_out_file, index=False, header=False, mode='a')
+
     
     # Define the function to filter the dataframe
     def filter_dataframe(df, filter_params):
@@ -383,4 +385,5 @@ def main():
 # Call the main function            
 if __name__ == "__main__":
     main()
+
 
