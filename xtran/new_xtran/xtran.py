@@ -366,17 +366,19 @@ def main():
 
     for i, file_path in enumerate(file_list):
         try:
-            process_file(file_path, filter_params)
+            process_file(file_path, filter_params)       
+        except FileNotFoundError as e:
+            print(f"FileNotFoundError: The XML file does not exist.")
+            sys.exit(1)
         except KeyError as e:
             print(f"KeyError: Check the filter parameters in the XML file")
             sys.exit(1)
         except Exception as e:
             print(f"Error in filter parameters, check XML file: {e}")
             sys.exit(1)
-            
+    print("Success!, Pleae check UNITS.INFO file for units of the variables, and .SUMMARY file for summary statistics")  
+                              
 
-print("Success!, Please Check UNITS.INFO file for units of the variables, and .SUMMARY file for summary statistics")         
-            
-            
+# Call the main function            
 if __name__ == "__main__":
     main()
