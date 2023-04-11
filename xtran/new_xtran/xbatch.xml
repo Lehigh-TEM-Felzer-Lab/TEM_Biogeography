@@ -2,19 +2,19 @@
 <root>
   <!-- File Paths -->
     <files>
-        <file>./VEGC.csv</file>
-        
-        <!-- Add more file elements as needed -->
+        <file>./output_bakeoff/npp_bakeoff_result.csv</file>
+   
+        <!-- Add more file paths as needed -->
     </files>
 
-<!-- Optinal Filter Parameters-->
+<!-- Filter Parameters-->
 <filter_params>
-    <lat_min></lat_min>
-    <lat_max></lat_max>
+    <lat_min>42.5000</lat_min>
+    <lat_max>42.5000</lat_max>
     <lon_min></lon_min>
     <lon_max></lon_max>
     <region></region>
     <start_year></start_year>
-    <end_year></end_year>
+    <end_year>2020</end_year>
 </filter_params>
 </root>

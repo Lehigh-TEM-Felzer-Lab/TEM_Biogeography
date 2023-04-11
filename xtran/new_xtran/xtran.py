@@ -1,6 +1,7 @@
 import warnings
 
 warnings.filterwarnings("ignore")  # setting ignore as a parameter
+import warnings
 import xml.etree.ElementTree as ET
 import pandas as pd
 import numpy as np
@@ -349,6 +350,7 @@ def get_file_list(input_path):
         filter_params = None
     
     return file_list, filter_params
+
 # Main function
 def main():
 
@@ -357,33 +359,33 @@ def main():
         # write the string to the file
         f.write("VARIABLE, TOTCELLAREA, TOTFORECOZONE, MNBYAR, DATE, TIME\n")
 
-    try:
-        input_path = input("Please enter the file name, path or a XML file containing file paths and filter info: ")
-        file_list, filter_params = get_file_list(input_path)
-    except KeyError as e:
-        print(f"KeyError: The key '{e.args[0]}' does not exist in the dictionary.")
-        sys.exit(1)
-    except ValueError:
-        print("Invalid input: The input value is not of the expected type.")
-        sys.exit(1)
+    error_occurred = False
 
-    for i, file_path in enumerate(file_list):
-        try:
-            process_file(file_path, filter_params)       
-        except FileNotFoundError as e:
-            print(f"FileNotFoundError: The XML file does not exist.")
-            sys.exit(1)
-        except KeyError as e:
-            print(f"KeyError: Check the filter parameters in the XML file")
-            sys.exit(1)
-        except Exception as e:
-            print(f"Error in filter parameters, check XML file: {e}")
-            sys.exit(1)
-    print("Success!, Pleae check UNITS.INFO file for units of the variables, and .SUMMARY file for summary statistics")  
-                              
+    try:
+        input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
+        input_path = str(Path(input_path))  # Normalize the path for cross-platform compatibility
+        file_list, filter_params = get_file_list(input_path)
+    except FileNotFoundError:
+        print(f"Error: XML file '{input_path}' not found.")
+        error_occurred = True
+    except ValueError as e:
+        print(f"Error: {e}")
+        error_occurred = True
+
+    if not error_occurred:
+        for i, file_path in enumerate(file_list):
+            try:
+                file_path = str(Path(file_path))  # Normalize the path for cross-platform compatibility
+                process_file(file_path, filter_params)
+            except FileNotFoundError:
+                print(f"Error: File '{file_path}' not found.")
+                error_occurred = True
+                continue
+
+    if not error_occurred:
+        print("Program executed successfully! Check 'UNITS.INFO' for variable units and '.SUMMARY' for stats. Thank you!")
 
 # Call the main function            
 if __name__ == "__main__":
     main()
-
 
