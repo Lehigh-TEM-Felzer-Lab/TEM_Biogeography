@@ -1,4 +1,4 @@
-Python version: Python 3.11.2
+python== 3.11.2
 altgraph==0.17.3
 asttokens==2.2.1
 attrs==22.2.0
