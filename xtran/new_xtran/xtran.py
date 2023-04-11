@@ -1,5 +1,7 @@
-import warnings
+# Created by modifying version of xtran.cpp by Jared M Kodero
+# Check dependencies file for required libraries
 
+import warnings
 warnings.filterwarnings("ignore")  # setting ignore as a parameter
 import warnings
 import xml.etree.ElementTree as ET
