@@ -15,6 +15,7 @@ from pathlib import Path
 
 
 
+
 # Define data columns for TEM output files
 var_cols = [
         "LON",
@@ -323,7 +324,14 @@ def get_file_list(input_path):
     if input_path.endswith(".xml"):
         tree = ET.parse(input_path)
         root = tree.getroot()
-        file_list = [elem.text for elem in root.findall("files/file")]
+        file_list = []
+        for elem in root.findall("files/file"):
+            file_path = elem.text
+            if file_path.startswith("./") or file_path.startswith(".\\"):
+                file_path = os.path.abspath(os.path.join(os.getcwd(), file_path))
+            else:
+                file_path = os.path.abspath(file_path)
+            file_list.append(file_path)
         filter_params = None
         filter_params_elem = root.find("filter_params")
         if filter_params_elem is not None:
@@ -345,14 +353,11 @@ def get_file_list(input_path):
                 filter_params["end_year"] = int(end_year) if end_year.strip() else None
                 
         else:
-            file_list = [input_path]
+            input_path = input_path.replace("./", "").replace(".\\", "")
+            file_list = [os.path.abspath(input_path)]
             filter_params = None
-    else:
-        file_list = [input_path]
-        filter_params = None
     
     return file_list, filter_params
-
 # Main function
 def main():
 
@@ -365,8 +370,14 @@ def main():
 
     try:
         input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
-        input_path = str(Path(input_path))  # Normalize the path for cross-platform compatibility
+        input_path = os.path.join(os.getcwd(), input_path) # Normalize the path for cross-platform compatibility
         file_list, filter_params = get_file_list(input_path)
+        print(f"\033[94mUsing {input_path} as input file\033[0m")
+        print(f"\033[94m{len(file_list)} file(s) to be processed\033[0m")
+        print(f"\033[94mFilter parameters to be applied: {filter_params}\033[0m")
+        print("\n")
+        
+        
     except FileNotFoundError:
         print(f"Error: XML file '{input_path}' not found.")
         error_occurred = True
@@ -377,17 +388,20 @@ def main():
     if not error_occurred:
         for i, file_path in enumerate(file_list):
             try:
-                file_path = str(Path(file_path))  # Normalize the path for cross-platform compatibility
                 process_file(file_path, filter_params)
+                print("Working on -> "+file_path)
+                print(f"File {i+1} of {len(file_list)} processed successfully.")
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
                 error_occurred = True
                 continue
 
     if not error_occurred:
-        print("Program executed successfully! Check 'UNITS.INFO' for variable units and '.SUMMARY' for stats. Thank you!")
+        print("\033[92mProgram executed successfully! Check 'UNITS.INFO' for variable units and '.SUMMARY' for stats. Thank you!\033[0m")
+
 
 # Call the main function            
 if __name__ == "__main__":
     main()
+
 
