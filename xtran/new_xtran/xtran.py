@@ -16,6 +16,7 @@ from pathlib import Path
 
 
 
+
 # Define data columns for TEM output files
 var_cols = [
         "LON",
@@ -213,25 +214,25 @@ def process_file(input_filename,filter_params):
                         lat_min = float(filter_params["lat_min"])
                         filter_criteria.append(f"LAT >= {lat_min}")
                     except ValueError:
-                        print("Invalid value for lat_min. Must be a float.")
+                        print("\033[91m" +"Invalid value for lat_min. Must be a float." + "\033[0m")
                 if filter_params.get("lat_max") is not None:
                     try:
                         lat_max = float(filter_params["lat_max"])
                         filter_criteria.append(f"LAT <= {lat_max}")
                     except ValueError:
-                        print("Invalid value for lat_max. Must be a float.")
+                        print("\033[91m" +"Invalid value for lat_max. Must be a float." + "\033[0m")
                 if filter_params.get("lon_min") is not None:
                     try:
                         lon_min = float(filter_params["lon_min"])
                         filter_criteria.append(f"LON >= {lon_min}")
                     except ValueError:
-                        print("Invalid value for lon_min. Must be a float.")
+                        print("\033[91m" +"Invalid value for lon_min. Must be a float." + "\033[0m")
                 if filter_params.get("lon_max") is not None:
                     try:
                         lon_max = float(filter_params["lon_max"])
                         filter_criteria.append(f"LON <= {lon_max}")
                     except ValueError:
-                        print("Invalid value for lon_max. Must be a float.")
+                        print("\033[91m" +"Invalid value for lon_max. Must be a float." + "\033[0m")
                 if filter_params.get("region") is not None:
                     region = filter_params.get("region")
                     filter_criteria.append(f"REGION == '{region}'")
@@ -240,20 +241,20 @@ def process_file(input_filename,filter_params):
                         start_year = int(filter_params["start_year"])
                         filter_criteria.append(f"YEAR >= {start_year}")
                     except ValueError:
-                        print("Invalid value for start_year. Must be an integer.")
+                        print("\033[91m" +"Invalid value for start_year. Must be an integer." + "\033[0m")
                 if filter_params.get("end_year") is not None:
                     try:
                         end_year = int(filter_params["end_year"])
                         filter_criteria.append(f"YEAR <= {end_year}")
                     except ValueError:
-                        print("Invalid value for end_year. Must be an integer.")
+                        print("\033[91m" +"Invalid value for end_year. Must be an integer." + "\033[0m")
 
                 if filter_criteria:
                     query_string = " and ".join(filter_criteria)
                     try:
                         df = df.query(query_string)
                     except ValueError:
-                        print("Invalid filter criteria. Please check your parameters and try again.")
+                        print("\033[91m" +"Invalid filter criteria. Please check your parameters and try again." + "\033[0m")
 
             return df
 
@@ -360,6 +361,21 @@ def get_file_list(input_path):
     return file_list, filter_params
 # Main function
 def main():
+    
+        # Set a default terminal width
+    default_terminal_width = 100
+
+    # Try to get the terminal width, and if it fails, use the default width
+    try:
+        terminal_width = os.get_terminal_size().columns
+    except OSError:
+        terminal_width = default_terminal_width
+
+    # Print a line of dashes that fills the terminal width
+    print('-' * terminal_width)
+    
+    
+                        
 
     # open the file in write mode
     with open(units_out_file, "w") as f:
@@ -369,17 +385,27 @@ def main():
     error_occurred = False
 
     try:
+        print("Running xtran to calculate summary statistics for the input file(s)")
+        print('-' * terminal_width)
         input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
         input_path = os.path.join(os.getcwd(), input_path) # Normalize the path for cross-platform compatibility
         file_list, filter_params = get_file_list(input_path)
-        print(f"\033[94mUsing {input_path} as input file\033[0m")
-        print(f"\033[94m{len(file_list)} file(s) to be processed\033[0m")
-        print(f"\033[94mFilter parameters to be applied: {filter_params}\033[0m")
-        print("\n")
+        print(f"\033[94mUsing {input_path} as input file.\033[0m\n")
+        print(f"\033[94mNumber of files to be processed: {len(file_list)}\033[0m")
+        print(f"\033[94mFilter parameters to be applied: \033[0m ")
+        print(f"\033[94m\tMinimum latitude: {filter_params['lat_min']}\033[94m")
+        print(f"\033[94m\tMaximum latitude: {filter_params['lat_max']}\033[94m")
+        print(f"\033[94m\tMinimum longitude: {filter_params['lon_min']}\033[94m")
+        print(f"\033[94m\tMaximum longitude: {filter_params['lon_max']}\033[94m")
+        print(f"\033[94m\tRegion: {filter_params['region']}\033[94m")
+        print(f"\033[94m\tStart year: {filter_params['start_year']}\033[94m")
+        print(f"\033[94m\tEnd year: {filter_params['end_year']}\033[94m\n")
         
+        print(f"\033[94mProcessing files...\033[0m")
+  
         
     except FileNotFoundError:
-        print(f"Error: XML file '{input_path}' not found.")
+        print("\033[91m" +f"Error: XML file '{input_path}' not found." + "\033[0m")
         error_occurred = True
     except ValueError as e:
         print(f"Error: {e}")
@@ -389,19 +415,22 @@ def main():
         for i, file_path in enumerate(file_list):
             try:
                 process_file(file_path, filter_params)
-                print("Working on -> "+file_path)
-                print(f"File {i+1} of {len(file_list)} processed successfully.")
+                print("\033[33mWorking on -> {}\033[0m".format(file_path))
+                print(f"\033[92mFile {i+1} of {len(file_list)} processed successfully.\033[0m\n")
             except FileNotFoundError:
-                print(f"Error: File '{file_path}' not found.")
+                print("\033[91m" + f"Error: File '{file_path}' not found." + "\033[0m")
                 error_occurred = True
                 continue
-
+                
     if not error_occurred:
+        print('-' * terminal_width)
         print("\033[92mProgram executed successfully! Check 'UNITS.INFO' for variable units and '.SUMMARY' for stats. Thank you!\033[0m")
+        print('-' * terminal_width)
 
 
 # Call the main function            
 if __name__ == "__main__":
     main()
+
 
 
