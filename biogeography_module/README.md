@@ -38,14 +38,13 @@ MMDI.csv: mean monthly moisture stress
 MDI.csv: mean annual moisture stress
 temp-gdd-prec.csv: climate data
 bio_limit.csv: climate limits
-The output_bakeoff directory within biogeo contains the following output files:
+The output_bakeoff directory
 
-npp_bakeoff_result.csv: model bakeoff results file
-dependencies.py is a Python module containing the necessary dependencies for the program to run, such as os, numpy, pandas, seaborn, datetime, random, array, tqdm, pathlib, shutil, and xml.etree.ElementTree.
+
 
 main.py is the main program file that imports and executes the necessary modules and functions to run the TEM biogeography model.
 
-To run the program, the user must have Python 3 installed and all the necessary dependencies installed. They should navigate to the TEM_Biogeography/runs directory and run the main.py, or compiled excutable file u The program will then read the path to the XML file from tem_in.txt and use it to parse the necessary input and output files for the biogeography module of the TEM model. The output files will be generated in the output_bakeoff directory within the biogeo directory.
+To run the program, the user must have Python 3 installed and all the necessary dependencies installed. They should navigate to the TEM_Biogeography/runs directory and run the main.py, or compiled excutable file. The program will then read the path to the XML file from tem_in.txt and use it to parse the necessary input and output files for the biogeography module of the TEM model. The output files will be generated in the output_bakeoff directory within the biogeo directory.
 
    
 
