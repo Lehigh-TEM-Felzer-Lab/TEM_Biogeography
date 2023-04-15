@@ -14,6 +14,16 @@ import datetime
 from pathlib import Path
 
 
+# ANSI color codes
+BOLD = '\033[1m'
+GREEN = '\033[32m'
+BLUE = '\033[34m'
+MAGENTA = '\033[35m'
+CYAN = '\033[36m'
+YELLOW = '\033[33m'
+RED = '\033[31m'
+RESET = '\033[0m'
+TAB = '\t'
 
 
 
@@ -214,25 +224,25 @@ def process_file(input_filename,filter_params):
                         lat_min = float(filter_params["lat_min"])
                         filter_criteria.append(f"LAT >= {lat_min}")
                     except ValueError:
-                        print("\033[91m" +"Invalid value for lat_min. Must be a float." + "\033[0m")
+                        print(RED + "Invalid value for lat_min. Must be a float." + RESET)
                 if filter_params.get("lat_max") is not None:
                     try:
                         lat_max = float(filter_params["lat_max"])
                         filter_criteria.append(f"LAT <= {lat_max}")
                     except ValueError:
-                        print("\033[91m" +"Invalid value for lat_max. Must be a float." + "\033[0m")
+                        print(RED + "Invalid value for lat_max. Must be a float." + RESET)
                 if filter_params.get("lon_min") is not None:
                     try:
                         lon_min = float(filter_params["lon_min"])
                         filter_criteria.append(f"LON >= {lon_min}")
                     except ValueError:
-                        print("\033[91m" +"Invalid value for lon_min. Must be a float." + "\033[0m")
+                        print(RED + "Invalid value for lon_min. Must be a float." + RESET)
                 if filter_params.get("lon_max") is not None:
                     try:
                         lon_max = float(filter_params["lon_max"])
                         filter_criteria.append(f"LON <= {lon_max}")
                     except ValueError:
-                        print("\033[91m" +"Invalid value for lon_max. Must be a float." + "\033[0m")
+                        print(RED + "Invalid value for lon_max. Must be a float." + RESET)
                 if filter_params.get("region") is not None:
                     region = filter_params.get("region")
                     filter_criteria.append(f"REGION == '{region}'")
@@ -241,20 +251,20 @@ def process_file(input_filename,filter_params):
                         start_year = int(filter_params["start_year"])
                         filter_criteria.append(f"YEAR >= {start_year}")
                     except ValueError:
-                        print("\033[91m" +"Invalid value for start_year. Must be an integer." + "\033[0m")
+                        print(RED + "Invalid value for start_year. Must be an integer." + RESET)
                 if filter_params.get("end_year") is not None:
                     try:
                         end_year = int(filter_params["end_year"])
                         filter_criteria.append(f"YEAR <= {end_year}")
                     except ValueError:
-                        print("\033[91m" +"Invalid value for end_year. Must be an integer." + "\033[0m")
+                        print(RED + "Invalid value for end_year. Must be an integer." + RESET)
 
                 if filter_criteria:
                     query_string = " and ".join(filter_criteria)
                     try:
                         df = df.query(query_string)
                     except ValueError:
-                        print("\033[91m" +"Invalid filter criteria. Please check your parameters and try again." + "\033[0m")
+                        print(RED + "Invalid filter criteria. Please check your parameters and try again." + RESET)
 
             return df
 
@@ -362,9 +372,8 @@ def get_file_list(input_path):
 # Main function
 def main():
     
-        # Set a default terminal width
+    # Set a default terminal width
     default_terminal_width = 100
-
     # Try to get the terminal width, and if it fails, use the default width
     try:
         terminal_width = os.get_terminal_size().columns
@@ -372,7 +381,6 @@ def main():
         terminal_width = default_terminal_width
 
     # Print a line of dashes that fills the terminal width
-
     print()
     
     
@@ -386,28 +394,32 @@ def main():
     error_occurred = False
 
     try:
-        print("\033[94m Running xtran to calculate summary statistics for the input file(s) \033[0m")
+        print()
+        print(CYAN + '_' * terminal_width + RESET)
+        print()
+        print(BOLD + GREEN + "Running xtran to calculate summary statistics for the input file(s)" + RESET)
        
         print()
         input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
         input_path = os.path.join(os.getcwd(), input_path) # Normalize the path for cross-platform compatibility
         file_list, filter_params = get_file_list(input_path)
-        print(f"\033[94mUsing {input_path} as input file.\033[0m\n")
-        print(f"\033[94mNumber of files to be processed: {len(file_list)}\033[0m")
-        print(f"\033[94mFilter parameters to be applied: \033[0m ")
-        print(f"\033[94m\tMinimum latitude: {filter_params['lat_min']}\033[94m")
-        print(f"\033[94m\tMaximum latitude: {filter_params['lat_max']}\033[94m")
-        print(f"\033[94m\tMinimum longitude: {filter_params['lon_min']}\033[94m")
-        print(f"\033[94m\tMaximum longitude: {filter_params['lon_max']}\033[94m")
-        print(f"\033[94m\tRegion: {filter_params['region']}\033[94m")
-        print(f"\033[94m\tStart year: {filter_params['start_year']}\033[94m")
-        print(f"\033[94m\tEnd year: {filter_params['end_year']}\033[94m\n")
-        
-        print(f"\033[94mProcessing files...\033[0m")
+        print(BLUE + f"Using {input_path} as input file.\033[0m\n")
+        print(BLUE + f"Number of files to be processed: {len(file_list)}\033[0m")
+        print(BLUE + f"Filter parameters to be applied: \033[0m ")
+        print(BLUE + TAB+f"Minimum latitude: {filter_params['lat_min']}"+RESET)
+        print(BLUE + TAB+f"Maximum latitude: {filter_params['lat_max']}"+RESET)
+        print(BLUE + TAB+f"Minimum longitude: {filter_params['lon_min']}"+RESET)
+        print(BLUE + TAB+f"Maximum longitude: {filter_params['lon_max']}"+RESET)
+        print(BLUE + TAB+f"Region: {filter_params['region']}"+RESET)
+        print(BLUE + TAB+f"Start year: {filter_params['start_year']}"+RESET)
+        print(BLUE + TAB+f"End year: {filter_params['end_year']}"+RESET)
+        print()
+        print(BLUE + BOLD+f"Processing files..."+RESET)
+        print()
   
         
     except FileNotFoundError:
-        print("\033[91m" +f"Error: XML file '{input_path}' not found." + "\033[0m")
+        print(RED +f"Error: XML file '{input_path}' not found." + RESET)
         error_occurred = True
     except ValueError as e:
         print(f"Error: {e}")
@@ -418,16 +430,19 @@ def main():
             try:
                 process_file(file_path, filter_params)
                 print("Working on -> {}".format(file_path))
-                print(f"\033[94mFile {i+1} of {len(file_list)} processed successfully.\033[0m\n")
+                print(BLUE + f"File {i+1} of {len(file_list)} processed successfully."+RESET)
+                print()
             except FileNotFoundError:
-                print("\033[91m" + f"Error: File '{file_path}' not found." + "\033[0m")
+                print(RED + f"Error: File '{file_path}' not found." + RESET)
                 error_occurred = True
                 continue
                 
     if not error_occurred:
        
         print()
-        print("\033[92mProgram executed successfully! Check 'UNITS.INFO' for variable units and '.SUMMARY' for stats. Thank you!\033[0m")
+        print(GREEN +BOLD + "Program executed successfully! Check 'UNITS.INFO' file for data units and '.SUMMARY' files for statistics." + RESET)
+        print()
+        print(CYAN + '_' * terminal_width + RESET)
         print()
        
 
