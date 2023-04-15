@@ -372,7 +372,7 @@ def main():
         terminal_width = default_terminal_width
 
     # Print a line of dashes that fills the terminal width
-    print('_' * terminal_width)
+    print('\033[94m_\033[0m' * terminal_width)
     print()
     
     
@@ -386,8 +386,9 @@ def main():
     error_occurred = False
 
     try:
-        print("Running xtran to calculate summary statistics for the input file(s)")
-        print('_' * terminal_width)
+        print("\033[94m Running xtran to calculate summary statistics for the input file(s) \033[0m")
+        print('\033[94m_\033[0m' * terminal_width)
+        print()
         input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
         input_path = os.path.join(os.getcwd(), input_path) # Normalize the path for cross-platform compatibility
         file_list, filter_params = get_file_list(input_path)
@@ -416,8 +417,8 @@ def main():
         for i, file_path in enumerate(file_list):
             try:
                 process_file(file_path, filter_params)
-                print("\033[33mWorking on -> {}\033[0m".format(file_path))
-                print(f"\033[92mFile {i+1} of {len(file_list)} processed successfully.\033[0m\n")
+                print("Working on -> {}".format(file_path))
+                print(f"\033[94mFile {i+1} of {len(file_list)} processed successfully.\033[0m\n")
             except FileNotFoundError:
                 print("\033[91m" + f"Error: File '{file_path}' not found." + "\033[0m")
                 error_occurred = True
@@ -427,7 +428,8 @@ def main():
         print('_' * terminal_width)
         print()
         print("\033[92mProgram executed successfully! Check 'UNITS.INFO' for variable units and '.SUMMARY' for stats. Thank you!\033[0m")
-        
+        print()
+       
 
 
 # Call the main function            
