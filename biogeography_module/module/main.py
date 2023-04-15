@@ -84,8 +84,7 @@ def main():
     persisting_pft(mid_century, mid_century_persisting_pft_output_path)
     persisting_pft(end_century, end_century_persisting_pft_output_path)
 
-    print()
-    print('_' * terminal_width)
+   
     print()
     print("\033[92mDone!\033[0m")
     
