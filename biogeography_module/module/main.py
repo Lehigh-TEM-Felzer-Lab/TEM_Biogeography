@@ -28,6 +28,8 @@ def main():
     print()
     
     print('_' * terminal_width)
+    
+    print()
     # Merge tem output data with climate data and moisture stress data
     print("\033[94m1: Preparing climate datasets and merging with TEM output files...\033[94m")
     print()
