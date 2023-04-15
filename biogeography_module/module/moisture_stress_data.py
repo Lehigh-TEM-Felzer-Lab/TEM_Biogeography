@@ -1,9 +1,9 @@
 import dependencies 
-from paths import moisture_stress_path, mean_moisture_stress_path
+from paths import mean_monthly_moisture_stress_path, mean_annual_moisture_stress_path
 
 
 # Import moisture stress data (Drought Index)
-moisture_stress_columns = [
+monthly_moisture_stress_columns = [
     "LON",              # The longitude coordinate of the location being modelled.
     "LAT",              # The latitude coordinate of the location being modelled.
     "ICOHORT",          # An index indicating the cohort of the vegetation being modelled.
@@ -18,21 +18,21 @@ moisture_stress_columns = [
     "THETA",            # The soil water potential for the location and time period being modelled.
 ]
 
-moisture_stress = dependencies.pd.read_csv(moisture_stress_path, names=moisture_stress_columns)
+mean_monthly_moisture_stress = dependencies.pd.read_csv(mean_monthly_moisture_stress_path, names=monthly_moisture_stress_columns)
 
 # Select summer months (May - October)
-moisture_stress = moisture_stress.query("MONTH >= 5 & MONTH <= 10")
+mean_summer_moisture_stress = mean_monthly_moisture_stress.query("MONTH >= 5 & MONTH <= 10")
 
 # Calculate mean annual values
-mean_moisture_stress = (moisture_stress.groupby(["LON", "LAT", "POTVEG", "SUBTYPE", "YEAR"])
+mean_annual_moisture_stress = (mean_monthly_moisture_stress.groupby(["LON", "LAT", "POTVEG", "SUBTYPE", "YEAR"])
                         .agg({"AET": "sum", "PET": "sum", "AET/PET": "mean", "PET-AET/PET": "sum", "THETA": "mean"})
                         .round(3))
 
 # save mean annual values to csv then import it again to save memory space
-mean_moisture_stress.to_csv(mean_moisture_stress_path, index=True, header=False)
+mean_annual_moisture_stress.to_csv(mean_annual_moisture_stress_path, index=True, header=False)
 
 # Import mean moisture annual moisture stress data (Drought Index)
-mean_moisture_stress_columns = [
+mean_annual_moisture_stress_columns = [
     "LON", # The longitude coordinate of the location being modelled.
     "LAT", # The latitude coordinate of the location being modelled.
     "POTVEG", # The potential natural vegetation type for the location being modelled.
@@ -45,4 +45,4 @@ mean_moisture_stress_columns = [
     "THETA", # The soil water potential for the location and time period being modelled.
 ]
 
-mean_moisture_stress = dependencies.pd.read_csv(mean_moisture_stress_path, names=mean_moisture_stress_columns)
+mean_annual_moisture_stress = dependencies.pd.read_csv(mean_annual_moisture_stress_path, names=mean_annual_moisture_stress_columns)

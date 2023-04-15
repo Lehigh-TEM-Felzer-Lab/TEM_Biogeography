@@ -1,5 +1,4 @@
 import dependencies 
-from paths import temout_files_path
 
 
 # columns names for all TEM  outputs (NPP, VEGC, NEP, AVAILN, GPP, H2OYIELD, NETNMIN, SMOIS, SOILORGC, VEGINNPP, NCE)
@@ -26,40 +25,61 @@ var_cols = [
     "REGION"        # The region or area where the data was collected.
 ]
 
-#  function to read CSV files and add NPP column
-def read_csv_add_npp(filename):
-    # Read the CSV file with the given filename and column names
-    df = dependencies.pd.read_csv(filename, names=var_cols)
-    return df
 
 
-npp = read_csv_add_npp(temout_files_path["npp_path"])
-vegc = read_csv_add_npp(temout_files_path["vegc_path"])
-nep = read_csv_add_npp(temout_files_path["nep_path"])
-availn = read_csv_add_npp(temout_files_path["availn_path"])
-gpp = read_csv_add_npp(temout_files_path["gpp_path"])
-h2oyield = read_csv_add_npp(temout_files_path["h2oyield_path"])
-netnmin = read_csv_add_npp(temout_files_path["netnmin_path"])
-smois = read_csv_add_npp(temout_files_path["smois_path"])
-soilorgc = read_csv_add_npp(temout_files_path["soilorgc_path"])
-veginnpp = read_csv_add_npp(temout_files_path["veginnpp_path"])
-nce = read_csv_add_npp(temout_files_path["nce_path"])
 
 
-#  function to add NPP column to all dataframes
-def add_npp_column(df, npp):
-    df["NPP"] = npp["TOTAL"]
+txt_filepath = dependencies.os.path.join(dependencies.os.getcwd(), "tem_in.txt") # Path to the txt file containing the path to the XML file
 
-        
-add_npp_column(npp, npp)
-add_npp_column(vegc, npp)
-add_npp_column(nep, npp)
-add_npp_column(availn, npp)
-add_npp_column(gpp, npp)
-add_npp_column(h2oyield, npp)
-add_npp_column(netnmin, npp)
-add_npp_column(smois, npp)
-add_npp_column(soilorgc, npp)
-add_npp_column(veginnpp, npp)
-add_npp_column(nce, npp)
+try:
+    with open(txt_filepath, 'r') as f:
+        xml_file_path = f.read().strip()
+except FileNotFoundError:
+    print("\033[91m" + f"ERROR: txt file not found: {txt_filepath}" + "\033[0m")
+    xml_file_path = None
+except UnicodeDecodeError:
+    print("\033[91m" + f"ERROR: txt file is blank: {txt_filepath}" + "\033[0m")
+    xml_file_path = None
+
+if xml_file_path:
+    # Parse the XML
+    try:
+        tree = dependencies.ET.parse(xml_file_path)
+        root = tree.getroot()
+    except FileNotFoundError:
+        print("\033[91m" + f"ERROR: xml file path not found in txt file: {xml_file_path}" + "\033[0m")
+        root = None
+    
+    if root:
+        # Get temoutvars and temoutfiles from the XML
+        temoutvars = root.find('temoutvars').text
+        temoutfiles = root.find('temoutfiles').text
+
+        # Split the comma-separated strings and store them in dictionaries
+        var_list = temoutvars.split(',')
+        file_list = temoutfiles.split(',')
+
+        # Convert file paths to be compatible with the current OS
+        file_list = [dependencies.os.path.abspath(dependencies.os.path.join(dependencies.os.getcwd(), file.replace('/', dependencies.os.sep).replace('\\', dependencies.os.sep))) for file in file_list]
+
+        var_file_dict = dict(zip(var_list, file_list))
+
+        # Modify the read_csv_add_npp function to handle different variable names
+       
+        def read_csv_add_npp(var_name, file_name):
+            df = dependencies.pd.read_csv(file_name, names=var_cols)
+            return df
+
+        # Call the read_csv_add_npp function for each variable and store the result in a dictionary
+        dataframes = {}
+        for var, file in var_file_dict.items():
+            var_lower = var.lower()
+            dataframes[var_lower] = read_csv_add_npp(var_lower, file)
+
+        # Add NPP column to all dataframes
+        npp_df = dataframes["npp"]
+        for var, df in dataframes.items():
+            df["NPP"] = npp_df["TOTAL"]
+
+
 
