@@ -21,8 +21,7 @@ Follow these steps to set up and run the model:
 # user can automate the process by modifing and running: 
 ```
 
-execute_tem_single_model.sh # for single model or 
-execute_tem_multi_model.sh # for multi model
+run_tem.sh
  
 ```
 # for manual execution follow the next instructions:
@@ -31,17 +30,9 @@ execute_tem_multi_model.sh # for multi model
 
 3. **Run tem_core with input data:** After successful compilation, execute the tem_core using the required input data.
 
-4. **Prepare input files for the Biogeography module:** Ensure that the input files have the required columns, as specified in the Python code. Modify the input files as necessary to match the expected format (variable names are descriptive of the file and columns needed).
+4. **Prepare input files for the Biogeography module:** Ensure that the input files have the required columns, as specified in the biogeography readme file. Modify the input files as necessary to match the expected format (variable names are descriptive of the file and columns needed).
 
-5. **Finalize input files:** Prepare the final version of input files with the required columns and formats before running the code.
-
-6. **Apply the Biogeography module:** If using only one model (e.g., CCSM4), navigate to the "biogeography_module/module" directory and apply the Biogeography module  to all TEM output files. If using multiple models and aggregating the results, follow the steps outlined in the "processing" directory. Each model should have its own subdirectory.
-
-7. **Execute Biogeography for each model:** Run the Biogeography module for each model as described in the previous step.
-
-8. **Check the Aggregate directory:** Locate the aggregation scripts in the "aggregate" directory. Adjust the scripts (paths) if needed.
-
-9. **Modify code and data paths:** Correct any issues with data paths and formats in the code as needed.
+5. **Modify code and data paths:** Correct any issues with data paths and formats in the code as needed.
 
 
 # Model framework
