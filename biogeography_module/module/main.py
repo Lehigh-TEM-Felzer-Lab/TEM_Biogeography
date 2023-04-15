@@ -27,11 +27,10 @@ def main():
         print(f"\033[94m{i+1}. {var}\033[0m")
     print()
     
-    print('_' * terminal_width)
-    
+        
     print()
     # Merge tem output data with climate data and moisture stress data
-    print("\033[94m1: Preparing climate datasets and merging with TEM output files...\033[94m")
+    print("\033[94m Working on -> Preparing climate datasets and merging with TEM output files...\033[94m")
     print()
     
     # Call the merge_variables function for each variable and store the result in a dictionary
@@ -39,7 +38,7 @@ def main():
     for var, df in dataframes.items():
         bakeoff_variables[var] = merge_variables(df, climate_limits, climate, mean_annual_moisture_stress)
 
-    print("\033[94m2: Determing possible PFTs based on climate in each gridcell...\033[94m")
+    print("\033[94m\033[94m Working on -> Determing possible PFTs based on climate in each gridcell...\033[94m")
     print()
 
     # Determine Possible PFTs depending on climate and moisture stress
@@ -47,7 +46,7 @@ def main():
     for var, df in bakeoff_variables.items():
         result_out[var] = determine_possible_pft(df, bakeoff_variables[var])  # Pass the correct dataframe here
 
-    print("\033[94m3: Applying bakeoff logic...\033[94m")
+    print("\033[94m Working on -> Applying bakeoff logic to PFTs...\033[94m")
     print()
     
     # Applying Bakeoff Logic by first grouping by col, row & year for each dataset based on NPP
@@ -55,7 +54,7 @@ def main():
     for var, df in result_out.items():
         bakeoff_result[var] = df.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
     
-    print("\033[94m4: Cleaning dataframes...\033[94m")
+    print("\033[94m Working on -> Cleaning dataframes...\033[94m")
     print()
     
     # Cleaning the dataframes by removing the columns that are not needed
@@ -63,7 +62,7 @@ def main():
     for var, df in bakeoff_result.items():
         cleaned_bakeoff_result[var] = clean_dataframe(df)
     
-    print("\033[94m5: Exporting dataframes to .csv files...\033[94m")
+    print("\033[94m Working on ->Exporting dataframes to .csv files...\033[94m")
     print()
     
     # Apply the export_to_csv function to the dataframes
