@@ -8,9 +8,9 @@ tem_core="/tem_core"
 tem_biogeography="."
 runs="$tem_biogeography/runs"
 biogeography_module="$tem_biogeography/biogeography_module/module"
-data="$biogeography_module/data"
+data="$biogeography_module/biogeo"
 output_bakeoff="$data/output_bakeoff"
-output_summary="$data/output_summary"
+output_summary="$runs/output_summary"
 
 
 
@@ -66,7 +66,7 @@ python main.py
 wait 
 # Define the directories where the .csv files are located
 directories=(
-  /TEM_Biogeography/biogeography_module/data/output_bakeoff
+  /TEM_Biogeography/runs/biogeo/output_bakeoff
 )
 
 # Define the name of the batch file
@@ -78,7 +78,7 @@ for dir in "${directories[@]}"; do
   cd "$dir"
 
   # Loop through all the .csv files in the directory
-  for file in *.TEMOUT; do
+  for file in *.csv; do
     # Change the first line of the batch file with the current file name
     sed -i "1s/.*/$file/" "$batch_file"
 
@@ -108,12 +108,12 @@ done
 
 # Array of source directories
 src_dirs=(
-  /TEM_Biogeography/biogeography_module/data/output_bakeoff
+  /TEM_Biogeography/runs/biogeo/output_bakeoff
 )
 
 # Array of destination directories
 dest_dirs=(
-  /TEM_Biogeography/biogeography_module/data/output_summary
+   /TEM_Biogeography/runs/biogeo/output_summary
 )
 
 # Loop through all source directories
@@ -133,7 +133,7 @@ for ((i=0;i<${#src_dirs[@]};i++)); do
   echo "[$((i+1))/${#dest_dirs[@]}] DONE"
 done
 
-model="/TEM_Biogeography/processing/biogeo/data/output_summary"
+model="/TEM_Biogeography/runs/biogeo/output_summary"
 
 process_summary_files() {
   local directory="$1"
