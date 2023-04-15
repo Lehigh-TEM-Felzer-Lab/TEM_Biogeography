@@ -1,9 +1,19 @@
 import dependencies 
 from paths import npp_bakeoff_results_path, early_century_persisting_pft_output_path, mid_century_persisting_pft_output_path, end_century_persisting_pft_output_path,bakeoff_results_dir_path
 from climate_data import climate, climate_limits
-from moisture_stress_data import mean_annual_moisture_stress
+from moisture_stress_data import mean_summer_moisture_stress
 from tem_output_data import dataframes,var_cols,var_list
 from functions import merge_variables, determine_possible_pft, possible_pft_with_max_npp, clean_dataframe, export_to_csv, persisting_pft
+
+# ANSI color codes
+BOLD = '\033[1m'
+GREEN = '\033[32m'
+BLUE = '\033[34m'
+MAGENTA = '\033[35m'
+CYAN = '\033[36m'
+YELLOW = '\033[33m'
+RESET = '\033[0m'
+
 
 def main():
          # Set a default terminal width
@@ -16,29 +26,29 @@ def main():
         terminal_width = default_terminal_width
 
     print()
-    # Print a line of dashes that fills the terminal width
-    print('\033[94m_\033[94m' * terminal_width)
+    print(CYAN + '_' * terminal_width + RESET)
     print()
-    print("\033[94m****APPLYING BIOGEOGRAPHY MODULE TO TEM OUTPUT DATA****\033[94m")
-    print('_' * terminal_width)
+    print(BOLD + GREEN + "APPLYING BIOGEOGRAPHY MODULE TO TEM OUTPUT DATA" + RESET)
+    
     print()
-    print(f"\033[94m    Number of variables to be processed: {len(var_list)}\033[94m")
+    print(BOLD + BLUE + "Number of variables to be processed: " + MAGENTA + f"{len(var_list)}" + RESET)
     for i, var in enumerate(var_list):
-        print(f"\033[94m    {i+1}. {var}\033[0m")
+        print(BOLD + BLUE + f"{i+1}. {var}" + RESET)
     print()
+
     
         
-    print()
+    
     # Merge tem output data with climate data and moisture stress data
-    print("\033[94m    Working on -> Preparing climate datasets and merging with TEM output files...\033[94m")
+    print(BOLD + YELLOW + "Preparing climate datasets and merging with TEM output files..." + RESET)
     print()
     
     # Call the merge_variables function for each variable and store the result in a dictionary
     bakeoff_variables = {}
     for var, df in dataframes.items():
-        bakeoff_variables[var] = merge_variables(df, climate_limits, climate, mean_annual_moisture_stress)
+        bakeoff_variables[var] = merge_variables(df, climate_limits, climate, mean_summer_moisture_stress)
 
-    print("\033[94m\033[94m    Working on -> Determing possible PFTs based on climate in each gridcell...\033[94m")
+    print(BOLD + YELLOW + "Determining possible PFTs based on climate in each gridcell..." + RESET)
     print()
 
     # Determine Possible PFTs depending on climate and moisture stress
@@ -46,7 +56,7 @@ def main():
     for var, df in bakeoff_variables.items():
         result_out[var] = determine_possible_pft(df, bakeoff_variables[var])  # Pass the correct dataframe here
 
-    print("\033[94m    Working on -> Applying bakeoff logic to PFTs...\033[94m")
+    print(BOLD + YELLOW + "Applying bakeoff logic to PFTs..." + RESET)
     print()
     
     # Applying Bakeoff Logic by first grouping by col, row & year for each dataset based on NPP
@@ -54,7 +64,7 @@ def main():
     for var, df in result_out.items():
         bakeoff_result[var] = df.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
     
-    print("\033[94m    Working on -> Cleaning dataframes...\033[94m")
+    print(BOLD + YELLOW + "Cleaning dataframes..." + RESET)
     print()
     
     # Cleaning the dataframes by removing the columns that are not needed
@@ -62,7 +72,7 @@ def main():
     for var, df in bakeoff_result.items():
         cleaned_bakeoff_result[var] = clean_dataframe(df)
     
-    print("\033[94m    Working on ->Exporting dataframes to .csv files...\033[94m")
+    print(BOLD + YELLOW + "Exporting dataframes to .csv files..." + RESET)
     print()
     
     # Apply the export_to_csv function to the dataframes
@@ -84,10 +94,10 @@ def main():
     persisting_pft(end_century, end_century_persisting_pft_output_path)
 
    
+    print(BOLD + GREEN + "BIOGEOGRAPHY MODULE COMPLETED SUCCESSFULLY" + RESET)
+    print(CYAN + '_' * terminal_width + RESET)
     print()
-    print("\033[92mDone!\033[0m")
-    
-    print()
+   
 
 # Run the main function only if the script is executed as the main module
 if __name__ == "__main__":

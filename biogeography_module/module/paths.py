@@ -5,12 +5,12 @@ THIS_FOLDER = dependencies.os.path.abspath(dependencies.os.path.dirname(__file__
 
 # Input file paths
 mean_monthly_moisture_stress_path = dependencies.os.path.join(THIS_FOLDER, "biogeo", "input", "MMDI.csv")
-mean_annual_moisture_stress_path = dependencies.os.path.join(THIS_FOLDER, "biogeo", "input", "MDI.csv")
+mean_summer_moisture_stress_path = dependencies.os.path.join(THIS_FOLDER, "biogeo", "input", "MDI.csv")
 climate_path = dependencies.os.path.join(THIS_FOLDER, "biogeo", "input", "temp-gdd-prec.csv")
 climate_limits_path = dependencies.os.path.join(THIS_FOLDER, "biogeo", "input", "bio_limit.csv")
 
 # Create directories if they don't exist
-for path in [mean_monthly_moisture_stress_path, mean_annual_moisture_stress_path, climate_path, climate_limits_path]:
+for path in [mean_monthly_moisture_stress_path, mean_summer_moisture_stress_path, climate_path, climate_limits_path]:
     dir_path = dependencies.os.path.dirname(path)
     if not dependencies.os.path.exists(dir_path):
         dependencies.os.makedirs(dir_path)
