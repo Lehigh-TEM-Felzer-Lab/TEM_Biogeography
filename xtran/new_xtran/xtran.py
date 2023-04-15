@@ -372,7 +372,7 @@ def main():
         terminal_width = default_terminal_width
 
     # Print a line of dashes that fills the terminal width
-    print('\033[94m_\033[0m' * terminal_width)
+
     print()
     
     
@@ -387,7 +387,7 @@ def main():
 
     try:
         print("\033[94m Running xtran to calculate summary statistics for the input file(s) \033[0m")
-        print('\033[94m_\033[0m' * terminal_width)
+       
         print()
         input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
         input_path = os.path.join(os.getcwd(), input_path) # Normalize the path for cross-platform compatibility
@@ -425,7 +425,7 @@ def main():
                 continue
                 
     if not error_occurred:
-        print('_' * terminal_width)
+       
         print()
         print("\033[92mProgram executed successfully! Check 'UNITS.INFO' for variable units and '.SUMMARY' for stats. Thank you!\033[0m")
         print()
