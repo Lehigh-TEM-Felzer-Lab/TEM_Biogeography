@@ -403,8 +403,9 @@ def main():
         input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
         input_path = os.path.join(os.getcwd(), input_path) # Normalize the path for cross-platform compatibility
         file_list, filter_params = get_file_list(input_path)
-        print(BLUE + f"Using {input_path} as input file.\033[0m\n")
-        print(BLUE + f"Number of files to be processed: {len(file_list)}\033[0m")
+        print(BLUE + f"Using {input_path} as input file..."+RESET)
+        print()
+        print(BLUE + f"Number of files to be processed: {len(file_list)}"+RESET)
         print(BLUE + f"Filter parameters to be applied: \033[0m ")
         print(BLUE + TAB+f"Minimum latitude: {filter_params['lat_min']}"+RESET)
         print(BLUE + TAB+f"Maximum latitude: {filter_params['lat_max']}"+RESET)
