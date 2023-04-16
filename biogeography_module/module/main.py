@@ -31,7 +31,7 @@ def main():
         print()
         print(CYAN + '_' * terminal_width + RESET)
         print()
-        print(BOLD + GREEN + "APPLYING BIOGEOGRAPHY MODULE TO TEM OUTPUT DATA" + RESET)
+        print(BOLD + GREEN + "APPLYING BIOGEOGRAPHY MODULE TO DETERMINE PFT DISTRIBUTION" + RESET)
         
         print()
         # Load PFT descriptions from the json file
@@ -58,7 +58,7 @@ def main():
         for i, pft in enumerate(pft_desc_found):
             print(MAGENTA +BOLD+f"      {i+1}. {pft_desc_found[pft]}"+ RESET)
             print()
-        print(BOLD + BLUE + "Number of variables to be processed: " + MAGENTA + f"{len(var_list)}" + RESET)
+        print(BOLD + BLUE + "Number of TEM output data to be processed: " + MAGENTA + f"{len(var_list)}" + RESET)
         print()
 
     
