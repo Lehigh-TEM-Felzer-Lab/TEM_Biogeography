@@ -87,6 +87,6 @@ climate_limits_names = {
 # rename the columns using the dictionary
 climate_limits = climate_limits.rename(columns=climate_limits_names)
 
-print(climate_limits.head())
+
 
 
