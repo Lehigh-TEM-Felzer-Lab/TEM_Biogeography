@@ -321,8 +321,7 @@ def process_file(input_filename,filter_params):
     summary_stats_final=summary_stats_final.drop("REGION",axis=1)
   
     
-    # Add a description column
-    summary_stats_final["DESCRIPTION"] = summary_stats_final["POTVEG"].map(pft_description)
+
     
     # Reorder the columns
     summary_stats_final= summary_stats_final.reindex(columns=['VARIABLE', 'POTVEG','DESCRIPTION', 'YEAR', 'NGRID', 'TOTFORECOZONE', 'MNBYAR', 'MXPRED', 'MNPRED', 'MNTOTYR', 'STNDEV', 'SIMPMN'])

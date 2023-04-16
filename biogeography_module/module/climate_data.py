@@ -72,6 +72,7 @@ with open(climate_limits_path, 'r') as f:
 climate_limits = dependencies.pd.json_normalize(data)
 
 climate_limits_names = {
+    "Description":"DESC",
     "Plant Functional Type": "POTVEG",
     "Subtype": "SUBTYPE",
     "Minimum Growing Degree Days": "MIN_GDD",
@@ -86,6 +87,6 @@ climate_limits_names = {
 # rename the columns using the dictionary
 climate_limits = climate_limits.rename(columns=climate_limits_names)
 
-
+print(climate_limits.head())
 
 
