@@ -22,13 +22,13 @@ root_directory/
 │   ├── input/
 │   │   ├── MMDI.csv
 │   │   ├── MDI.csv
-│   │   ├── temp-gdd-prec.csv
-│   │   └── bio_limit.csv
+│   │  
+│   │   
 │   ├── output_bakeoff/
 
 ```
 
-tem_in.txt is a text file containing the path to an XML file used for the TEM model. The user should run the program in the directory where TEM model was run, specifically in the TEM_Biogeography/runs directory that contains tem_in.txt.
+```tem_in.txt``` is a text file containing the path to an XML file used for the TEM model. The user should run the program in the directory where TEM model was run, specifically in the TEM_Biogeography/runs directory that contains tem_in.txt.
 
 The biogeo directory contains the input and output files for the biogeography module of the TEM model, and main.py is the main program file for this module.
 
@@ -36,15 +36,13 @@ The input directory within biogeo contains the following input files:
 
 MMDI.csv: mean monthly moisture stress
 MDI.csv: mean annual moisture stress
-temp-gdd-prec.csv: climate data
-bio_limit.csv: climate limits
-The output_bakeoff directory
+
 
 
 
 main.py is the main program file that imports and executes the necessary modules and functions to run the TEM biogeography model.
 
-To run the program, the user must have Python 3 installed and all the necessary dependencies installed. They should navigate to the TEM_Biogeography/runs directory and run the main.py, or compiled excutable file. The program will then read the path to the XML file from tem_in.txt and use it to parse the necessary input and output files for the biogeography module of the TEM model. The output files will be generated in the output_bakeoff directory within the biogeo directory.
+To run the program, the user must have Python 3 installed and all the necessary dependencies installed. They should navigate to the TEM_Biogeography/runs directory and run the ```main.py```, or compiled excutable of main.py. paths to file should be provided in ```paths.xml``` The program will then read the path to the XML that was used to run TEM from tem_in.txt and use it to parse the necessary input and output files for the biogeography module of the TEM model. The output files will be generated in the output_bakeoff directory within the biogeo directory.
 
    
 

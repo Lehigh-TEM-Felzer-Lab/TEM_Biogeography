@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <file_paths>
+        <input_files>
+            <mean_monthly_moisture_stress>biogeo/input/MMDI.csv</mean_monthly_moisture_stress>
+            <mean_summer_moisture_stress>biogeo/input/MDI.csv</mean_summer_moisture_stress>
+            <temperature_data>biogeo/input/tair_west.csv</temperature_data>
+            <precipitation_data>biogeo/input/prec_west.csv</precipitation_data>
+            <climate_limits>pft_climate_limits.json</climate_limits>
+            <pft_description>pfts_description.json</pft_description>
+        </input_files>
+        <output_files>
+            <npp_bakeoff_results>biogeo/output_bakeoff/npp_bakeoff_result.csv</npp_bakeoff_results>
+            <early_century_persisting_pft_output>biogeo/output_bakeoff/2015-2045_bakeoff.csv</early_century_persisting_pft_output>
+            <mid_century_persisting_pft_output>biogeo/output_bakeoff/2045-2070_bakeoff.csv</mid_century_persisting_pft_output>
+            <end_century_persisting_pft_output>biogeo/output_bakeoff/2070-100_bakeoff.csv</end_century_persisting_pft_output>
+            <bakeoff_results_dir>biogeo/output_bakeoff</bakeoff_results_dir>
+        </output_files>
+    </file_paths>
+

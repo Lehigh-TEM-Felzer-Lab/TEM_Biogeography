@@ -5,5 +5,13 @@
         "ostream": "cpp",
         "iosfwd": "cpp"
     },
-    "workbench.iconTheme": "vscode-icons"
+    "workbench.iconTheme": "material-icon-theme",
+    "vsicons.presets.jsonOfficial": false,
+    "vsicons.presets.hideExplorerArrows": false,
+    "vsicons.presets.foldersAllDefaultIcon": false,
+    "vsicons.presets.angular": false,
+    "vsicons.presets.hideFolders": false,
+    "vsicons.presets.jsOfficial": false,
+    "material-icon-theme.files.color": "#90a4ae",
+    "material-icon-theme.folders.color": "#90a4ae"
 }
