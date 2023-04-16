@@ -1,20 +1,62 @@
 import dependencies 
+from tem_output_data import iprecfname, itairfname, tem_xml_path
 
 # Get the current working directory
 THIS_FOLDER = dependencies.os.path.abspath(dependencies.os.path.dirname(__file__))
 
+
 # Parse the XML file
-xml_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath('./paths.xml'))
-print('Reading paths from: ' + xml_path)
-tree = dependencies.ET.parse(xml_path)
+biogeo_xml_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath('./paths.xml'))
+print('Reading paths from: ' + biogeo_xml_path)
+print()
+tree = dependencies.ET.parse(biogeo_xml_path)
 root = tree.getroot()
+
+
+
+
 
 # Construct input file paths
 input_files = root.find('input_files')
 mean_monthly_moisture_stress_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath(input_files.find('mean_monthly_moisture_stress').text))
 mean_summer_moisture_stress_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath(input_files.find('mean_summer_moisture_stress').text))
-temperature_data_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath(input_files.find('temperature_data').text))
-precipitation_data_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath(input_files.find('precipitation_data').text))
+
+
+# Get the paths to the climate data files
+def find_file(file_name):
+    return dependencies.os.path.abspath(file_name)
+
+# Attempt to find the files with the initial names
+temperature_data_path_from_tem_xml = find_file(dependencies.os.path.join(THIS_FOLDER, itairfname))
+precipitation_data_path_from_tem_xml = find_file(dependencies.os.path.join(THIS_FOLDER, iprecfname))
+
+if dependencies.os.path.exists(temperature_data_path_from_tem_xml) and dependencies.os.path.exists(precipitation_data_path_from_tem_xml):
+    print(f"Using climate data path obtained from XML used for TEM input: {tem_xml_path}")
+    
+    temperature_data_path = temperature_data_path_from_tem_xml
+    precipitation_data_path = precipitation_data_path_from_tem_xml
+    
+    print(temperature_data_path)
+    print(precipitation_data_path)
+    
+else:
+    # Use the alternative paths if the initial files are not found
+    temperature_data_path_from_path_xml = find_file(dependencies.os.path.join(THIS_FOLDER, input_files.find('temperature_data').text))
+    precipitation_data_path_from_path_xml = find_file(dependencies.os.path.join(THIS_FOLDER, input_files.find('precipitation_data').text))
+
+    if dependencies.os.path.exists(temperature_data_path_from_path_xml) and dependencies.os.path.exists(precipitation_data_path_from_path_xml):
+        print(f"Using climate data from paths defined in: {biogeo_xml_path}")
+        
+        temperature_data_path = temperature_data_path_from_path_xml
+        precipitation_data_path = precipitation_data_path_from_path_xml
+        
+        print(temperature_data_path)
+        print(precipitation_data_path)
+    else:
+        print("Error: temperature and precipitation data not found in specified paths, check paths.xml or TEM input XML file!")
+
+
+
 climate_limits_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath(input_files.find('climate_limits').text))
 pft_description_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath(input_files.find('pft_description').text))
 
@@ -37,5 +79,6 @@ for path in [early_century_persisting_pft_output_path, mid_century_persisting_pf
     if not dependencies.os.path.exists(dir_path):
         dependencies.os.makedirs(dir_path)
 
-
+print()
+print()
 

@@ -1,6 +1,6 @@
 import dependencies 
 
-
+print()
 # columns names for all TEM  outputs (NPP, VEGC, NEP, AVAILN, GPP, H2OYIELD, NETNMIN, SMOIS, SOILORGC, VEGINNPP, NCE)
 var_cols = [
     "LON",          # The longitude coordinate of the location being modelled.
@@ -33,27 +33,36 @@ txt_filepath = dependencies.os.path.join(dependencies.os.getcwd(), "tem_in.txt")
 
 try:
     with open(txt_filepath, 'r') as f:
-        xml_file_path = f.read().strip()
+        tem_xml_path = f.read().strip()
+        print(f"XML file used to run TEM found in txt file 'tem_in.txt': {tem_xml_path}")
 except FileNotFoundError:
     print("\033[91m" + f"ERROR: txt file not found: {txt_filepath}" + "\033[0m")
-    xml_file_path = None
+    tem_xml_path = None
 except UnicodeDecodeError:
     print("\033[91m" + f"ERROR: txt file is blank: {txt_filepath}" + "\033[0m")
-    xml_file_path = None
+    tem_xml_path = None
 
-if xml_file_path:
+if tem_xml_path:
     # Parse the XML
     try:
-        tree = dependencies.ET.parse(xml_file_path)
+        tree = dependencies.ET.parse(tem_xml_path)
         root = tree.getroot()
     except FileNotFoundError:
-        print("\033[91m" + f"ERROR: xml file path not found in txt file: {xml_file_path}" + "\033[0m")
+        print("\033[91m" + f"ERROR: xml file path not found in txt file: {tem_xml_path}" + "\033[0m")
         root = None
     
     if root:
         # Get temoutvars and temoutfiles from the XML
         temoutvars = root.find('temoutvars').text
         temoutfiles = root.find('temoutfiles').text
+        itairfname = root.find('itairfname').text
+        itairend = root.find('itairend').text
+        iprecfname = root.find('iprecfname').text
+        iprecend = root.find('iprecend').text
+        itairfname = itairfname + itairend
+        iprecfname = iprecfname + iprecend
+        
+       
 
         # Split the comma-separated strings and store them in dictionaries
         var_list = temoutvars.split(',')
