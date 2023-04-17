@@ -63,7 +63,6 @@ climate["TOTAL_PREC"] = precipitation_data["TOTAL"] # Total annual precipitation
 
 
 
-
 # load the JSON data
 with open(climate_limits_path, 'r') as f:
     data = dependencies.json.load(f)

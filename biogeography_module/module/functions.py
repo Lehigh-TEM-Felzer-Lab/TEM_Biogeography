@@ -2,6 +2,7 @@ import dependencies
 from tem_output_data import var_cols
 
 
+
 # Function to merge bakeoff variables
 def merge_variables(df, climate_limits, climate, moisture_stress):
     # Merge the dataframe with climate_limits on potveg and subtype columns
@@ -83,3 +84,4 @@ def persisting_pft(df, path):
     
     persisting_pft.to_csv( path, index=False, header=False)
     return persisting_pft
+

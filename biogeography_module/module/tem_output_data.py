@@ -38,9 +38,11 @@ try:
 except FileNotFoundError:
     print("\033[91m" + f"ERROR: txt file not found: {txt_filepath}" + "\033[0m")
     tem_xml_path = None
+    exit(1)
 except UnicodeDecodeError:
     print("\033[91m" + f"ERROR: txt file is blank: {txt_filepath}" + "\033[0m")
     tem_xml_path = None
+    exit(1)
 
 if tem_xml_path:
     # Parse the XML
@@ -50,17 +52,18 @@ if tem_xml_path:
     except FileNotFoundError:
         print("\033[91m" + f"ERROR: xml file path not found in txt file: {tem_xml_path}" + "\033[0m")
         root = None
+        exit(1)
     
     if root:
         # Get temoutvars and temoutfiles from the XML
         temoutvars = root.find('temoutvars').text
         temoutfiles = root.find('temoutfiles').text
-        itairfname = root.find('itairfname').text
-        itairend = root.find('itairend').text
-        iprecfname = root.find('iprecfname').text
-        iprecend = root.find('iprecend').text
-        itairfname = itairfname + itairend
-        iprecfname = iprecfname + iprecend
+        itairfname = root.find('itairfname').text + root.find('itairend').text
+        iprecfname = root.find('iprecfname').text + root.find('iprecend').text
+        clmstartyr = root.find('clmstartyr').text
+        mxnumgrid = root.find('mxnumgrid').text
+        transtime = root.find('transtime').text
+       
         
        
 

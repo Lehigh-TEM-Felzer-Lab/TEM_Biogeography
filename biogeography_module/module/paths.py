@@ -7,13 +7,16 @@ THIS_FOLDER = dependencies.os.path.abspath(dependencies.os.path.dirname(__file__
 
 # Parse the XML file
 biogeo_xml_path = dependencies.os.path.join(THIS_FOLDER, dependencies.os.path.abspath('./paths.xml'))
-print('Reading paths from: ' + biogeo_xml_path)
+
 print()
-tree = dependencies.ET.parse(biogeo_xml_path)
-root = tree.getroot()
-
-
-
+try:
+    tree = dependencies.ET.parse(biogeo_xml_path)
+    root = tree.getroot()
+    print('Reading paths from: ' + biogeo_xml_path)
+except FileNotFoundError:
+    print(f"\033[31mError: File not found: {biogeo_xml_path}\033[0m", file=dependencies.sys.stderr)
+    exit(1)
+    
 
 
 # Construct input file paths
@@ -54,6 +57,7 @@ else:
         print(precipitation_data_path)
     else:
         print("Error: temperature and precipitation data not found in specified paths, check paths.xml or TEM input XML file!")
+        exit(1)
 
 
 

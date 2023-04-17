@@ -2,7 +2,7 @@ import dependencies
 from paths import npp_bakeoff_results_path, early_century_persisting_pft_output_path, mid_century_persisting_pft_output_path, end_century_persisting_pft_output_path,bakeoff_results_dir_path,pft_description_path
 from climate_data import climate, climate_limits
 from moisture_stress_data import mean_summer_moisture_stress
-from tem_output_data import dataframes,var_cols,var_list
+from tem_output_data import dataframes,var_cols,var_list, clmstartyr, mxnumgrid, transtime
 from functions import merge_variables, determine_possible_pft, possible_pft_with_max_npp, clean_dataframe, export_to_csv, persisting_pft
 
 # ANSI color codes
@@ -31,9 +31,27 @@ def main():
         print()
         print(CYAN + '_' * terminal_width + RESET)
         print()
-        print(BOLD + GREEN + "APPLYING BIOGEOGRAPHY MODULE TO DETERMINE PFT DISTRIBUTION" + RESET)
-        
+        print(BOLD + GREEN + "APPLYING BIOGEOGRAPHY MODULE TO DETERMINE PFT DISTRIBUTION" + RESET)      
         print()
+        
+        print(BOLD + BLUE + "Running module staring from: " + RESET + CYAN+BOLD +f"{clmstartyr}" + RESET)
+        print(BOLD + BLUE + "Running module for: " + RESET + CYAN+BOLD +f"{transtime} years" + RESET)
+        print(BOLD + BLUE + "Number of grid cells: " + RESET + CYAN+BOLD +f"{mxnumgrid}" + RESET)
+        
+
+        lon_unique = dataframes['npp']['LON'].unique()
+        lat_unique = dataframes['npp']['LAT'].unique()
+
+        if len(lon_unique) > 1 and len(lat_unique) > 1:
+            lon_resolution = abs(lon_unique[1] - lon_unique[0])
+            lat_resolution = abs(lat_unique[1] - lat_unique[0])
+            print(f"{BOLD + BLUE}Data resolution: {RESET}  {BOLD+ CYAN} {lon_resolution} x {lat_resolution} degrees {RESET}")
+        else:
+            print(BOLD+RED+"Unable to determine data resolution."+RESET)
+            
+        print()
+     
+        
         # Load PFT descriptions from the json file
         with open(pft_description_path, "r") as f:
             pft_descriptions = dependencies.json.load(f)["pft_description"]
@@ -117,7 +135,8 @@ def main():
         persisting_pft(early_century, early_century_persisting_pft_output_path)
         persisting_pft(mid_century, mid_century_persisting_pft_output_path)
         persisting_pft(end_century, end_century_persisting_pft_output_path)
-
+        
+        
     
         print(BOLD + GREEN + "BIOGEOGRAPHY MODULE COMPLETED SUCCESSFULLY" + RESET)
         print(CYAN + '_' * terminal_width + RESET)
