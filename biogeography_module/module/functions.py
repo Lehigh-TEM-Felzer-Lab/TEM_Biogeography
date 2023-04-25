@@ -64,24 +64,19 @@ def export_to_csv(df, file_name):
 
     
     
- 
-# Function to Count which PFT have the max Total NPP (30 Year Period) after applying  Bioclimatic Limits and the NPP bakeoff
+ # Function to Count which PFT have the max Total NPP (30 Year Period) after applying  Bioclimatic Limits and the NPP bakeoff
 def persisting_pft(df, path):
-    # Count the number of times each PFT has the max Total NPP (30 Year Period) after applying  Bioclimatic Limits and the NPP bakeoff
-    count_max_npp = (
-        dependencies.pd.DataFrame(df.groupby(["LON", "LAT"])["POTVEG"].value_counts())
-        .rename(columns={"POTVEG": "COUNT"})
-        .reset_index()
-    )
-    # Merge the count datasets with the original datasets to get the PFT with max NPP in each gridcell
-    persisting_pft = dependencies.pd.merge(
-        count_max_npp.groupby(["LON", "LAT"]).agg({"COUNT": "max"}).reset_index(),
-        count_max_npp,
-        on=["LON", "LAT", "COUNT"],
-    )
-    # delete unwanted 'count' column
+    # Count the number of times each PFT has the max Total NPP (30 Year Period) after applying Bioclimatic Limits and the NPP bakeoff
+    count_max_npp = df.groupby(["LON", "LAT", "POTVEG"]).size().reset_index(name="COUNT")
+  
+    # Find the PFT with the max NPP in each grid cell
+    idx = count_max_npp.groupby(["LON", "LAT"])["COUNT"].transform(max) == count_max_npp["COUNT"]
+    persisting_pft = count_max_npp[idx]
+
+ 
+    # Delete the unwanted 'count' column
     del persisting_pft["COUNT"]
-    
-    persisting_pft.to_csv( path, index=False, header=False)
+
+    persisting_pft.to_csv(path, index=False, header=False)
     return persisting_pft
 
