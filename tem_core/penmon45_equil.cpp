@@ -492,7 +492,7 @@ double Penmon45::actevap(const int &pdcmnt, const double &nirr, const double &lw
     if (snowcover > 0.0)
     {
         totalbedo = albedo[pdcmnt] * (1.0 - exp(-kext[pdcmnt] * lai)) + 0.5 * exp(-kext[pdcmnt] * lai);
-        // rnsoil = 0.8 * (0.5 * nirr - lwout) * exp(-kext[pdcmnt] * lai);
+        
         rnsoil = 0.8 * (0.5 * nirr - lwcor) * exp(-kext[pdcmnt] * lai);
     }
     else
@@ -524,21 +524,8 @@ double Penmon45::actevap(const int &pdcmnt, const double &nirr, const double &lw
     etsw = (wc * pmc + ws * pms); // W m^-2
     etsw_watts = etsw;
 
-    if (etsw > ZERO) // sensible heat flux: residual
-    {
-        shflux = rn - 0.25 * rnsoil - etsw;
-    }
-    netrad = nirr - lwout;
-    vpdo = vpd + r_aa * (beta * rn - (beta + PSY * exp_h) * etsw) / (CPAIR * RHOAIR * exp_h);
 
-    ga = (1 / r_aa) + (1 / r_ac) + (1 / r_as); // the total aerodynamic conductance
-    gs = (1 / r_ss) + (1 / r_sc);              // the total  surface conductance
-
-    G = (netrad) - (etsw_watts * LAMBDA) - shflux; // Soil Heat Flux G=Rn -LE-H
-    aet = (((beta) * (netrad - G)) + (RHOAIR * CPAIR * (vpdo)*ga)) /
-          ((((beta) + (PSY)) * (1 + (ga / gs))) * LAMBDA); // Actual Evaporation Rate
-
-    return aet; // Final actual evapotranspiration
+    return etsw_watts;
 };
 
 /* *************************************************************
@@ -579,6 +566,10 @@ double Penmon45::potevap(const int &pdcmnt, const double &nirr, const double &lw
     double G;          // soil heat flux (storage)
     double etsw_watts; // actual evapotranspiration rate Wm^2
     double ga;         // the total aerodynamic conductance
+
+    double gaa;
+    double gcc;
+    double gss;
 
     //  double num,den;
     double exp_h;
@@ -678,11 +669,12 @@ double Penmon45::potevap(const int &pdcmnt, const double &nirr, const double &lw
     netrad = nirr - lwout;
     vpdo = vpd + r_aa * (beta * rn - (beta + PSY * exp_h) * etsw) / (CPAIR * RHOAIR * exp_h);
 
-    ga = (1 / r_aa) + (1 / r_ac) + (1 / r_as); // the total aerodynamic conductance
+    gaa=1/r_aa;
+    gcc = 1 / (r_sc + r_ac);
+    gss = 1 / (r_as + r_ss);
+    pet = etsw_watts * (1 + (gaa / (gcc + gss)));
 
-    G = (netrad) - (etsw_watts * LAMBDA) - shflux; // Soil Heat Flux G=Rn -LE-H
-    pet = (((beta) * (netrad - G)) + (RHOAIR * CPAIR * (vpdo)*ga)) /
-          (((beta) + (PSY)) * LAMBDA); // Potential evapotranspiration Rate
+  
 
     return pet; // Final  potential evapotranspiration
 };
