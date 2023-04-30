@@ -4,12 +4,30 @@ import pandas as pd
 
 
 base_path = r"T:\m8\kodero\runs"
-model_names = ['bcc_csm1_1', 'bcc_csm1_1_m', 'bnu_esm', 'canesm2', 'ccsm4', 'cnrm_cm5', 'csiro_mk3_6_0', 
-            'gfdl_esm2g', 'gfdl_esm2m', 'hadgem2_cc365', 'hadgem2_es365', 'inmcm4', 'ipsl_cm5a_lr',
-            'ipsl_cm5a_mr', 'ipsl_cm5b_lr', 'miroc5', 'miroc_esm', 'miroc_esm_chem', 'mri_cgcm3',
-            'noresm1_m']
+model_names = [
+    "bcc_csm1_1",
+    "bcc_csm1_1_m",
+    "bnu_esm",
+    "canesm2",
+    "ccsm4",
+    "cnrm_cm5",
+    "csiro_mk3_6_0",
+    "gfdl_esm2g",
+    "gfdl_esm2m",
+    "hadgem2_cc365",
+    "hadgem2_es365",
+    "inmcm4",
+    "ipsl_cm5a_lr",
+    "ipsl_cm5a_mr",
+    "ipsl_cm5b_lr",
+    "miroc5",
+    "miroc_esm",
+    "miroc_esm_chem",
+    "mri_cgcm3",
+    "noresm1_m",
+]
 
-climate ="climate"
+climate = "climate"
 
 for model_name in model_names:
     was_path = os.path.join(base_path, model_name, climate)
@@ -17,42 +35,62 @@ for model_name in model_names:
     for file in os.listdir(was_path):
         if file.startswith("was_"):
             # read the file into a pandas DataFrame
-            df = pd.read_csv(os.path.join(was_path, file),
-                             names=[
-                                "LON",
-                                "LAT",
-                                "VARNAME",
-                                "AREA",
-                                "YEAR",
-                                "TOTAL",
-                                "MAX",
-                                "AVE",
-                                "MIN",
-                                "JAN",
-                                "FEB",
-                                "MAR",
-                                "APR",
-                                "MAY",
-                                "JUN",
-                                "JUL",
-                                "AUG",
-                                "SEP",
-                                "OCT",
-                                "NOV",
-                                "DEC",
-                                "REGION",
-                            ])
-            
+            df = pd.read_csv(
+                os.path.join(was_path, file),
+                names=[
+                    "LON",
+                    "LAT",
+                    "VARNAME",
+                    "AREA",
+                    "YEAR",
+                    "TOTAL",
+                    "MAX",
+                    "AVE",
+                    "MIN",
+                    "JAN",
+                    "FEB",
+                    "MAR",
+                    "APR",
+                    "MAY",
+                    "JUN",
+                    "JUL",
+                    "AUG",
+                    "SEP",
+                    "OCT",
+                    "NOV",
+                    "DEC",
+                    "REGION",
+                ],
+            )
+
             print(was_path, file)
             # group by LON and LAT, take the mean of all columns, set YEAR to -999, and round monthly values to 1 decimal place
-            df = df.groupby(['LON', 'LAT'], as_index=False).agg({"AREA": "mean", "TOTAL": "mean", "MAX": "mean", "AVE": "mean", "MIN": "mean", "JAN": "mean", "FEB": "mean", "MAR": "mean", "APR": "mean", "MAY": "mean", "JUN": "mean", "JUL": "mean", "AUG": "mean", "SEP": "mean", "OCT": "mean", "NOV": "mean", "DEC": "mean"})
-            df['YEAR'] = -999
+            df = df.groupby(["LON", "LAT"], as_index=False).agg(
+                {
+                    "AREA": "mean",
+                    "TOTAL": "mean",
+                    "MAX": "mean",
+                    "AVE": "mean",
+                    "MIN": "mean",
+                    "JAN": "mean",
+                    "FEB": "mean",
+                    "MAR": "mean",
+                    "APR": "mean",
+                    "MAY": "mean",
+                    "JUN": "mean",
+                    "JUL": "mean",
+                    "AUG": "mean",
+                    "SEP": "mean",
+                    "OCT": "mean",
+                    "NOV": "mean",
+                    "DEC": "mean",
+                }
+            )
+            df["YEAR"] = -999
             df["VARNAME"] = " WIND "
-            df['REGION']= " WEST "
-   
-            
-            
-          # Round columns to specified data types
+            df["REGION"] = " WEST "
+
+            # Round columns to specified data types
             # Set individual columns to specified data types
             df["LON"] = df["LON"].astype(float).round(4)
             df["LAT"] = df["LAT"].astype(float).round(4)
@@ -78,10 +116,34 @@ for model_name in model_names:
             df["DEC"] = df["DEC"].astype(float).round(1)
 
             # Rearrange columns in the desired order
-            df = df[["LON", "LAT", "VARNAME", "AREA", "YEAR", "TOTAL", "MAX", "AVE", "MIN",
-                    "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "REGION"]]
+            df = df[
+                [
+                    "LON",
+                    "LAT",
+                    "VARNAME",
+                    "AREA",
+                    "YEAR",
+                    "TOTAL",
+                    "MAX",
+                    "AVE",
+                    "MIN",
+                    "JAN",
+                    "FEB",
+                    "MAR",
+                    "APR",
+                    "MAY",
+                    "JUN",
+                    "JUL",
+                    "AUG",
+                    "SEP",
+                    "OCT",
+                    "NOV",
+                    "DEC",
+                    "REGION",
+                ]
+            ]
             print()
-            
+
             print(df.head(5))
             print()
             print()
