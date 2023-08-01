@@ -5472,7 +5472,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     //  ag.setCONVRTFLXC(0.0);
     // fireoccur = 0;
     stormoccur = 0;
-    //  cout << "convertcflx = " << ag.getCONVRTFLXC() << endl;
+    //  cout << "convertcflx = "<< ag.getCONVRTFLXC() << endl;
 
     // Count the number of months since disturbance
 
