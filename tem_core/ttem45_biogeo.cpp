@@ -5378,14 +5378,14 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     }
 
     // check if fire occurs
-    bool FOREST_FIRE = false; // initialize to false
+    bool FIRE = false; // initialize to false
     if (p >= FIRE_PROB_THRESHOLD && (double)rand() / RAND_MAX < p)
     {
-        FOREST_FIRE = true; // set to true if probability is high enough and random number is less than probability
+        FIRE = true; // set to true if probability is high enough and random number is less than probability
     }
 
     // if fire occurs, set fireoccur to 1 and increment fire count
-    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FOREST_FIRE == true))
+    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FIRE == true))
     {
         fireoccur = 1;
         firecount[ichrt]++; // Increment fire count

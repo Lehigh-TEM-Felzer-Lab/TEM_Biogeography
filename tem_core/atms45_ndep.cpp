@@ -128,10 +128,10 @@ double Atms45::daylength(const float &lat, const int &dm)
         }
     }
 
-    //  dayl = sumdayl / (double) ndays[dm];
+
     dayl = sumdayl / sumdaymonth;
 
-    //  cout << "diag = " << dm << " " << dayl << " " << lat << endl;
+
 
     return dayl;
 };

@@ -427,11 +427,8 @@ double Penmon45::actevap(const int &pdcmnt, const double &nirr, const double &lw
     double etsw;             // Final Actual Evapotranspiration mm/month
     double netrad;
 
-    double aet;        // actual evaporation rate
-    double G;          // soil heat flux (storage)
+    double aet;        // actual evaporation rate mm/month
     double etsw_watts; // actual evapotranspiration rate Wm^2
-    double ga;         // the total aerodynamic conductance
-    double gs;         // the total  surface conductance
 
     //  double num,den;
     double exp_h;
@@ -563,15 +560,9 @@ double Penmon45::potevap(const int &pdcmnt, const double &nirr, const double &lw
     double netrad;
 
     double pet;        // Potential evapotranspiration Rate
-    double G;          // soil heat flux (storage)
-    double etsw_watts; // actual evapotranspiration rate Wm^2
-    double ga;         // the total aerodynamic conductance
+    double etsw_watts; // actual evapotranspiration rate Wm^2\
 
-    double gaa;
-    double gcc;
-    double gss;
-
-    //  double num,den;
+     //  double num,den;
     double exp_h;
 
     setBETA(tmean);
@@ -669,10 +660,8 @@ double Penmon45::potevap(const int &pdcmnt, const double &nirr, const double &lw
     netrad = nirr - lwout;
     vpdo = vpd + r_aa * (beta * rn - (beta + PSY * exp_h) * etsw) / (CPAIR * RHOAIR * exp_h);
 
-    gaa=1/r_aa;
-    gcc = 1 / (r_sc + r_ac);
-    gss = 1 / (r_as + r_ss);
-    pet = etsw_watts * (1 + (gaa / (gcc + gss)));
+      
+    pet = etsw_watts * (1 + ((1/r_aa) / ((1 / (r_sc + r_ac)) + (1 / (r_as + r_ss)))));
 
   
 
