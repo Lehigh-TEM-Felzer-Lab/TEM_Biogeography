@@ -4,13 +4,13 @@ set -euo pipefail
 
 cd .
 # Directories
-tem_core="/tem_core"
 tem_biogeography="."
+tem_core="$tem_biogeography/tem_core"
 runs="$tem_biogeography/runs"
 biogeography_module="$tem_biogeography/biogeography_module/module"
 data="$biogeography_module/biogeo"
 output_bakeoff="$data/output_bakeoff"
-xtran="$xtran/new_xtran"
+process="$tem_biogeography/xtran/new_xtran"
 
 
 
@@ -70,12 +70,11 @@ python main.py
 
 wait 
 
-cd "$xtran"
+cd "$process"
 python xtran.py
 
 wait
 
 echo "Done!"
-
 
 
