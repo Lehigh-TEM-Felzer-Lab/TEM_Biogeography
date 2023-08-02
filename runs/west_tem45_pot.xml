@@ -71,7 +71,7 @@
   <icldsend>missing</icldsend>
 
     <!-- inirrfname (string): input filename for nirr data -->
-  <inirrfname>/TEM_biogeography/runs/climate_data/west_ccsm4_rcp8.5_nirr_2015_2099</inirrfname>
+  <inirrfname>./climate_data/west_ccsm4_rcp8.5_nirr_2015_2099</inirrfname>
 
     <!-- inirrend (string): input file extension for nirr data - only used if xtcldsflag is 1 -->
   <inirrend>.csv</inirrend>
@@ -92,7 +92,7 @@
   <xttairflag>1</xttairflag>
 
     <!-- itairfname (string): input filename for tair data -->
-    <itairfname>/TEM_biogeography/runs/climate_data/west_ccsm4_rcp8.5_tair_2015_2099</itairfname>
+    <itairfname>./climate_data/west_ccsm4_rcp8.5_tair_2015_2099</itairfname>
 
     <!-- itairend (string): input file extension for tair data - only used if xttairflag is 1 -->
   <itairend>.csv</itairend>
@@ -101,7 +101,7 @@
   <xtprecflag>1</xtprecflag>
 
     <!-- iprecfname (string): input filename for prec data -->
-    <iprecfname>/TEM_biogeography/runs/climate_data/west_ccsm4_rcp8.5_prec_2015_2099</iprecfname>
+    <iprecfname>./climate_data/west_ccsm4_rcp8.5_prec_2015_2099</iprecfname>
 
     <!-- iprecend (string): input file extension for prec data - only used if xtprecflag is 1 -->
   <iprecend>.csv</iprecend>
@@ -110,7 +110,7 @@
   <xttrangeflag>1</xttrangeflag>
 
     <!-- itrangefname (string): input filename for trange data -->
-  <itrangefname>/TEM_biogeography/runs/climate_data/west_ccsm4_rcp8.5_dtr_2015_2099</itrangefname>
+  <itrangefname>./climate_data/west_ccsm4_rcp8.5_dtr_2015_2099</itrangefname>
 
     <!-- itrangeend (string): input file extension for trange data - only used if xttrangeflag is 1 -->
   <itrangeend>.csv</itrangeend>
@@ -119,7 +119,7 @@
   <xtvprflag>1</xtvprflag>
     
     <!-- ivprfname (string): input filename for vpr data -->
-  <ivprfname>/TEM_biogeography/runs/climate_data/west_ccsm4_rcp8.5_vpr_2015_2099</ivprfname>
+  <ivprfname>./climate_data/west_ccsm4_rcp8.5_vpr_2015_2099</ivprfname>
 
     <!-- ivprend (string): input file extension for vpr data - only used if xtvprflag is 1 -->
   <ivprend>.csv</ivprend>
@@ -134,7 +134,7 @@
   <xtco2flag>1</xtco2flag>
 
     <!-- ico2fname (string): input filename for co2 data -->
-  <ico2fname>/TEM_biogeography/runs/climate_data/rcpCO2_2015_2099.data</ico2fname>
+  <ico2fname>./climate_data/rcpCO2_2015_2099.data</ico2fname>
 
     <!-- ico2end (string): input file extension for co2 data - not used -->
   <ico2end>.hvd</ico2end>
@@ -143,7 +143,7 @@
   <xto3flag>0</xto3flag>
 
     <!-- io3fname (string): input filename for o3 data -->
-  <io3fname>/TEM_biogeography/runs/climate_data/west_ioo3baucru_2014lf</io3fname>
+  <io3fname>./climate_data/west_ioo3baucru_2014lf</io3fname>
   
     <!-- io3end (string): input file extension for o3 data - only used if xto3flag is 1 -->
   <io3end>.csv</io3end>
@@ -152,13 +152,13 @@
   <xtndepflag>0</xtndepflag>
 
     <!-- ndepfname (string): input filename for nitrogen deposition data -->
-  <ndepfname>/TEM_biogeography/runs/climate_data/west_ndeplf_2014</ndepfname>
+  <ndepfname>./climate_data/west_ndeplf_2014</ndepfname>
 
     <!-- ndepend (string): input filename for nitrogen deposition data -->
   <ndepend>.csv</ndepend>
 
     <!-- iws10fname (string): input filename for long-term average windspeed data -->
-  <iws10fname>/TEM_biogeography/runs/climate_data/west_windlf.csv</iws10fname>
+  <iws10fname>./climate_data/west_windlf.csv</iws10fname>
 
     <!-- clmoutflag (int): write climate data to files (1) or do not (0) -->
   <clmoutflag>1</clmoutflag>
@@ -173,19 +173,19 @@
     <clmoutfiles>missing</clmoutfiles>  
 
     <!-- cmntecd (string): file describing vegetation mosaics as assemblages of pfts -->
-  <cmntecd>/TEM_biogeography/runs/climate_dat_files/temhydro_combo/tcomm45_lulc.ecd</cmntecd>
+  <cmntecd>./dat_files/tcomm45_lulc.ecd</cmntecd>
  
     <!-- tlclucflag (int): specifies transient (1) or static (0) land use and land cover datasets -->
   <tlulcflag>0</tlulcflag>
 
     <!-- imxcohrtfname (string): filename for maximum cohorts input -->
-  <imxcohrtfname>/TEM_biogeography/runs/climate_data/west_cruHurtt3.2.1potmxcohrtsr_hurttlf</imxcohrtfname>
+  <imxcohrtfname>./climate_data/west_cruHurtt3.2.1potmxcohrtsr_hurttlf</imxcohrtfname>
 
     <!-- imxcohrtend (string): file extension for maximum cohorts input -->
   <imxcohrtend>.csv</imxcohrtend>
 
     <!-- ilulcfname (string): filename for cohorts input -->
-  <ilulcfname>/TEM_biogeography/runs/climate_data/west_cruHurtt3.2.1potlulccohrtsr_hurttlf</ilulcfname>
+  <ilulcfname>./climate_data/west_cruHurtt3.2.1potlulccohrtsr_hurttlf</ilulcfname>
 
     <!-- ilulcend (string): file extension for cohorts input --> 
   <ilulcend>.csv</ilulcend>
@@ -263,19 +263,19 @@
   <maxitmon>200</maxitmon>
 
     <!-- rootzecd (string): filename for rooting-depth parameters -->
-  <rootzecd>/TEM_biogeography/runs/dat_files/temhydro_combo/trotz45_lulc.ecd</rootzecd>
+  <rootzecd>./dat_files/trotz45_lulc.ecd</rootzecd>
 
     <!-- vegecd (string): filename for vegetation parameters -->
-  <vegecd>/TEM_biogeography/runs/dat_files/temhydro_combo/tveg45_lulc.ecd</vegecd>
+  <vegecd>./dat_files/tveg45_lulc.ecd</vegecd>
 
     <!-- conductecd (string): filename for stomatal conductance and hydraulic parameters -->
-  <conductecd>/TEM_biogeography/runs/dat_files/temhydro_combo/tconduct45_lulc.ecd</conductecd>
+  <conductecd>./dat_files/tconduct45_lulc.ecd</conductecd>
 
     <!-- mcrbecd (string): filename for microbial parameters -->
-  <mcrbecd>/TEM_biogeography/runs/dat_files/temhydro_combo/tmcrv45_lulc.ecd</mcrbecd>
+  <mcrbecd>./dat_files/tmcrv45_lulc.ecd</mcrbecd>
 
     <!-- agecd (string): filename for agricultural parameters -->
-  <agecd>/TEM_biogeography/runs/dat_files/temhydro_combo/ag45_lulc.ecd</agecd>
+  <agecd>./dat_files/ag45_lulc.ecd</agecd>
 
     <!-- agtillflag (int): specifies whether tillage is (1) or is not (0) used in agriculture -->
   <agtillflag>0</agtillflag>
@@ -287,13 +287,13 @@
   <agfertflag>0</agfertflag>
 
     <!-- datfilenames (string): comma-delimited list of filenames with parameters that are calibrated for each pft; need to have MAXCMNT-1 files, but not all of them need to be actually calibrated if the pft isn't present in the run -->
-  <datfilenames>/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/ice45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/tpd45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/bnz45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/hvc45_openn_dndc.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/hvd45_openn_dndc.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/knz45_openn_303_ag0.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/pwn45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/cur45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/duc45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/gux45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/gum45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/kbm45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/tai45_openn_303.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/knz45_openn_303_ag2.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/rodale_openn_303_ag2.dat,/TEM_biogeography/runs/dat_files/temhydro_combo/temhydro_cwd/turf45_openn_303.dat</datfilenames>
+  <datfilenames>./dat_files/temhydro_cwd/ice45_openn_303.dat,./dat_files/temhydro_cwd/tpd45_openn_303.dat,./dat_files/temhydro_cwd/bnz45_openn_303.dat,./dat_files/temhydro_cwd/hvc45_openn_dndc.dat,./dat_files/temhydro_cwd/hvd45_openn_dndc.dat,./dat_files/temhydro_cwd/knz45_openn_303_ag0.dat,./dat_files/temhydro_cwd/pwn45_openn_303.dat,./dat_files/temhydro_cwd/cur45_openn_303.dat,./dat_files/temhydro_cwd/duc45_openn_303.dat,./dat_files/temhydro_cwd/gux45_openn_303.dat,./dat_files/temhydro_cwd/gum45_openn_303.dat,./dat_files/temhydro_cwd/kbm45_openn_303.dat,./dat_files/temhydro_cwd/tai45_openn_303.dat,./dat_files/temhydro_cwd/knz45_openn_303_ag2.dat,./dat_files/temhydro_cwd/rodale_openn_303_ag2.dat,./dat_files/temhydro_cwd/turf45_openn_303.dat</datfilenames>
   
     <!-- fstexture (string): filename with soil texture input -->
-  <fstexture>/TEM_biogeography/runs/climate_data/west_cruigbpstxtlf.csv</fstexture>
+  <fstexture>./climate_data/west_cruigbpstxtlf.csv</fstexture>
 
     <!-- felev (string): filename with elevation input -->
-  <felev>/TEM_biogeography/runs/climate_data/west_crutbaselvlf.csv</felev>
+  <felev>./climate_data/west_crutbaselvlf.csv</felev>
 
     <!-- temoutflag (int): specifies whether files with TEM output will (1) or will not (0) be written -->
   <temoutflag>1</temoutflag>
