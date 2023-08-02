@@ -34,20 +34,24 @@ copy_executable() {
   echo "Done!"
 }
 
+
 remove_temout_files() {
-  local dir="$1"
+  
   echo "Removing all .csv files from $dir directory..."
-  rm -f "$dir"/*.TEMOUT
+  rm -f "$runs"/*.TEMOUT
   echo "Done!"
 }
 
 remove_unnecessary_files() {
   echo "Removing unnecessary files..."
-  rm -f FIRE.csv FIRE_VARS.csv MMDI.csv
+  rm -f "$runs"/FIRE.csv
+  rm -f "$runs"/FIRE_VARS.csv
+  rm -f "$runs"/MMDI.csv
   echo "Done!"
 }
 
 run_tem_executable() {
+  cd "$runs"
   echo "Running the executable..."
   ./xtem45_biogeo > junk &
   wait
