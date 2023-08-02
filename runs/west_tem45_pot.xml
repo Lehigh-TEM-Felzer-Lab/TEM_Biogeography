@@ -287,7 +287,7 @@
   <agfertflag>0</agfertflag>
 
     <!-- datfilenames (string): comma-delimited list of filenames with parameters that are calibrated for each pft; need to have MAXCMNT-1 files, but not all of them need to be actually calibrated if the pft isn't present in the run -->
-  <datfilenames>./dat_files/temhydro_cwd/ice45_openn_303.dat,./dat_files/temhydro_cwd/tpd45_openn_303.dat,./dat_files/temhydro_cwd/bnz45_openn_303.dat,./dat_files/temhydro_cwd/hvc45_openn_dndc.dat,./dat_files/temhydro_cwd/hvd45_openn_dndc.dat,./dat_files/temhydro_cwd/knz45_openn_303_ag0.dat,./dat_files/temhydro_cwd/pwn45_openn_303.dat,./dat_files/temhydro_cwd/cur45_openn_303.dat,./dat_files/temhydro_cwd/duc45_openn_303.dat,./dat_files/temhydro_cwd/gux45_openn_303.dat,./dat_files/temhydro_cwd/gum45_openn_303.dat,./dat_files/temhydro_cwd/kbm45_openn_303.dat,./dat_files/temhydro_cwd/tai45_openn_303.dat,./dat_files/temhydro_cwd/knz45_openn_303_ag2.dat,./dat_files/temhydro_cwd/rodale_openn_303_ag2.dat,./dat_files/temhydro_cwd/turf45_openn_303.dat</datfilenames>
+  <datfilenames>./dat_files/ice45_openn_303.dat,./dat_files/tpd45_openn_303.dat,./dat_files/bnz45_openn_303.dat,./dat_files/hvc45_openn_dndc.dat,./dat_files/hvd45_openn_dndc.dat,./dat_files/knz45_openn_303_ag0.dat,./dat_files/pwn45_openn_303.dat,./dat_files/cur45_openn_303.dat,./dat_files/duc45_openn_303.dat,./dat_files/gux45_openn_303.dat,./dat_files/gum45_openn_303.dat,./dat_files/kbm45_openn_303.dat,./dat_files/tai45_openn_303.dat,./dat_files/knz45_openn_303_ag2.dat,./dat_files/rodale_openn_303_ag2.dat,./dat_files/turf45_openn_303.dat</datfilenames>
   
     <!-- fstexture (string): filename with soil texture input -->
   <fstexture>./climate_data/west_cruigbpstxtlf.csv</fstexture>
