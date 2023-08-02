@@ -97,7 +97,7 @@ if tem_xml_path:
             for file in file_list
         ]
 
-        var_file_dict = dict(zip(var_list, file_list))
+        var_file_dict = dict(zip(var_list, file_list)) # Dictionary of variable names and their corresponding file paths
 
         # Modify the read_csv_add_npp function to handle different variable names
 
