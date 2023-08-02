@@ -19,33 +19,39 @@ clean_tem_core() {
   cd "$tem_core"
   echo "Removing all .o files..."
   rm -f *.o
+  echo "Done!"
 }
 
 compile_tem() {
   echo "Compiling tem..."
   make -f Makefile_biogeo.xtem xtem45_biogeo
+  echo "Done!"
 }
 
 copy_executable() {
   echo "Copying tem executable to run directory..."
   cp xtem45_biogeo "$runs"
+  echo "Done!"
 }
 
 remove_temout_files() {
   local dir="$1"
   echo "Removing all .csv files from $dir directory..."
   rm -f "$dir"/*.TEMOUT
+  echo "Done!"
 }
 
 remove_unnecessary_files() {
   echo "Removing unnecessary files..."
   rm -f FIRE.csv FIRE_VARS.csv MMDI.csv
+  echo "Done!"
 }
 
 run_tem_executable() {
   echo "Running the executable..."
   ./xtem45_biogeo > junk &
   wait
+  echo "Done!"
 }
 
 
@@ -64,9 +70,11 @@ run_tem_executable
 
 cp "$runs"/tem_in.txt "$biogeography_module/module"
 cp "$runs"/*.xml "$biogeography_module/module"
+echo "Done!"
 
 cd "$biogeography_module/module"
 python main.py
+echo "Done!"
 
 wait 
 
@@ -76,5 +84,7 @@ python xtran.py
 wait
 
 echo "Done!"
+
+echo "Complete!"
 
 
