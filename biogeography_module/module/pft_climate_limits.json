@@ -8,7 +8,7 @@
     "Mean Temperature of Coldest Month": -60,
     "Mean Temperature of Warmest Month": 21,
     "Minimum Monthly Precipitation": 200,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.60
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.65
     },
     {
     "Description": "Mixed Temperate Forest",
@@ -19,7 +19,7 @@
     "Mean Temperature of Coldest Month": -5,
     "Mean Temperature of Warmest Month": 25,
     "Minimum Monthly Precipitation": 300,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.60
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.7
     },
     {
     "Description": "Mixed Temperate Forest",
@@ -30,7 +30,7 @@
     "Mean Temperature of Coldest Month": -5,
     "Mean Temperature of Warmest Month": 21,
     "Minimum Monthly Precipitation": 750,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.60
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.7
     },
     {
     "Description": "Temperate Coniferous Forests",
@@ -41,7 +41,7 @@
     "Mean Temperature of Coldest Month": -40,
     "Mean Temperature of Warmest Month": 25,
     "Minimum Monthly Precipitation": 300,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.60
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.7
     },
     {
     "Description": "Temperate Deciduous Forests",
@@ -52,7 +52,7 @@
     "Mean Temperature of Coldest Month": -10,
     "Mean Temperature of Warmest Month": 21,
     "Minimum Monthly Precipitation": 750,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.60
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.6
     },
     {
     "Description": "Short Grasslands",
@@ -63,7 +63,7 @@
     "Mean Temperature of Coldest Month": -20,
     "Mean Temperature of Warmest Month": 35,
     "Minimum Monthly Precipitation": 500,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.50
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.5
     },
     {
     "Description": "Arid Shrublands",
@@ -74,7 +74,7 @@
     "Mean Temperature of Coldest Month": 0,
     "Mean Temperature of Warmest Month": 35,
     "Minimum Monthly Precipitation": 150,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.50
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.5
     },
     {
     "Description": "Xeromorphic Forests and Woodlands",
@@ -85,7 +85,7 @@
     "Mean Temperature of Coldest Month": -5,
     "Mean Temperature of Warmest Month": 32,
     "Minimum Monthly Precipitation":380,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.55
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.5
     },
     {
     "Description": "Temperate Broadleaved Evergreen Forests",
@@ -96,7 +96,7 @@
     "Mean Temperature of Coldest Month": -10,
     "Mean Temperature of Warmest Month": 25,
     "Minimum Monthly Precipitation":300,
-    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.60
+    "Minimum Annual Actual Evapotranspiration/Potential Evapotranspiration": 0.65
     }
     ]
     
