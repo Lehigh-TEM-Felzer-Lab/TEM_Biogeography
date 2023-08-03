@@ -68,24 +68,16 @@ remove_temout_files "$runs"
 remove_unnecessary_files
 run_tem_executable
 
+pwd
 
-# copy "tem_in.txt" and "*.xml" in runs to biogeography_module/module
-cp "tem_in.txt"  "../tem_biogeography/module"
-cp "*.xml" "../tem_biogeography/module"
-cd "../"
-echo "Done!"
-
-cd "biogeography_module/module"
 echo "Running biogeography model..."
-python main.py
+python3 main.py
 echo "Done!"
 
 wait 
 
-cd "../../"
-cd "xtran/new_xtran"
-echo "Running Xtran .."
-python xtran.py
+echo "Running xtran .."
+python3 xtran.py
 
 wait
 
