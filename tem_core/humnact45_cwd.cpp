@@ -770,7 +770,7 @@ void Humnact45::setAgricFlags(ofstream &rflog1)
     cout << "Enter 0 for no:" << endl;
     cout << "Enter 1 for yes:" << endl;
 
-    cin >> tillflag;
+    std::cin >> tillflag;
 
     rflog1 << "Are agricultural soils tilled?" << endl;
     rflog1 << "Enter 0 for no:" << endl;
