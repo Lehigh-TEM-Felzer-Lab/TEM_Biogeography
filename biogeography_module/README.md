@@ -28,7 +28,7 @@ root_directory/
 
 ```
 
-```tem_in.txt``` is a text file containing the path to an XML file used for the TEM model. The user should run the program in the directory where TEM model was run, specifically in the TEM_Biogeography/runs directory that contains tem_in.txt.
+```tem_in.txt``` is a text file containing the path to an XML file used for the TEM model. The user should run the program in the directory where TEM model was run, specifically in the TEM_Biogeography/runs directory that contains tem_in.txt and TEM iput xml.
 
 The biogeo directory contains the input and output files for the biogeography module of the TEM model, and main.py is the main program file for this module.
 
