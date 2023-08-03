@@ -68,6 +68,8 @@ remove_temout_files "$runs"
 remove_unnecessary_files
 run_tem_executable
 
+echo "TEM run complete"
+
 pwd
 
 echo "Running biogeography model..."
