@@ -19,11 +19,17 @@ clean_tem_core() {
   echo "Done!"
 }
 
+# Main script
+clean_tem_core
+
+
 compile_tem() {
   echo "Compiling tem..."
   make -f Makefile_biogeo.xtem xtem45_biogeo
   echo "Done!"
 }
+
+compile_tem
 
 copy_executable() {
   echo "Copying tem executable to run directory..."
@@ -32,7 +38,7 @@ copy_executable() {
   echo "Done!"
 }
 
-
+copy_executable
 
 remove_temout_files() {
   
@@ -40,6 +46,9 @@ remove_temout_files() {
   rm -f "$runs"/*.TEMOUT
   echo "Done!"
 }
+
+cd "$runs"
+remove_temout_files "$runs"
 
 remove_unnecessary_files() {
   echo "Removing unnecessary files..."
@@ -50,6 +59,8 @@ remove_unnecessary_files() {
   
 }
 
+remove_unnecessary_files
+
 run_tem_executable() {
   echo "Running TEM executable..."
   ./xtem45_biogeo > junk &
@@ -58,33 +69,29 @@ run_tem_executable() {
 }
 
 
-# Main script
-clean_tem_core
-compile_tem
-copy_executable
-
-cd "$runs"
-remove_temout_files "$runs"
-remove_unnecessary_files
 run_tem_executable
-
+wait
 echo "TEM run complete"
 
-pwd
+biogeography_and_post_processing(){
+	
+  pwd
 
-echo "Running biogeography model..."
-python3 main.py
-echo "Done!"
+  echo "Running biogeography model..."
+  python3 main.py
+  echo "Done!"
 
-wait 
+  wait 
 
-echo "Running xtran .."
-python3 xtran.py
+  echo "Running xtran .."
+  python3 xtran.py
 
-wait
+  wait
 
-echo "Done!"
+ echo "Done!"
+}
+
+biogeography_and_post_processing
 
 echo "Complete!"
-
 
