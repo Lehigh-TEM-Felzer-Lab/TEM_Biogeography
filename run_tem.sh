@@ -36,7 +36,7 @@ copy_executable() {
 
 remove_temout_files() {
   
-  echo "Removing all .csv files from directory..."
+  echo "Removing all .TEMOUT files from directory..."
   rm -f "$runs"/*.TEMOUT
   echo "Done!"
 }
@@ -51,7 +51,7 @@ remove_unnecessary_files() {
 }
 
 run_tem_executable() {
-  echo "Running the executable..."
+  echo "Running TEM executable..."
   ./xtem45_biogeo > junk &
   wait
   echo "Done!"
@@ -76,6 +76,7 @@ cd "../"
 echo "Done!"
 
 cd "biogeography_module/module"
+echo "Running biogeography model..."
 python main.py
 echo "Done!"
 
@@ -83,6 +84,7 @@ wait
 
 cd "../../"
 cd "xtran/new_xtran"
+echo "Running Xtran .."
 python xtran.py
 
 wait
