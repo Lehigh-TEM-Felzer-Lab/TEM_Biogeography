@@ -121,7 +121,7 @@ def main():
         # Apply the export_to_csv function to the dataframes
         for var, df in cleaned_bakeoff_result.items():
             export_to_csv(df, dependencies.os.path.join(bakeoff_results_dir_path, f"{var}_bakeoff_result.csv"))
-            export_to_csv(df, dependencies.os.path.join("T:\\m8\\kodero\\runs\\noresm1_m\\xtran", f"{var}_bakeoff_result.csv"))
+            
         
         # Logic to determine the  most productive PFT (30 Year Period) applying the Bioclimatic Limits and the NPP bakeoff 
         # Read in the NPP bakeoff result dataset
