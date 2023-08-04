@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+echo "<<<Starting Biogeography Model >>>"
 cd .
 # Directories
 tem_biogeography="."
@@ -16,16 +17,17 @@ clean_tem_core() {
   cd "$tem_core"
   echo "Removing all .o files..."
   rm -f *.o./
+  wait  
   echo "Done!"
 }
 
-# Main script
 clean_tem_core
 
 
 compile_tem() {
   echo "Compiling tem..."
   make -f Makefile_biogeo.xtem xtem45_biogeo
+  wait
   echo "Done!"
 }
 
@@ -34,6 +36,7 @@ compile_tem
 copy_executable() {
   echo "Copying tem executable to run directory..."
   cp xtem45_biogeo "../runs"
+  wait
   cd "../"
   echo "Done!"
 }
@@ -44,6 +47,7 @@ remove_temout_files() {
   
   echo "Removing all .TEMOUT files from directory..."
   rm -f "$runs"/*.TEMOUT
+  wait
   echo "Done!"
 }
 
@@ -55,6 +59,7 @@ remove_unnecessary_files() {
   rm -f "$runs"/FIRE.csv
   rm -f "$runs"/FIRE_VARS.csv
   rm -f "$runs"/MMDI.csv
+  rm -f "$runs"/*.log
   echo "Done!"
   
 }
@@ -80,20 +85,16 @@ biogeography_and_post_processing(){
 
   echo "Running biogeography model..."
   python main.py
-  echo "Done!"
-
   wait 
-
+  echo "Done!"
   echo "Running xtran .."
   python xtran.py
-
   wait
-  
-  echo "Creating Figures"
+  echo "Done!"
+  echo "Creating Vegetation Maps.."
   python vegetation_maps.py
-  wait 
-	
- echo "Done!"
+  wait 	
+  echo "Done!"
 }
 
 biogeography_and_post_processing
