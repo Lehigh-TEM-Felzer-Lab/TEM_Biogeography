@@ -16,7 +16,7 @@ runs="$tem_biogeography/runs"
 clean_tem_core() {
   cd "$tem_core"
   echo "Removing all .o files..."
-  rm -f *.o./
+  rm -f *.o
   wait  
   echo "Done!"
 }
