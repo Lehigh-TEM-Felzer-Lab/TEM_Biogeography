@@ -87,14 +87,15 @@ biogeography_and_post_processing(){
   python main.py
   wait 
   echo "Done!"
-  echo "Running xtran .."
-  python xtran.py <<< xbatch.xml
-  wait
-  echo "Done!"
   echo "Creating Vegetation Maps.."
   python vegetation_maps.py 
   wait 	
   echo "Done!"
+  echo "Running xtran .."
+  python xtran.py <<< xbatch.xml
+  wait
+  echo "Done!"
+  
 }
 
 biogeography_and_post_processing
