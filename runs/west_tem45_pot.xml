@@ -313,7 +313,7 @@
   <spinoutyrs>0</spinoutyrs>
 
     <!-- istateflag (int): specifies input state; use initialization (0); use a TEMSTATE file at equilibrium (1) or from a specific year (2) -->
-  <istateflag>2</istateflag>
+  <istateflag>0</istateflag>
 
     <!-- istatefile (string): TEMSTATE filename for input if istateflag is 1 or 2 -->
   <istatefile>missing</istatefile>
