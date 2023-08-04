@@ -63,7 +63,7 @@ remove_unnecessary_files
 
 run_tem_executable() {
   echo "Running TEM executable..."
-  ./xtem45_biogeo > junk &
+  ./xtem45_biogeo 
   wait
   echo "Done!"
 }
@@ -76,18 +76,23 @@ echo "TEM run complete"
 biogeography_and_post_processing(){
 	
   pwd
+  
 
   echo "Running biogeography model..."
-  python3 main.py
+  python main.py
   echo "Done!"
 
   wait 
 
   echo "Running xtran .."
-  python3 xtran.py
+  python xtran.py
 
   wait
-
+  
+  echo "Creating Figures"
+  python vegetation_maps.py
+  wait 
+	
  echo "Done!"
 }
 
