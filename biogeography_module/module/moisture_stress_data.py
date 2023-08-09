@@ -1,22 +1,10 @@
 import dependencies 
 from paths import mean_monthly_moisture_stress_path, mean_summer_moisture_stress_path
+from columns import MEAN_MONTHLY_MOISTURE_STRESS_COLUMNS, MEAN_SUMMER_MOISTURE_STRESS_COLUMNS
 
 
 # Import moisture stress data (Drought Index)
-MEAN_MONTHLY_MOISTURE_STRESS_COLUMNS = [
-    "LON",              # The longitude coordinate of the location being modelled.
-    "LAT",              # The latitude coordinate of the location being modelled.
-    "ICOHORT",          # An index indicating the cohort of the vegetation being modelled.
-    "POTVEG",           # The potential natural vegetation type for the location being modelled.
-    "SUBTYPE",          # A subtype of the vegetation being modelled.
-    "MONTH",            # Month.
-    "YEAR",             # Year.
-    "AET",              # The actual evapotranspiration for the location and time period being modelled.
-    "PET",              # The potential evapotranspiration for the location and time period being modelled.
-    "AET/PET",          # The ratio of actual to potential evapotranspiration for the location and time period being modelled.
-    "PET-AET/PET",      # The difference between potential and actual evapotranspiration, normalized by potential evapotranspiration, for the location and time period being modelled.
-    "THETA",            # The soil water potential for the location and time period being modelled.
-]
+
 
 mean_monthly_moisture_stress = dependencies.pd.read_csv(mean_monthly_moisture_stress_path, names=MEAN_MONTHLY_MOISTURE_STRESS_COLUMNS)
 
@@ -32,17 +20,4 @@ mean_summer_moisture_stress = (mean_monthly_summer_moisture_stress.groupby(["LON
 mean_summer_moisture_stress.to_csv(mean_summer_moisture_stress_path, index=True, header=False)
 
 # Import mean moisture annual moisture stress data (Drought Index)
-MEAN_SUMMER_MOISTURE_STRESS_COLUMNS = [
-    "LON", # The longitude coordinate of the location being modelled.
-    "LAT", # The latitude coordinate of the location being modelled.
-    "POTVEG", # The potential natural vegetation type for the location being modelled.
-    "SUBTYPE", # A subtype of the vegetation being modelled.
-    "YEAR", # Year.
-    "AET", # The actual evapotranspiration for the location and time period being modelled. 
-    "PET", # The potential evapotranspiration for the location and time period being modelled.
-    "AET/PET", # The ratio of actual to potential evapotranspiration for the location and time period being modelled.
-    "(PET-AET)/PET", # The difference between potential and actual evapotranspiration, normalized by potential evapotranspiration, for the location and time period being modelled.
-    "THETA", # The soil water potential for the location and time period being modelled.
-]
-
 mean_summer_moisture_stress = dependencies.pd.read_csv(mean_summer_moisture_stress_path, names=MEAN_SUMMER_MOISTURE_STRESS_COLUMNS)
