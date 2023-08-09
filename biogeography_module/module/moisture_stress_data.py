@@ -3,7 +3,7 @@ from paths import mean_monthly_moisture_stress_path, mean_summer_moisture_stress
 
 
 # Import moisture stress data (Drought Index)
-mean_monthly_moisture_stress_columns = [
+MEAN_MONTHLY_MOISTURE_STRESS_COLUMNS = [
     "LON",              # The longitude coordinate of the location being modelled.
     "LAT",              # The latitude coordinate of the location being modelled.
     "ICOHORT",          # An index indicating the cohort of the vegetation being modelled.
@@ -18,7 +18,7 @@ mean_monthly_moisture_stress_columns = [
     "THETA",            # The soil water potential for the location and time period being modelled.
 ]
 
-mean_monthly_moisture_stress = dependencies.pd.read_csv(mean_monthly_moisture_stress_path, names=mean_monthly_moisture_stress_columns)
+mean_monthly_moisture_stress = dependencies.pd.read_csv(mean_monthly_moisture_stress_path, names=MEAN_MONTHLY_MOISTURE_STRESS_COLUMNS)
 
 # Select summer months (May - October)
 mean_monthly_summer_moisture_stress = mean_monthly_moisture_stress.query("MONTH >= 5 & MONTH <= 10")
@@ -32,7 +32,7 @@ mean_summer_moisture_stress = (mean_monthly_summer_moisture_stress.groupby(["LON
 mean_summer_moisture_stress.to_csv(mean_summer_moisture_stress_path, index=True, header=False)
 
 # Import mean moisture annual moisture stress data (Drought Index)
-mean_summer_moisture_stress_columns = [
+MEAN_SUMMER_MOISTURE_STRESS_COLUMNS = [
     "LON", # The longitude coordinate of the location being modelled.
     "LAT", # The latitude coordinate of the location being modelled.
     "POTVEG", # The potential natural vegetation type for the location being modelled.
@@ -45,4 +45,4 @@ mean_summer_moisture_stress_columns = [
     "THETA", # The soil water potential for the location and time period being modelled.
 ]
 
-mean_summer_moisture_stress = dependencies.pd.read_csv(mean_summer_moisture_stress_path, names=mean_summer_moisture_stress_columns)
+mean_summer_moisture_stress = dependencies.pd.read_csv(mean_summer_moisture_stress_path, names=MEAN_SUMMER_MOISTURE_STRESS_COLUMNS)

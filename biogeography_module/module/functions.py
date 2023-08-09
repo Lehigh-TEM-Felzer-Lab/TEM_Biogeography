@@ -1,5 +1,5 @@
 import dependencies 
-from tem_output_data import var_cols
+from tem_output_data import TEM_OUTPUT_COLUMNS
 
 
 
@@ -16,7 +16,7 @@ def merge_variables(df, climate_limits, climate, moisture_stress):
 
 
 # Function to calculate possible PFTs  in each gridcell depending on climate 
-possible_cols = var_cols + ["NPP", "POSSIBLE"]
+possible_cols = TEM_OUTPUT_COLUMNS + ["NPP", "POSSIBLE"]
 def determine_possible_pft(df, bakeoff_variables):
     df["POSSIBLE"] = (
         (bakeoff_variables["GDD"] >= bakeoff_variables["MIN_GDD"])

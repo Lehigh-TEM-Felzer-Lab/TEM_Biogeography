@@ -2,7 +2,7 @@ import dependencies
 
 print()
 # columns names for all TEM  outputs (NPP, VEGC, NEP, AVAILN, GPP, H2OYIELD, NETNMIN, SMOIS, SOILORGC, VEGINNPP, NCE)
-var_cols = [
+TEM_OUTPUT_COLUMNS = [
     "LON",  # The longitude coordinate of the location being modelled.
     "LAT",  # The latitude coordinate of the location being modelled.
     "TMPVARNAME",  # The name of the output variable..
@@ -102,7 +102,7 @@ if tem_xml_path:
         # Modify the read_csv_add_npp function to handle different variable names
 
         def read_csv_add_npp(var_name, file_name):
-            df = dependencies.pd.read_csv(file_name, names=var_cols)
+            df = dependencies.pd.read_csv(file_name, names=TEM_OUTPUT_COLUMNS)
             return df
 
         # Call the read_csv_add_npp function for each variable and store the result in a dictionary

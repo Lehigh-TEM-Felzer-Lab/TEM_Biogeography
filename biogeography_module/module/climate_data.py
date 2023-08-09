@@ -3,7 +3,7 @@ from paths import climate_limits_path, temperature_data_path, precipitation_data
 
 
 
-climate_data_columns= [
+TEM_CLIMATE_COLUMNS= [
     "LON",
     "LAT",
     "VARNAME",
@@ -28,8 +28,8 @@ climate_data_columns= [
     "REGION"
     ]
         
-temperature_data = dependencies.pd.read_csv(temperature_data_path, names=climate_data_columns)
-precipitation_data = dependencies.pd.read_csv(precipitation_data_path, names=climate_data_columns)
+temperature_data = dependencies.pd.read_csv(temperature_data_path, names=TEM_CLIMATE_COLUMNS)
+precipitation_data = dependencies.pd.read_csv(precipitation_data_path, names=TEM_CLIMATE_COLUMNS)
 
 
 
@@ -49,7 +49,7 @@ temperature_data[[f"{dependencies.calendar.month_name[month][:3].upper()}_GDD" f
 # Calculate total GDD for each year
 temperature_data["TOTAL_GDD"] = dependencies.np.sum(monthly_gdd, axis=1)
 
-temperature_data = temperature_data[climate_data_columns + ["TOTAL_GDD"]]
+temperature_data = temperature_data[TEM_CLIMATE_COLUMNS + ["TOTAL_GDD"]]
 
 
 climate = dependencies.pd.DataFrame()
