@@ -21,14 +21,15 @@ Follow these steps to set up and run the model:
 # user can automate the process by modifing and running: 
 ```
 
-run_tem.sh
+run_tem.sh  #bash script for linux users
+run_tem.ps1 # powershell script for windows users
  
 ```
 # for manual execution follow the next instructions:
 
 2. **Compile the tem_core:** Begin by compiling the tem_core using the appropriate compiler command for your system.
 
-3. **Run tem_core with input data:** After successful compilation, execute the tem_core using the required input data.
+3. **Run the executable:** After successful compilation, execute the tem_core using the required input data.
 
 4. **Prepare input files for the Biogeography module:** Ensure that the input files have the required columns, as specified in the biogeography readme file. Modify the input files as necessary to match the expected format (variable names are descriptive of the file and columns needed).
 
