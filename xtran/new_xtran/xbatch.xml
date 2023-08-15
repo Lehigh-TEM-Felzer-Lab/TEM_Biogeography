@@ -22,10 +22,10 @@
 
  <!-- Filter Parameters-->
 <filter_params>
-    <lat_min>42.5000</lat_min>
+    <lat_min>25.000</lat_min>
     <lat_max>42.5000</lat_max>
     <lon_min>-124.5000</lon_min>
-    <lon_max>-124.5000</lon_max>
+    <lon_max>-68.0000</lon_max>
     <region></region>
     <start_year></start_year>
     <end_year></end_year>
