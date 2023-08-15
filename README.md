@@ -21,7 +21,7 @@ Follow these steps to set up and run the model:
 # user can automate the process by modifing and running: 
 ```
 
-run_tem.sh  #bash script for linux users
+run_tem.sh  # bash script for linux users
 run_tem.ps1 # powershell script for windows users
  
 ```
