@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.rmd": "markdown",
+        "*.py": "python",
+        "*.TEMOUT": "csv",
+        "iostream": "cpp"
+    }
+}

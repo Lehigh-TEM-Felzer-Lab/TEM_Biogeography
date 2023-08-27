@@ -322,11 +322,11 @@ int main()
         cout << " after initializeTEMGridCell " << endl;
 #endif
 
-        cout << "leaving " << endl;
+    
         // Begin simulation of transient climate and terrestrial
         //   ecosystem response
 
-        cout << "entering transient" << endl;
+        cout << "Entering Transient..." << endl;
         if (0 == equil)
         {
 
@@ -334,7 +334,7 @@ int main()
             //      for( xdyr = 2; xdyr < RTIME; ++xdyr )
             {
 
-                cout << "year in transient = " << xdyr + telmnt[0].clm.startyr << endl;
+                cout << "Year in transient = " <<"("<< xdyr + telmnt[0].clm.startyr<<")" << endl;
                 //   BSF do not need to call updateTCLMGridCell again
                 //        updateTCLMGridCell( xdyr );
                 //  set year
@@ -462,6 +462,9 @@ int main()
 
 void initializeCLMGridCell()
 {
+
+    cout << "<<< Running Terrestial Ecosystem Model >>>" << endl;
+    cout << " " << endl;
 
     ostringstream tempfname;
     string girrname;
@@ -668,7 +671,7 @@ void initializeCLMGridCell()
     o3name = tempfname.str();
 
     ifo3 = fopen(o3name.c_str(), "r");
-    cout << "ozone file = " << o3name << endl;
+    
     if (!ifo3)
     {
         flog1 << endl << "Cannot open " << o3name;
@@ -1935,7 +1938,7 @@ void updateTCLMGridCell(const int &pdyr)
             for (dyr = 0; dyr < (transtime); ++dyr)
             {
                 gisend = o3dat[dyr].getdel(ifo3);
-                //      cout << "transient ozone = " << o3dat[0].col << " " << o3dat[0].row << endl;
+                
 
                 if (-1 == gisend)
                 {
@@ -1949,7 +1952,7 @@ void updateTCLMGridCell(const int &pdyr)
         else
         {
             gisend = o3dat[0].getdel(ifo3);
-            cout << "ozone = " << o3dat[0].col << " " << o3dat[0].row << endl;
+            cout << "grid = " << o3dat[0].col << " " << o3dat[0].row << endl;
 
             if (-1 == gisend)
             {
