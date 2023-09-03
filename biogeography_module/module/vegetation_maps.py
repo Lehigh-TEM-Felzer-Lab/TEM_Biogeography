@@ -20,7 +20,7 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 from matplotlib.patches import Patch
 from scipy.interpolate import Rbf
 from scipy.interpolate import griddata
-image_format = "svg"
+image_format = ".png"
 
 
 
