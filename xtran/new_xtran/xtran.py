@@ -62,7 +62,7 @@ var_cols = [
     "REGION",
 ]
 
-units_out_file = "UNITS.INFO"
+units_out_file = "units.info"
 
 
 # Define PFT names based on TEM vegetation codes
