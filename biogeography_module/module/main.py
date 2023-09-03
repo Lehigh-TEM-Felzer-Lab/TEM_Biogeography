@@ -26,13 +26,15 @@ def main():
         # Try to get the terminal width, and if it fails, use the default width
         try:
             terminal_width = dependencies.os.get_terminal_size().columns
+        
         except OSError:
             terminal_width = default_terminal_width
 
+        print(CYAN + '-' * terminal_width + RESET)
         print()
-        print(CYAN + '_' * terminal_width + RESET)
+        print(GREEN + '*' * 10 + " APPLYING BIOGEOGRAPHY MODULE TO DETERMINE PFT DISTRIBUTION " + '*' * 10 + RESET)
         print()
-        print(BOLD + GREEN + "APPLYING BIOGEOGRAPHY MODULE TO DETERMINE PFT DISTRIBUTION" + RESET)      
+        print(CYAN + '-' * terminal_width + RESET)
         print()
         
         print(BOLD + BLUE + "Running module staring from: " + RESET + CYAN+BOLD +f"{clmstartyr}" + RESET)
@@ -84,7 +86,7 @@ def main():
             
         
         # Merge tem output data with climate data and moisture stress data
-        print(BOLD + YELLOW + "Preparing climate datasets and merging with TEM output files..." + RESET)
+        print(BOLD + YELLOW + "1. Preparing climate datasets and merging with TEM output files..." + RESET)
         print()
         
         # Call the merge_variables function for each variable and store the result in a dictionary
@@ -92,7 +94,7 @@ def main():
         for var, df in dataframes.items():
             bakeoff_variables[var] = merge_variables(df, climate_limits, climate, mean_summer_moisture_stress)
 
-        print(BOLD + YELLOW + "Determining possible PFTs based on climate in each gridcell..." + RESET)
+        print(BOLD + YELLOW + "2. Determining possible PFTs based on climate in each gridcell..." + RESET)
         print()
 
         # Determine Possible PFTs depending on climate and moisture stress
@@ -100,7 +102,7 @@ def main():
         for var, df in bakeoff_variables.items():
             result_out[var] = determine_possible_pft(df, bakeoff_variables[var])  # Pass the correct dataframe here
 
-        print(BOLD + YELLOW + "Applying bakeoff logic to PFTs..." + RESET)
+        print(BOLD + YELLOW + "3. Applying bakeoff logic to PFTs..." + RESET)
         print()
         
         # Applying Bakeoff Logic by first grouping by col, row & year for each dataset based on NPP
@@ -108,7 +110,7 @@ def main():
         for var, df in result_out.items():
             bakeoff_result[var] = df.groupby(["LON", "LAT", "YEAR"], sort=False).apply(possible_pft_with_max_npp)
         
-        print(BOLD + YELLOW + "Cleaning dataframes..." + RESET)
+        print(BOLD + YELLOW + "4. Cleaning dataframes..." + RESET)
         print()
         
         # Cleaning the dataframes by removing the columns that are not needed
@@ -116,7 +118,7 @@ def main():
         for var, df in bakeoff_result.items():
             cleaned_bakeoff_result[var] = clean_dataframe(df)
         
-        print(BOLD + YELLOW + "Exporting dataframes to .csv files..." + RESET)
+        print(BOLD + YELLOW + "5. Exporting dataframes to .csv files..." + RESET)
         print()
         
         # Apply the export_to_csv function to the dataframes
@@ -139,13 +141,15 @@ def main():
         persisting_pft(end_century, end_century_persisting_pft_output_path)
         
         
-    
-        print(BOLD + GREEN + "BIOGEOGRAPHY MODULE COMPLETED SUCCESSFULLY" + RESET)
-        print(CYAN + '_' * terminal_width + RESET)
+        print(CYAN + '-' * terminal_width + RESET)
+        print(GREEN + '*' * 10 + " BIOGEOGRAPHY MODULE COMPLETED SUCCESSFULLY " + '*' * 10 + RESET)
+        print(CYAN + '-' * terminal_width + RESET)
         print()
-   
+
     except KeyboardInterrupt:
-        print(BOLD + RED +"Keyboard interrupt received. Stopping Biogeography Module !" + RESET)    
+        print()
+        print(RED + '*' * 10 + " Keyboard interrupt received. Stopping Biogeography Module! " + '*' * 10 + RESET)
+        print() 
 
 # Run the main function only if the script is executed as the main module
 if __name__ == "__main__":
