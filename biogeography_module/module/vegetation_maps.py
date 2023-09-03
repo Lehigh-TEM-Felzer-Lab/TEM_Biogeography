@@ -20,7 +20,7 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 from matplotlib.patches import Patch
 from scipy.interpolate import Rbf
 from scipy.interpolate import griddata
-image_format = ".png"
+image_format = "png"
 
 
 
@@ -182,7 +182,7 @@ fig.legend(
     frameon=False,
 )
 
-plt.savefig("./biogeo/result" + image_format, format=image_format, dpi=1200, bbox_inches="tight")
+plt.savefig("./biogeo/result." + image_format, format=image_format, dpi=1200, bbox_inches="tight")
 plt.show()
 
 
