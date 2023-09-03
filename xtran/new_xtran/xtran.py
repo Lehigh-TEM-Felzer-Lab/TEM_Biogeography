@@ -27,6 +27,9 @@ RESET = "\033[0m"
 TAB = "\t"
 
 
+
+
+
 # Define data columns for TEM output files
 var_cols = [
     "LON",
@@ -454,13 +457,19 @@ def main():
         )
 
         print()
-        input_path = input(
-            "Please enter the filename, path or a XML file containing file paths and filter info: "
-        )
-        input_path = os.path.join(
-            os.getcwd(), input_path
-        )  # Normalize the path for cross-platform compatibility
-        file_list, filter_params = get_file_list(input_path)
+
+        # Check if any command-line arguments are passed
+        if len(sys.argv) > 1:
+            cmd_args = sys.argv[1]
+            input_path = os.path.join(os.getcwd(), cmd_args)  # Normalize the path for cross-platform compatibility
+            file_list, filter_params = get_file_list(input_path)
+
+        # If no arguments are passed, ask for input
+        else:
+            input_path = input("Please enter the filename, path or a XML file containing file paths and filter info: ")
+            input_path = os.path.join(os.getcwd(), input_path)  # Normalize the path for cross-platform compatibility
+            file_list, filter_params = get_file_list(input_path)
+            
         print(BLUE + f"Using {input_path} as input file..." + RESET)
         print()
         print(BLUE + f"Number of files to be processed: {len(file_list)}" + RESET)
