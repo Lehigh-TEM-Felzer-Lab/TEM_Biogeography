@@ -513,7 +513,7 @@ def main():
         print(
             GREEN
             + BOLD
-            + "Program executed successfully! Check 'UNITS.INFO' file for data units and '.SUMMARY' files for statistics."
+            + "Program executed successfully! Check 'units.info' file for data units and '.SUMMARY' files for statistics."
             + RESET
         )
         print()
