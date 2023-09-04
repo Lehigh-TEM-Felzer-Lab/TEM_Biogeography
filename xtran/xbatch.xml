@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <!-- File Paths -->
+    <files>
+        <file>./biogeo/output_bakeoff/npp_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/vegc_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/availn_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/convertc_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/gpp_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/h2oyield_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/nce_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/nep_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/netnmin_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/rh_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/smoist_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/soilorgc_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/veginnpp_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/volac_bakeoff_result.csv</file>
+        <file>./biogeo/output_bakeoff/vsm_bakeoff_result.csv</file>
+        <!-- Add more file elements as needed -->
+    </files>
+
+ <!-- Filter Parameters-->
+<filter_params>
+    <lat_min>25.000</lat_min>
+    <lat_max>42.5000</lat_max>
+    <lon_min>-124.5000</lon_min>
+    <lon_max>-68.0000</lon_max>
+    <region>WEST</region>
+    <start_year>2015</start_year>
+    <end_year>2100</end_year>
+</filter_params>
+</root>

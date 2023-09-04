@@ -46,14 +46,25 @@ function Remove-TemoutFiles {
 
 Remove-TemoutFiles
 
-# Function to remove unnecessary files
-function Remove-UnnecessaryFiles {
-    Write-Host "Removing unnecessary files..."
-    Remove-Item "$runs\FIRE.csv", "$runs\FIRE_VARS.csv", "$runs\MMDI.csv", "$runs\*.log" -Force -ErrorAction SilentlyContinue
+function Prep-Run-Dir {
+ 
+    Write-Host "Preparing run directory..."
+
+    $filesToRemove = @("FIRE.csv", "FIRE_VARS.csv", "MMDI.csv", "*.log")
+    foreach ($file in $filesToRemove) {
+        $path = Join-Path -Path $runs -ChildPath $file
+        Remove-Item $path -Force -ErrorAction SilentlyContinue
+    }
+
+    Write-Host "Copying biogeo files to run directory."
+    Copy-Item -Path "..\biogeography_module\*" -Destination $runs -ErrorAction SilentlyContinue
+    Copy-Item -Path "..\xtran\*" -Destination $runs -ErrorAction SilentlyContinue
+
     Write-Host "Done!"
 }
 
-Remove-UnnecessaryFiles
+# You can call the function like this:
+# Prep-Run-Dir
 
 # Function to run TEM executable
 function Run-TemExecutable {

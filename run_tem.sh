@@ -37,6 +37,8 @@ clean_tem_core() {
 
 clean_tem_core
 
+
+
 # Compile TEM
 compile_tem() {
     echo " "
@@ -79,20 +81,21 @@ remove_temout_files "$runs"
 
 
 # Remove unnecessary files
-remove_unnecessary_files() {
+prep_run_dir() {
     echo " "
-    echo "Removing unnecessary files..."
+    echo "Preparing run directory."
     rm -f FIRE.csv
     rm -f FIRE_VARS.csv
     rm -f MMDI.csv
     rm -f *.log
+    cp -f ../biogeography_module/* .
+    cp -f ../xtran/* .
     echo " "
 
-   
     progress_bar 8
 }
 
-remove_unnecessary_files
+prep_run_dir
 
 # Run TEM executable
 run_tem_executable() {
@@ -114,19 +117,19 @@ biogeography_and_post_processing() {
     pwd
     echo " "
     echo "Running biogeography model..."
-    python main.py &
+    python main.py 
     wait
    
     progress_bar 80
      echo " "
     echo "Creating Vegetation Maps..."
-    python vegetation_maps.py &
+    python vegetation_maps.py 
     wait
    
     progress_bar 90
      echo " "
     echo "Running xtran..."
-    python xtran.py < xbatch.xml
+    python xtran.py  xbatch.xml
     wait
    
     progress_bar  95
