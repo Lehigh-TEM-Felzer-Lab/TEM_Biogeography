@@ -102,6 +102,7 @@ run_tem_executable() {
      echo " "
     echo "Running TEM "
     echo " "
+    chmod +x xtem45_biogeo
     ./xtem45_biogeo
     wait
    
