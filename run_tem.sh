@@ -3,9 +3,7 @@
 set -euo pipefail
 
 # Define colors
-#RED="\033[0;31m"
 CYAN="\033[0;36m"
-#BLUE="\033[0;34m"
 GREEN="\033[0;32m"
 YELLOW="\033[0;33m"
 NC="\033[0m" # No Color
@@ -61,7 +59,7 @@ copy_executable() {
 remove_temout_files() {
     echo " "
     echo -e "${CYAN}*** Removing all .temout files from runs dir ***${NC}"
-    rm -f "$runs"/*.temout
+    rm -f "$runs"/*.TEMOUT
     wait
     progress_bar 7
 }
@@ -69,7 +67,7 @@ remove_temout_files() {
 prep_run_dir() {
     echo " "
     echo -e "${CYAN}*** Preparing run directory ***${NC}"
-    rm -f fire.csv fire_vars.csv mmdi.csv *.log
+    rm -f FIRE.csv FIRE_VARS.csv MMDI.csv *.log
     cp -f ../biogeography_module/* .
     cp -f ../xtran/* .
     wait
