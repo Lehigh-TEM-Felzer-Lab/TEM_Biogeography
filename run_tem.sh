@@ -2,141 +2,125 @@
 
 set -euo pipefail
 
+# Define colors
+#RED="\033[0;31m"
+CYAN="\033[0;36m"
+#BLUE="\033[0;34m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+NC="\033[0m" # No Color
+
 # Function to display progress bar
-function progress_bar() {
+progress_bar() {
     local width=50
     local percentage=$1
     local completed=$((percentage * width / 100))
     local remaining=$((width - completed))
-    echo " "
-
+    echo -e "${YELLOW}"
     printf " Progress : [%s%s] %.2f%%\r" "$(yes "#" | head -n "$completed" | tr -d '\n')" "$(yes "-" | head -n "$remaining" | tr -d '\n')" "$percentage"
-    echo " "
+    echo -e "${NC}"
 }
 
-echo " 0 1 2 3 4 5 6 7 8 9 "
+# Header
 echo " "
-echo "<<< Starting Biogeography Model >>>"
-echo " "
-cd .
+echo -e "${GREEN}*************************************************${NC}"
+echo -e "${GREEN}***       Starting Biogeography Model        ***${NC}"
+echo -e "${GREEN}*************************************************${NC}"
 
 # Directories
 tem_biogeography="."
 tem_core="$tem_biogeography/tem_core"
 runs="$tem_biogeography/runs"
-
-# Clean TEM core
+echo " "
 clean_tem_core() {
     cd "$tem_core"
-    echo "Removing all .o files"
+    echo -e "${CYAN}*** Removing all .object files ***${NC}"
     rm -f *.o
     wait
-   progress_bar 3
-    
+    progress_bar 3
 }
 
-clean_tem_core
-
-
-
-# Compile TEM
 compile_tem() {
     echo " "
-    echo "Compiling TEM"
+    echo -e "${CYAN}*** Compiling TEM ***${NC}"
     echo " "
-
     make -f Makefile_biogeo.xtem xtem45_biogeo
     wait
-   
     progress_bar 5
 }
 
-compile_tem
-
-# Copy executable
 copy_executable() {
     echo " "
-    echo "Copying tem executable to run directory."
+    echo -e "${CYAN}*** Copying TEM executable to run directory ***${NC}"
     cp xtem45_biogeo "../runs"
     wait
     cd "../"
-   
     progress_bar 6
 }
 
-copy_executable
-
-# Remove TEMOUT files
 remove_temout_files() {
     echo " "
-    echo "Removing all .TEMOUT files from runs dir..."
-    rm -f "$runs"/*.TEMOUT
+    echo -e "${CYAN}*** Removing all .temout files from runs dir ***${NC}"
+    rm -f "$runs"/*.temout
     wait
-   
     progress_bar 7
 }
 
-cd "$runs"
-remove_temout_files "$runs"
-
-
-# Remove unnecessary files
 prep_run_dir() {
     echo " "
-    echo "Preparing run directory."
-    rm -f FIRE.csv
-    rm -f FIRE_VARS.csv
-    rm -f MMDI.csv
-    rm -f *.log
+    echo -e "${CYAN}*** Preparing run directory ***${NC}"
+    rm -f fire.csv fire_vars.csv mmdi.csv *.log
     cp -f ../biogeography_module/* .
     cp -f ../xtran/* .
-    echo " "
-
+    wait
     progress_bar 8
 }
 
-prep_run_dir
-
-# Run TEM executable
 run_tem_executable() {
-     echo " "
-    echo "Running TEM "
+    echo " "
+    echo -e "${CYAN}*** Running TEM ***${NC}"
     echo " "
     chmod +x xtem45_biogeo
     ./xtem45_biogeo
     wait
-   
-    progress_bar  60
+    progress_bar 60
 }
 
-run_tem_executable
-wait
-
-
-# Biogeography and post-processing
 biogeography_and_post_processing() {
-    pwd
     echo " "
-    echo "Running biogeography model..."
-    python main.py 
+    echo -e "${CYAN}*** Running biogeography model ***${NC}"
+    echo " "
+    python main.py
     wait
-   
     progress_bar 80
-     echo " "
-    echo "Creating Vegetation Maps..."
-    python vegetation_maps.py 
-    wait
-   
+    
+    echo " "
+    echo -e "${CYAN}*** Running xtran ***${NC}"
+    echo " "
+    python xtran.py xbatch.xml
     progress_bar 90
-     echo " "
-    echo "Running xtran..."
-    python xtran.py  xbatch.xml
+
+    echo " "
+    echo -e "${CYAN}*** Creating Vegetation Maps ***${NC}"
+    python vegetation_maps.py
     wait
+    progress_bar 95
+    
    
-    progress_bar  95
 }
 
+# Function calls
+clean_tem_core
+compile_tem
+copy_executable
+cd "$runs"
+remove_temout_files
+prep_run_dir
+run_tem_executable
 biogeography_and_post_processing
- echo " "
-progress_bar  100
-echo "Complete!"
+
+# Completion message
+echo -e "${YELLOW}***${NC}"
+progress_bar 100
+echo -e "${GREEN}*** Complete! ***${NC}"
+echo -e "${YELLOW}*************************************************${NC}"
