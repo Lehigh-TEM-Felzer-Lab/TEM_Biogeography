@@ -71,7 +71,7 @@ units_out_file = "units.info"
 # Define PFT names based on TEM vegetation codes
 pft_description = {
     1: "Ice",
-    4: "Boreal Forest",
+    4: "Boreal Forests",
     5: "Forested Boreal Wetlands",
     6: "Boreal Woodlands",
     8: "Mixed Temperate Forests",
@@ -214,7 +214,7 @@ def process_file(input_filename, filter_params):
         )
 
     # save the units to a CSV file
-    df_units.to_csv(units_out_file, index=False, header=False, mode="a")
+    df_units.to_csv(units_out_file, index=False, header=False)
 
     # Define the function to filter the dataframe
     def filter_dataframe(df, filter_params):
@@ -363,7 +363,7 @@ def process_file(input_filename, filter_params):
     )
 
     # Save summary statistics to a CSV file
-    summary_stats_final.to_csv(stats_out_file, index=False)
+    summary_stats_final.to_csv(stats_out_file, index=False, header=False)
 
 
 # Get the list of files to process, and optinal filters from the input XML file
