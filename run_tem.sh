@@ -68,6 +68,8 @@ prep_run_dir() {
     echo " "
     echo -e "${CYAN}*** Preparing run directory ***${NC}"
     rm -f FIRE.csv FIRE_VARS.csv MMDI.csv *.log
+    rm -f *.SUMMARY
+    rm -f *.TEMOUT
     cp -f ../biogeography_module/* .
     cp -f ../xtran/* .
     wait
@@ -79,7 +81,7 @@ run_tem_executable() {
     echo -e "${CYAN}*** Running TEM ***${NC}"
     echo " "
     chmod +x xtem45_biogeo
-    ./xtem45_biogeo
+    ./xtem45_biogeo 
     wait
     progress_bar 60
 }
@@ -88,6 +90,7 @@ biogeography_and_post_processing() {
     echo " "
     echo -e "${CYAN}*** Running biogeography model ***${NC}"
     echo " "
+    pwd
     python main.py
     wait
     progress_bar 80
@@ -95,6 +98,7 @@ biogeography_and_post_processing() {
     echo " "
     echo -e "${CYAN}*** Running xtran ***${NC}"
     echo " "
+    
     python xtran.py xbatch.xml
     progress_bar 90
 
@@ -102,23 +106,43 @@ biogeography_and_post_processing() {
     echo -e "${CYAN}*** Creating Vegetation Maps ***${NC}"
     python vegetation_maps.py
     wait
+    python trends.py
     progress_bar 95
     
    
 }
 
+clean_dir(){
+    echo -e "${CYAN}*** Post Run Script ***${NC}"
+    echo " "
+    rm -f *.py
+    rm -f *.md
+    rm -f  xbatch.xml
+    rm -f paths.xml
+    rm -f *.json
+}
+
 # Function calls
 clean_tem_core
+pwd
 compile_tem
+pwd
 copy_executable
 cd "$runs"
+pwd
 remove_temout_files
+pwd
 prep_run_dir
+pwd
 run_tem_executable
+pwd
 biogeography_and_post_processing
+pwd
+clean_dir
+pwd
 
 # Completion message
-echo -e "${YELLOW}***${NC}"
+echo -e "${YELLOW}*************************************************${NC}"
 progress_bar 100
 echo -e "${GREEN}*** Complete! ***${NC}"
 echo -e "${YELLOW}*************************************************${NC}"
