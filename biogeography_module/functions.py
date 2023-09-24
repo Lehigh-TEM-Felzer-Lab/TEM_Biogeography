@@ -70,7 +70,8 @@ def persisting_pft(df, path):
     count_max_npp = df.groupby(["LON", "LAT", "POTVEG"]).size().reset_index(name="COUNT")
   
     # Find the PFT with the max NPP in each grid cell
-    idx = count_max_npp.groupby(["LON", "LAT"])["COUNT"].transform(max) == count_max_npp["COUNT"]
+    idx = count_max_npp.groupby(["LON", "LAT"])["COUNT"].transform('max') == count_max_npp["COUNT"]
+
     persisting_pft = count_max_npp[idx]
 
  
