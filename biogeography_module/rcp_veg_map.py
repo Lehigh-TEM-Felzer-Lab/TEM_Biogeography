@@ -131,7 +131,7 @@ fig.legend(
 )
 plt.subplots_adjust(wspace=0.1, hspace=0.3)  # Adjust these values as needed
 plt.tight_layout()
-plt.subplots_adjust(hspace=0.2)
+plt.subplots_adjust(hspace=0.15)
 
 plt.savefig("./biogeo/all.png", format="png", dpi=1200, bbox_inches="tight")
 plt.show()
