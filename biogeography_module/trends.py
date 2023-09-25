@@ -29,7 +29,7 @@ palette = {
     "Temperate Coniferous Forests": "#1b9d77",
     "Temperate Deciduous Forests": "#7570b3",
     "Xeromorphic Forests and Woodlands": "#A4D4B4",
-    "All Plant Functional Type": "gray",
+    "All Plant Functional Types": "gray",
 }
 
 
@@ -56,6 +56,8 @@ def process_data(filepath):
     
    # Drop N/A
     variable_data = variable_data.dropna()
+    # filter for year > 2016
+    variable_data = variable_data.query("YEAR > 2017")
     variable_data["POTVEG"] = variable_data["POTVEG"].astype(int)
   
 
@@ -124,12 +126,12 @@ for i, var in enumerate(vars):
     
     dataframe["TOTFORECOZONE"] = ((dataframe["TOTFORECOZONE"].astype(float)) / 1000)
     # Filter dataframe for POTVEG!=99
-    dataframe = dataframe.query("POTVEG != 0000")
+    
     
     if var == "TOTALNCE":
-        plot_df = dataframe.query("POTVEG != 0000 and POTVEG != 9")
+        plot_df = dataframe.query("POTVEG != 99 and POTVEG != 9")
         plot_df_9 = dataframe.query("POTVEG == 9")
-        plot_df_99 = dataframe.query("POTVEG == 0000")
+        plot_df_99 = dataframe.query("POTVEG == 99")
 
         # Plot data for var = "TOTALNCE" on the primary axis
         sns.lineplot(x="YEAR", y="CUMSUM", hue="DESCRIPTION", palette=palette, data=plot_df, ax=axs[i])
@@ -154,6 +156,7 @@ for i, var in enumerate(vars):
         ax2.set_ylabel("PgC " + " (Temperate Coniferous, Total)", fontsize=12)
           
     else:
+        dataframe = dataframe.query("POTVEG != 99")
         # Plot data for var != "TOTALNCE" on the primary axis
         sns.lineplot(x="YEAR", y="TOTFORECOZONE", hue="DESCRIPTION", palette=palette, data=dataframe, ax=axs[i])
 

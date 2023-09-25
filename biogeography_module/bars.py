@@ -43,10 +43,10 @@ def process_historical_data(filepath):
     variable_data["STNDEV"] = variable_data["STNDEV"]/1000
     return variable_data
 
-historical_vegc_path = "ORIGINAL_LULC_VEGC.SUMMARY"
-historical_npp_path = "ORIGINAL_LULC_NPP.SUMMARY"
-historical_nep_path = "ORIGINAL_LULC_NEP.SUMMARY"
-historical_soilorgc_path = "ORIGINAL_LULC_SOILORGC.SUMMARY"
+historical_vegc_path = "./historical/ORIGINAL_LULC_VEGC.SUMMARY"
+historical_npp_path = "./historical/ORIGINAL_LULC_NPP.SUMMARY"
+historical_nep_path = "./historical/ORIGINAL_LULC_NEP.SUMMARY"
+historical_soilorgc_path = "./historical/ORIGINAL_LULC_SOILORGC.SUMMARY"
 
 historical_vegc_df = process_historical_data(historical_vegc_path)
 historical_npp_df = process_historical_data(historical_npp_path)
@@ -75,9 +75,10 @@ def process_future_data(filepath):
     
    # Drop N/A
     variable_data = variable_data.dropna()
-    # replace "0000" in POTVEG with 99
-    variable_data["POTVEG"] = variable_data["POTVEG"].replace("0000", "99")
+  
     variable_data["POTVEG"] = variable_data["POTVEG"].astype(int)
+    variable_data["TOTFORECOZONE"] = variable_data["TOTFORECOZONE"]/1000
+    variable_data["STNDEV"] = variable_data["STNDEV"]/1000
     
 
   
@@ -85,10 +86,10 @@ def process_future_data(filepath):
     return variable_data
 
 
-future_vegc_path = "VEGC_BAKEOFF.SUMMARY"
-future_npp_path = "NPP_BAKEOFF.SUMMARY"
-future_nep_path = "NEP_BAKEOFF.SUMMARY"
-future_soilorgc_path = "SOILORGC_BAKEOFF.SUMMARY"
+future_vegc_path = "VEGC.SUMMARY"
+future_npp_path = "NPP.SUMMARY"
+future_nep_path = "NEP.SUMMARY"
+future_soilorgc_path = "SOILORGC.SUMMARY"
 
 future_vegc_df = process_future_data(future_vegc_path)
 future_npp_df = process_future_data(future_npp_path)

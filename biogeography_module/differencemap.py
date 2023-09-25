@@ -30,7 +30,7 @@ YlFG = LinearSegmentedColormap.from_list("", list(zip(positions, colors)))
 
 # Import End of Century Land Cover data
 end_of_century_land_cover = pd.read_csv(
-    "../data/agg_models_landcover.csv", names=["LON", "LAT", "POTVEG"]
+    "./biogeo/output_bakeoff/end.shift", names=["LON", "LAT", "POTVEG"]
 )
 end_of_century_land_cover = end_of_century_land_cover.drop_duplicates()
 end_of_century_land_cover = end_of_century_land_cover.query(
