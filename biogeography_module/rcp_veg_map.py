@@ -29,6 +29,12 @@ sns.set_theme(style="ticks", font="sans-serif", rc={"lines.linewidth": 2.5})
 fig, axarr = plt.subplots(nrows=2, ncols=2, figsize=(13, 13), sharex=True, sharey=True, subplot_kw={'projection': ccrs.Miller()})
 for ax in axarr.ravel():
     ax.set_extent([-125, -104.5, 31, 48.5])
+    gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True, linewidth=0, color='gray', alpha=0.5, linestyle='--')
+    gl.top_labels = False
+    gl.right_labels = False
+    gl.xlocator = plt.MultipleLocator(5)
+    gl.ylocator = plt.MultipleLocator(5)
+
 
 for i, data in enumerate(data_list):
     ax = axarr[i//2, i%2]  # This will arrange the axes in a 2x2 grid
@@ -125,7 +131,7 @@ fig.legend(
 )
 plt.subplots_adjust(wspace=0.1, hspace=0.3)  # Adjust these values as needed
 plt.tight_layout()
-plt.subplots_adjust(hspace=0.1)
+plt.subplots_adjust(hspace=0.2)
 
 plt.savefig("./biogeo/all.png", format="png", dpi=1200, bbox_inches="tight")
 plt.show()
