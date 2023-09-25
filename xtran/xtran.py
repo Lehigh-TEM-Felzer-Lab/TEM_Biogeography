@@ -119,7 +119,7 @@ pft_description = {
     54: "Rice",
     55: "Soybean",
     56: "Potato",
-    "0000": "All Plant Functional Types",
+    99: "All Plant Functional Types",
     "": "",
 }
 
@@ -214,7 +214,7 @@ def process_file(input_filename, filter_params):
         )
 
     # save the units to a CSV file
-    df_units.to_csv(units_out_file, index=False, header=False)
+    df_units.to_csv(units_out_file, index=False, header=False, mode="a")
 
     # Define the function to filter the dataframe
     def filter_dataframe(df, filter_params):
@@ -324,7 +324,7 @@ def process_file(input_filename, filter_params):
     # Calculate summary statistics for REGION
     summary_stats_region = summary_stats(df, "REGION")
     summary_stats_region = summary_stats_region.round(2)
-    summary_stats_region["POTVEG"] = "0000"
+    summary_stats_region["POTVEG"] = 99
     summary_stats_region["YEAR"] = summary_stats_region["YEAR"].astype(int).astype(str)
 
     # Concatenate the two summary statistics dataframes
