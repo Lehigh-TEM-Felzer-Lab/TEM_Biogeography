@@ -2136,11 +2136,11 @@ void Ttem45::delta(const int &pdm, const int &pdyr, const double &nmax_grow, dou
     pdstate[I_PESOIL] = veg.getPESOILW();
 };
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -2587,11 +2587,11 @@ void Ttem45::displayOptionalEflx(const seykey &s)
 
 #endif
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -3096,11 +3096,11 @@ void Ttem45::getenviron(void)
     //  ninput = (soil.getLCHDON()+soil.getNLOST())*atms.getPREC()/atms.yrprec;
 };
 
-/* *************************************************************
-************************************************************** */
+    /* *************************************************************
+    ************************************************************** */
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -3563,11 +3563,11 @@ double Ttem45::getOptionalEflx(const int &optflx)
 
 #endif
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -4810,11 +4810,11 @@ void Ttem45::natvegDynamics(const int &pdm, const double &nmax_grow, double psta
 #endif
 };
 
-/* *************************************************************
-************************************************************** */
+    /* *************************************************************
+    ************************************************************** */
 
-/* *************************************************************
-************************************************************* */
+    /* *************************************************************
+    ************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -5313,7 +5313,8 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
 
     /*
                                                        FIRE OCCURENCE LOGIC
-        Adapted from (Melton & Arora, 2016), (Lawrence et al., 2018) & (Li et al., 2012)
+        Adapted from (Melton & Arora, 2016), (Lawrence et al., 2018) & (Li et al., 2012 | www.biogeosciences.net/9/2761/2012/)
+        
 
    */
 
@@ -5333,8 +5334,8 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     const double LOWER_RH_THRESHOLD = 30.0;     // %
     const double THETA_E = 0.69;                // soil moisture threshold
     const double EPSILON = 1e-6;                // a small number to avoid division by zero
-    const double FIRE_PROB_THRESHOLD =
-        0.50; // fire probability threshold, assuming 50% change of fires will ignite and sustain
+    const double FIRE_PROB_THRESHOLD = 0.50;   // fire probability threshold, assuming 50% change of fires will ignite and sustain
+
 
     // get variables from the environment
     double vegc = veg.getVEGC();                           // vegetation carbon
@@ -5347,7 +5348,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     double rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0; // relative humidity
     double theta = (sm - wiltpt) / awcapmm;                // soil wetness
     int vegtype = veg.getPOTVEG();                         // potential vegetation type
-    int severity = 1; // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
+    int severity = 1;                                      // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
 
     // calculate fuel availability
     double fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
@@ -5725,8 +5726,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         //
         distmnthcnt = 1;
         firemnthcnt = 1;
-       
-      
+
         dleaf = severity;
         dwood = severity;
         ag.setNATSEEDC(y[I_SEEDC]);
@@ -6429,7 +6429,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
 
     if (initFlag == 1)
     {
-        cout << "time = " << pdm + 1 << "/" << startyr + pdyr << endl;
+        cout << "time = " << pdm+1<< "/" << startyr + pdyr<< endl;
     }
 
     mintflag = adapt(NUMEQ, y, ptol, pdm, pdyr, nmax_grow[ichrt]);
