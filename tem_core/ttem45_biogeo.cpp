@@ -5336,25 +5336,36 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     const double EPSILON = 1e-6;                // a small number to avoid division by zero
     const double FIRE_PROB_THRESHOLD = 0.50;   // fire probability threshold, assuming 50% change of fires will ignite and sustain
 
+    const double MIN_VALUE = 0.5;              // min dwood and dleaf value
+    const double MAX_VALUE = 1;                // max dwood and dleaf value
 
     // get variables from the environment
-    double vegc = veg.getVEGC();                           // vegetation carbon
-    double sm = y[I_SM];                                   // surface soil wetness
-    double wiltpt = soil.getWILTPT();                      // wilting point
+    double vegc = veg.getVEGC();                                     // vegetation carbon
+    double sm = y[I_SM];                                                    // surface soil wetness
+    double wiltpt = soil.getWILTPT();                               // wilting point
     double awcapmm = soil.getAWCAPMM();                    // available water capacity
-    double vpr = atms.getVPR();                            // vapor pressure
-    double vpdn = atms.getVPDN();                          // vapor pressure deficit (night)
-    double vpdd = atms.getVPDD();                          // vapor pressure deficit (day)
-    double rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0; // relative humidity
-    double theta = (sm - wiltpt) / awcapmm;                // soil wetness
-    int vegtype = veg.getPOTVEG();                         // potential vegetation type
-    int severity = 1;                                      // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
+    double vpr = atms.getVPR();                                         // vapor pressure
+    double vpdn = atms.getVPDN();                                   // vapor pressure deficit (night)
+    double vpdd = atms.getVPDD();                                       // vapor pressure deficit (day)
+    double rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0;       // relative humidity
+    double theta = (sm - wiltpt) / awcapmm;                             // soil wetness
+    int vegtype = veg.getPOTVEG();                                          // potential vegetation type
+
+    double dampening_factor = 0;                                                       // dampening factor
+    double severity = 0;                                                               // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
+    double fb = 0;                                                                          // fuel availability factor
+    double fRH = 0;                                                                        // relative humidity factor
+    double ftheta = 0;                                                                     // soil wetness factor
+    double fireProbabiltiy = 0;                                                     // fire probability
+    bool FIRE = false;                                                              // initialize to false
 
     // calculate fuel availability
-    double fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
+    fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
+    // adjust fuel availability range to 0-1
+    fb = std::min(std::max(fb, 0.0), 1.0);
 
     // calculate relative humidity factor
-    double fRH = 1.0;
+    fRH = 1.0;
     if (rh > UPPER_RH_THRESHOLD)
     {
         fRH = 0.0;
@@ -5365,29 +5376,74 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     }
 
     // calculate soil wetness factor
-    double ftheta = exp(-M_PI * pow(theta / THETA_E, 2));
+    ftheta = exp(-M_PI * pow(theta / THETA_E, 2));
     if (theta > THETA_E)
     {
         ftheta = 0.0;
     }
 
     // calculate fire occurrence probability
-    double p = fb * fRH * ftheta;
-
-    // adjust fire probability based on vegetation type
-    /*
+    fireProbabiltiy = fb * fRH * ftheta;
+ 
+    // adjust fire probability based on vegetation type and fuel availability
     if ((vegtype == 13 || vegtype == 15) && vegc <= UPPER_FUEL_THRESHOLD)
     {
-        p = 0.0; // no fires if vegtype is 13 or 15 and vegc is below UPPER_FUEL_THRESHOLD
-    }*/
+        fireProbabiltiy = 0.0; // no fires if vegtype is 13 or 15 and vegc is below UPPER_FUEL_THRESHOLD
+    }
+  
+    
+    // adjust fire probability range to 0-1
+    fireProbabiltiy = std::min(std::max(fireProbabiltiy, 0.0), 1.0);
 
     // check if fire occurs
-    bool FIRE = false; // initialize to false
-    if (p >= FIRE_PROB_THRESHOLD && (double)rand() / RAND_MAX < p)
+    if (fireProbabiltiy >= FIRE_PROB_THRESHOLD && (double)rand() / RAND_MAX < fireProbabiltiy)
     {
         FIRE = true; // set to true if probability is high enough and random number is less than probability
     }
+   
 
+
+
+
+
+
+    // calculate fire severity
+   dampening_factor = 1 - theta / 0.69; // dampening factor based on soil wetness
+
+    if (dampening_factor > 1) 
+    {
+    dampening_factor = 1;
+    } 
+    else if (dampening_factor < 0) 
+    {
+    dampening_factor = 0;
+    }
+
+
+
+    if (vegc > UPPER_FUEL_THRESHOLD )
+    {
+        severity = MAX_VALUE * dampening_factor;
+    }
+    else
+    {
+        severity = (MIN_VALUE + (MAX_VALUE - MIN_VALUE) * (log(vegc - LOWER_FUEL_THRESHOLD + 1) / log(UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD + 1))) *
+                   dampening_factor;
+    }
+
+    // Ensure fires do not occur when theta > 0.69
+    if (theta > 0.69)
+    {
+        severity = 0.0;
+    }
+
+
+
+
+if (severity == 1)
+
+{
+    
     // if fire occurs, set fireoccur to 1 and increment fire count
     if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FIRE == true))
     {
@@ -5402,7 +5458,11 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
                      << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
                      << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
                      << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
-                     << soil.getAWCAPMM() << "," << theta << "," << THETA_E << p << endl;
+                     << soil.getAWCAPMM() << "," << theta << "," << THETA_E << "," << fb << "," << fRH << ","<< ftheta << "," << fireProbabiltiy << "," << severity <<","<< dampening_factor << endl;
+
+       
+
+  
     }
 
     else
@@ -5412,6 +5472,10 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
             fireoccur = 0;
         }
     }
+
+}
+
+
 
     /*END FIRE LOGIC*/
 
