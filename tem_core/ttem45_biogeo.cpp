@@ -2136,11 +2136,11 @@ void Ttem45::delta(const int &pdm, const int &pdyr, const double &nmax_grow, dou
     pdstate[I_PESOIL] = veg.getPESOILW();
 };
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -2587,11 +2587,11 @@ void Ttem45::displayOptionalEflx(const seykey &s)
 
 #endif
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -3096,11 +3096,11 @@ void Ttem45::getenviron(void)
     //  ninput = (soil.getLCHDON()+soil.getNLOST())*atms.getPREC()/atms.yrprec;
 };
 
-    /* *************************************************************
-    ************************************************************** */
+/* *************************************************************
+************************************************************** */
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -3563,11 +3563,11 @@ double Ttem45::getOptionalEflx(const int &optflx)
 
 #endif
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -4810,11 +4810,11 @@ void Ttem45::natvegDynamics(const int &pdm, const double &nmax_grow, double psta
 #endif
 };
 
-    /* *************************************************************
-    ************************************************************** */
+/* *************************************************************
+************************************************************** */
 
-    /* *************************************************************
-    ************************************************************* */
+/* *************************************************************
+************************************************************* */
 
 #ifdef CALIBRATE_TEM
 
@@ -5313,8 +5313,9 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
 
     /*
                                                        FIRE OCCURENCE LOGIC
-        Adapted from (Melton & Arora, 2016), (Lawrence et al., 2018) & (Li et al., 2012 | www.biogeosciences.net/9/2761/2012/)
-        
+        Adapted from (Melton & Arora, 2016), (Lawrence et al., 2018) & (Li et al., 2012 |
+       www.biogeosciences.net/9/2761/2012/)
+
 
    */
 
@@ -5334,30 +5335,32 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     const double LOWER_RH_THRESHOLD = 30.0;     // %
     const double THETA_E = 0.69;                // soil moisture threshold
     const double EPSILON = 1e-6;                // a small number to avoid division by zero
-    const double FIRE_PROB_THRESHOLD = 0.50;   // fire probability threshold, assuming 50% change of fires will ignite and sustain
+    const double FIRE_PROB_THRESHOLD =
+        0.50; // fire probability threshold, assuming 50% change of fires will ignite and sustain
 
-    const double MIN_VALUE = 0.5;              // min dwood and dleaf value
-    const double MAX_VALUE = 1;                // max dwood and dleaf value
+    const double SAVERITY_MIN_VALUE = 0.5; // min dwood and dleaf value
+    const double SAVERITY_MAX_VALUE = 1;   // max dwood and dleaf value
 
     // get variables from the environment
-    double vegc = veg.getVEGC();                                     // vegetation carbon
-    double sm = y[I_SM];                                                    // surface soil wetness
-    double wiltpt = soil.getWILTPT();                               // wilting point
+    double vegc = veg.getVEGC();                           // vegetation carbon
+    double sm = y[I_SM];                                   // surface soil wetness
+    double wiltpt = soil.getWILTPT();                      // wilting point
     double awcapmm = soil.getAWCAPMM();                    // available water capacity
-    double vpr = atms.getVPR();                                         // vapor pressure
-    double vpdn = atms.getVPDN();                                   // vapor pressure deficit (night)
-    double vpdd = atms.getVPDD();                                       // vapor pressure deficit (day)
-    double rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0;       // relative humidity
-    double theta = (sm - wiltpt) / awcapmm;                             // soil wetness
-    int vegtype = veg.getPOTVEG();                                          // potential vegetation type
+    double vpr = atms.getVPR();                            // vapor pressure
+    double vpdn = atms.getVPDN();                          // vapor pressure deficit (night)
+    double vpdd = atms.getVPDD();                          // vapor pressure deficit (day)
+    double rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0; // relative humidity
+    double theta = (sm - wiltpt) / awcapmm;                // soil wetness
+    int vegtype = veg.getPOTVEG();                         // potential vegetation type
 
-    double dampening_factor = 0;                                                       // dampening factor
-    double severity = 0;                                                               // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
-    double fb = 0;                                                                          // fuel availability factor
-    double fRH = 0;                                                                        // relative humidity factor
-    double ftheta = 0;                                                                     // soil wetness factor
-    double fireProbabiltiy = 0;                                                     // fire probability
-    bool FIRE = false;                                                              // initialize to false
+    double dampening_factor = 0; // dampening factor
+    double severity =
+        0;             // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
+    double fb = 0;     // fuel availability factor
+    double fRH = 0;    // relative humidity factor
+    double ftheta = 0; // soil wetness factor
+    double fireProbabiltiy = 0; // fire probability
+    bool FIRE = false;          // initialize to false
 
     // calculate fuel availability
     fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
@@ -5384,14 +5387,13 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
 
     // calculate fire occurrence probability
     fireProbabiltiy = fb * fRH * ftheta;
- 
+
     // adjust fire probability based on vegetation type and fuel availability
     if ((vegtype == 13 || vegtype == 15) && vegc <= UPPER_FUEL_THRESHOLD)
     {
         fireProbabiltiy = 0.0; // no fires if vegtype is 13 or 15 and vegc is below UPPER_FUEL_THRESHOLD
     }
-  
-    
+
     // adjust fire probability range to 0-1
     fireProbabiltiy = std::min(std::max(fireProbabiltiy, 0.0), 1.0);
 
@@ -5400,34 +5402,28 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     {
         FIRE = true; // set to true if probability is high enough and random number is less than probability
     }
-   
-
-
-
-
-
 
     // calculate fire severity
-   dampening_factor = 1 - theta / 0.69; // dampening factor based on soil wetness
+    dampening_factor = 1 - theta / 0.69; // dampening factor based on soil wetness
 
-    if (dampening_factor > 1) 
+    if (dampening_factor > 1)
     {
-    dampening_factor = 1;
-    } 
-    else if (dampening_factor < 0) 
+        dampening_factor = 1;
+    }
+    else if (dampening_factor < 0)
     {
-    dampening_factor = 0;
+        dampening_factor = 0;
     }
 
-
-
-    if (vegc > UPPER_FUEL_THRESHOLD )
+    if (vegc > UPPER_FUEL_THRESHOLD)
     {
-        severity = MAX_VALUE * dampening_factor;
+        severity = SAVERITY_MAX_VALUE * dampening_factor;
     }
     else
     {
-        severity = (MIN_VALUE + (MAX_VALUE - MIN_VALUE) * (log(vegc - LOWER_FUEL_THRESHOLD + 1) / log(UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD + 1))) *
+        severity = (SAVERITY_MIN_VALUE +
+                    (SAVERITY_MAX_VALUE - SAVERITY_MIN_VALUE) *
+                        (log(vegc - LOWER_FUEL_THRESHOLD + 1) / log(UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD + 1))) *
                    dampening_factor;
     }
 
@@ -5437,45 +5433,36 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         severity = 0.0;
     }
 
+    if (severity == 1)
 
-
-
-if (severity == 1)
-
-{
-    
-    // if fire occurs, set fireoccur to 1 and increment fire count
-    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FIRE == true))
     {
-        fireoccur = 1;
-        firecount[ichrt]++; // Increment fire count
 
-        ofstream fire_occured;
-
-        fire_occured.open("FIRE.csv", ios::app);
-
-        fire_occured << "Fire Occured!  "
-                     << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
-                     << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
-                     << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
-                     << soil.getAWCAPMM() << "," << theta << "," << THETA_E << "," << fb << "," << fRH << ","<< ftheta << "," << fireProbabiltiy << "," << severity <<","<< dampening_factor << endl;
-
-       
-
-  
-    }
-
-    else
-    {
-        if (firecount[ichrt] == 1)
+        // if fire occurs, set fireoccur to 1 and increment fire count
+        if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FIRE == true))
         {
-            fireoccur = 0;
+            fireoccur = 1;
+            firecount[ichrt]++; // Increment fire count
+
+            ofstream fire_occured;
+
+            fire_occured.open("FIRE.csv", ios::app);
+
+            fire_occured << "Fire Occured!  "
+                         << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
+                         << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
+                         << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
+                         << soil.getAWCAPMM() << "," << theta << "," << THETA_E << "," << fb << "," << fRH << ","
+                         << ftheta << "," << fireProbabiltiy << "," << severity << "," << dampening_factor << endl;
+        }
+
+        else
+        {
+            if (firecount[ichrt] == 1)
+            {
+                fireoccur = 0;
+            }
         }
     }
-
-}
-
-
 
     /*END FIRE LOGIC*/
 
@@ -6493,7 +6480,7 @@ if (severity == 1)
 
     if (initFlag == 1)
     {
-        cout << "time = " << pdm+1<< "/" << startyr + pdyr<< endl;
+        cout << "time = " << pdm + 1 << "/" << startyr + pdyr << endl;
     }
 
     mintflag = adapt(NUMEQ, y, ptol, pdm, pdyr, nmax_grow[ichrt]);
