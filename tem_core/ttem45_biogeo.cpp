@@ -5354,7 +5354,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     double theta = (sm - wiltpt) / awcapmm;                // soil wetness
     int vegtype = veg.getPOTVEG();                         // potential vegetation type
 
-    double fireProbabiltiy; // fire probability
+    double fireProbability; // fire probability
     double fireProbabilityThreshold; // fire probability threshold, represent %  of fires that will ignite and sustain if all conditions are met
     double severity; // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
     double dampeningFactor; // dampening factor based on soil wetness
@@ -5393,7 +5393,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     }
 
     // calculate fire occurrence probability
-    fireProbabiltiy = fb * fRH * ftheta;
+    fireProbability = fb * fRH * ftheta;
 
  
 
@@ -5412,7 +5412,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
 
 // check if fire occurs
 
-    if (fireProbabiltiy >= fireProbabilityThreshold && (double)rand() / RAND_MAX < fireProbabiltiy)
+    if (fireProbability >= fireProbabilityThreshold && (double)rand() / RAND_MAX < fireProbability)
     {
         FIRE = true; // set to true if probability is high enough and random number is less than probability
     }
@@ -5473,7 +5473,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
                         << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
                         << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
                         << soil.getAWCAPMM() << "," << theta << "," << THETA_E << "," << fb << "," << fRH << ","
-                        << ftheta << "," << fireProbabiltiy << "," << severity << ","<<fireProbabilityThreshold<<"," << dampeningFactor << endl;
+                        << ftheta << "," << fireProbability << "," << severity << ","<<fireProbabilityThreshold<<"," << dampeningFactor << endl;
     }
 
   
