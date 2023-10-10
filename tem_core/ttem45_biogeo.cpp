@@ -5335,11 +5335,12 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     const double LOWER_RH_THRESHOLD = 30.0;     // %
     const double THETA_E = 0.69;                // soil moisture threshold
     const double EPSILON = 1e-6;                // a small number to avoid division by zero
-    const double FIRE_PROB_THRESHOLD =
-        0.50; // fire probability threshold, assuming 50% change of fires will ignite and sustain
+    const double MIN_FIRE_PROB_THRESHOLD = 0.0; // minimum fire probability threshold
+    const double MAX_FIRE_PROB_THRESHOLD = 1.0; // maximum fire probability threshold
+    
 
-    const double SAVERITY_MIN_VALUE = 0.5; // min dwood and dleaf value
-    const double SAVERITY_MAX_VALUE = 1;   // max dwood and dleaf value
+    const double SAVERITY_MIN = 0.5; // minimum fire severity
+    const double SAVERITY_MAX = 1.0; // maximum fire severity
 
     // get variables from the environment
     double vegc = veg.getVEGC();                           // vegetation carbon
@@ -5353,19 +5354,25 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     double theta = (sm - wiltpt) / awcapmm;                // soil wetness
     int vegtype = veg.getPOTVEG();                         // potential vegetation type
 
-    double dampening_factor = 0; // dampening factor
-    double severity =
-        0;             // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
-    double fb = 0;     // fuel availability factor
-    double fRH = 0;    // relative humidity factor
-    double ftheta = 0; // soil wetness factor
-    double fireProbabiltiy = 0; // fire probability
-    bool FIRE = false;          // initialize to false
+    double fireProbabiltiy; // fire probability
+    double fireProbabilityThreshold; // fire probability threshold, represent %  of fires that will ignite and sustain if all conditions are met
+    double severity; // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
+    double dampeningFactor; // dampening factor based on soil wetness
+    double fb;              // fuel availability
+    double fRH;             // relative humidity factor
+    double ftheta;          // soil wetness factor
+    bool FIRE = false;      // fire flag
 
     // calculate fuel availability
     fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
-    // adjust fuel availability range to 0-1
-    fb = std::min(std::max(fb, 0.0), 1.0);
+    if (fb < 0.0)
+    {
+        fb = 0.0;
+    }
+    else if (fb > 1.0)
+    {
+        fb = 1.0;
+    }
 
     // calculate relative humidity factor
     fRH = 1.0;
@@ -5388,81 +5395,88 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     // calculate fire occurrence probability
     fireProbabiltiy = fb * fRH * ftheta;
 
-    // adjust fire probability based on vegetation type and fuel availability
-    if ((vegtype == 13 || vegtype == 15) && vegc <= UPPER_FUEL_THRESHOLD)
+ 
+
+    // calculate fire occurrence probability
+
+    fireProbabilityThreshold =MIN_FIRE_PROB_THRESHOLD + (MAX_FIRE_PROB_THRESHOLD - MIN_FIRE_PROB_THRESHOLD) * (1 - fb) * (1 - ftheta);
+
+    if (fireProbabilityThreshold < MIN_FIRE_PROB_THRESHOLD)
     {
-        fireProbabiltiy = 0.0; // no fires if vegtype is 13 or 15 and vegc is below UPPER_FUEL_THRESHOLD
+        fireProbabilityThreshold = MIN_FIRE_PROB_THRESHOLD;
+    }
+    else if (fireProbabilityThreshold > MAX_FIRE_PROB_THRESHOLD)
+    {
+        fireProbabilityThreshold = MAX_FIRE_PROB_THRESHOLD;
     }
 
-    // adjust fire probability range to 0-1
-    fireProbabiltiy = std::min(std::max(fireProbabiltiy, 0.0), 1.0);
+// check if fire occurs
 
-    // check if fire occurs
-    if (fireProbabiltiy >= FIRE_PROB_THRESHOLD && (double)rand() / RAND_MAX < fireProbabiltiy)
+    if (fireProbabiltiy >= fireProbabilityThreshold && (double)rand() / RAND_MAX < fireProbabiltiy)
     {
         FIRE = true; // set to true if probability is high enough and random number is less than probability
     }
 
-    // calculate fire severity
-    dampening_factor = 1 - theta / 0.69; // dampening factor based on soil wetness
+    // Calculate fire severity
 
-    if (dampening_factor > 1)
+    // Compute and clamp the dampening factor to the range [0, 1]
+    dampeningFactor = 1 - (theta / 0.69);
+    if (dampeningFactor < 0)
     {
-        dampening_factor = 1;
+        dampeningFactor = 0;
     }
-    else if (dampening_factor < 0)
+    else if (dampeningFactor > 1)
     {
-        dampening_factor = 0;
+        dampeningFactor = 1;
     }
 
     if (vegc > UPPER_FUEL_THRESHOLD)
     {
-        severity = SAVERITY_MAX_VALUE * dampening_factor;
+        severity = SAVERITY_MAX * dampeningFactor;
+    }
+    else if ((vegc - (LOWER_FUEL_THRESHOLD + 1 + EPSILON)) <= 0)
+    {
+        severity = 0;
     }
     else
     {
-        severity = (SAVERITY_MIN_VALUE +
-                    (SAVERITY_MAX_VALUE - SAVERITY_MIN_VALUE) *
-                        (log(vegc - LOWER_FUEL_THRESHOLD + 1) / log(UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD + 1))) *
-                   dampening_factor;
+        severity = (SAVERITY_MIN +
+                    (SAVERITY_MAX - SAVERITY_MIN) * (log(vegc - LOWER_FUEL_THRESHOLD + 1) /
+                                                     log(UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD + 1 + EPSILON))) *
+                   dampeningFactor;
     }
 
-    // Ensure fires do not occur when theta > 0.69
-    if (theta > 0.69)
+    if (severity < 0)
     {
-        severity = 0.0;
+        severity = EPSILON;
     }
-
-    if (severity == 1)
-
+    else if (severity > 1)
     {
-
-        // if fire occurs, set fireoccur to 1 and increment fire count
-        if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FIRE == true))
-        {
-            fireoccur = 1;
-            firecount[ichrt]++; // Increment fire count
-
-            ofstream fire_occured;
-
-            fire_occured.open("FIRE.csv", ios::app);
-
-            fire_occured << "Fire Occured!  "
-                         << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
-                         << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
-                         << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
-                         << soil.getAWCAPMM() << "," << theta << "," << THETA_E << "," << fb << "," << fRH << ","
-                         << ftheta << "," << fireProbabiltiy << "," << severity << "," << dampening_factor << endl;
-        }
-
-        else
-        {
-            if (firecount[ichrt] == 1)
-            {
-                fireoccur = 0;
-            }
-        }
+        severity = 1;
     }
+
+    // Burn vegetation and litter
+
+
+    // if fire occurs, set fireoccur to 1 and increment fire count
+    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FIRE == true))
+    {
+        fireoccur = 1;
+        firecount[ichrt]++; // Increment fire count
+
+        ofstream fire_occured;
+
+        fire_occured.open("FIRE.csv", ios::app);
+
+        fire_occured << "Fire Occured!  "
+                        << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
+                        << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
+                        << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
+                        << soil.getAWCAPMM() << "," << theta << "," << THETA_E << "," << fb << "," << fRH << ","
+                        << ftheta << "," << fireProbabiltiy << "," << severity << ","<<fireProbabilityThreshold<<"," << dampeningFactor << endl;
+    }
+
+  
 
     /*END FIRE LOGIC*/
 
