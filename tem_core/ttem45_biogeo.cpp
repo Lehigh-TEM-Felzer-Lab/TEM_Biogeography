@@ -67,6 +67,7 @@ Modifications:
 
 #include <cstdio>
 
+
 using std::printf;
 
 #include <iostream>
@@ -105,6 +106,7 @@ using std::atof;
 using std::atoi;
 
 #include <cmath>
+#include <sstream>
 
 using std::exp;
 using std::fabs;
@@ -147,6 +149,7 @@ using std::toupper;
 #endif
 
 #include "ttem45_disturb.h"
+#include "ttem45_fire.h"
 
 /* **************************************************************
 ************************************************************** */
@@ -5311,14 +5314,6 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         stormoccur = 0;
     }
 
-    /*
-                                                       FIRE OCCURENCE LOGIC
-        Adapted from (Melton & Arora, 2016), (Lawrence et al., 2018) & (Li et al., 2012 |
-       www.biogeosciences.net/9/2761/2012/)
-
-
-   */
-
     // reset fire occurrence and fire count
     if ((pdyr == 0 || pdyr == 1) && pdm == 0)
     {
@@ -5328,160 +5323,49 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         }
     }
 
-    // define constants
-    const double UPPER_FUEL_THRESHOLD = 1050.0; // gCm^-2
-    const double LOWER_FUEL_THRESHOLD = 155.0;  // gCm^-2
-    const double UPPER_RH_THRESHOLD = 70.0;     // %
-    const double LOWER_RH_THRESHOLD = 30.0;     // %
-    const double THETA_E = 0.69;                // soil moisture threshold
-    const double EPSILON = 1e-6;                // a small number to avoid division by zero
-    const double MIN_FIRE_PROB_THRESHOLD = 0.0; // minimum fire probability threshold
-    const double MAX_FIRE_PROB_THRESHOLD = 1.0; // maximum fire probability threshold
+    // get variables from the environment
+    double vegc = veg.getVEGC();        // vegetation carbon
+    double sm = y[I_SM];                // surface soil wetness
+    double wiltpt = soil.getWILTPT();   // wilting point
+    double awcapmm = soil.getAWCAPMM(); // available water capacity
+    double vpr = atms.getVPR();         // vapor pressure
+    double vpdn = atms.getVPDN();       // vapor pressure deficit (night)
+    double vpdd = atms.getVPDD();       // vapor pressure deficit (day)
+    int vegtype = veg.getPOTVEG();      // potential vegetation type
+    double ws= atms.getWS10();         // wind speed
+    int fire_status = 0; // fire status is set to 0 if fire does not occur
+    double rh, theta, theta_e, fire_probability_threshold, fireRandomness, severity, fRH, ftheta, Ni, fb, fm, fs, Nf,
+        fireProbability, Ag,Ab;
     
 
-    const double SAVERITY_MIN = 0.5; // minimum fire severity
-    const double SAVERITY_MAX = 1.0; // maximum fire severity
-
-    // get variables from the environment
-    double vegc = veg.getVEGC();                           // vegetation carbon
-    double sm = y[I_SM];                                   // surface soil wetness
-    double wiltpt = soil.getWILTPT();                      // wilting point
-    double awcapmm = soil.getAWCAPMM();                    // available water capacity
-    double vpr = atms.getVPR();                            // vapor pressure
-    double vpdn = atms.getVPDN();                          // vapor pressure deficit (night)
-    double vpdd = atms.getVPDD();                          // vapor pressure deficit (day)
-    double rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0; // relative humidity
-    double theta = (sm - wiltpt) / awcapmm;                // soil wetness
-    int vegtype = veg.getPOTVEG();                         // potential vegetation type
-
-    double fireProbability; // fire probability
-    double fireProbabilityThreshold; // fire probability threshold, represent %  of fires that will ignite and sustain if all conditions are met
-    double severity; // fire severity , if set to 1 its a replacement fire fire which burns all vegetation and litter
-    double dampeningFactor; // dampening factor based on soil wetness
-    double fb;              // fuel availability
-    double fRH;             // relative humidity factor
-    double ftheta;          // soil wetness factor
-    bool FIRE = false;      // fire flag
-
-    // calculate fuel availability
-    fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
-    if (fb < 0.0)
-    {
-        fb = 0.0;
-    }
-    else if (fb > 1.0)
-    {
-        fb = 1.0;
-    }
-
-    // calculate relative humidity factor
-    fRH = 1.0;
-    if (rh > UPPER_RH_THRESHOLD)
-    {
-        fRH = 0.0;
-    }
-    else if (rh > LOWER_RH_THRESHOLD)
-    {
-        fRH = (UPPER_RH_THRESHOLD - rh) / (UPPER_RH_THRESHOLD - LOWER_RH_THRESHOLD);
-    }
-
-    // calculate soil wetness factor
-    ftheta = exp(-M_PI * pow(theta / THETA_E, 2));
-    if (theta > THETA_E)
-    {
-        ftheta = 0.0;
-    }
-
-    // calculate fire occurrence probability
-    fireProbability = fb * fRH * ftheta;
-
- 
-
-    // calculate fire occurrence probability
-
-    fireProbabilityThreshold =MIN_FIRE_PROB_THRESHOLD + (MAX_FIRE_PROB_THRESHOLD - MIN_FIRE_PROB_THRESHOLD) * (1 - fb) * (1 - ftheta);
-
-    if (fireProbabilityThreshold < MIN_FIRE_PROB_THRESHOLD)
-    {
-        fireProbabilityThreshold = MIN_FIRE_PROB_THRESHOLD;
-    }
-    else if (fireProbabilityThreshold > MAX_FIRE_PROB_THRESHOLD)
-    {
-        fireProbabilityThreshold = MAX_FIRE_PROB_THRESHOLD;
-    }
-
-// check if fire occurs
-
-    if (fireProbability >= fireProbabilityThreshold && (double)rand() / RAND_MAX < fireProbability)
-    {
-        FIRE = true; // set to true if probability is high enough and random number is less than probability
-    }
-
-    // Calculate fire severity
-
-    // Compute and clamp the dampening factor to the range [0, 1]
-    dampeningFactor = 1 - (theta / 0.69);
-    if (dampeningFactor < 0)
-    {
-        dampeningFactor = 0;
-    }
-    else if (dampeningFactor > 1)
-    {
-        dampeningFactor = 1;
-    }
-
-    if (vegc > UPPER_FUEL_THRESHOLD)
-    {
-        severity = SAVERITY_MAX * dampeningFactor;
-    }
-    else if ((vegc - (LOWER_FUEL_THRESHOLD + 1 + EPSILON)) <= 0)
-    {
-        severity = 0;
-    }
-    else
-    {
-        severity = (SAVERITY_MIN +
-                    (SAVERITY_MAX - SAVERITY_MIN) * (log(vegc - LOWER_FUEL_THRESHOLD + 1) /
-                                                     log(UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD + 1 + EPSILON))) *
-                   dampeningFactor;
-    }
-
-    if (severity < 0)
-    {
-        severity = EPSILON;
-    }
-    else if (severity > 1)
-    {
-        severity = 1;
-    }
-
-    // Burn vegetation and litter
+    bool fire = isFireTrue(vegc, sm, wiltpt, awcapmm, vpr, vpdn, vpdd, vegtype, col, row, pdm,ws,
+                           // output
+                           rh, theta, theta_e, fire_probability_threshold, fireRandomness, severity, fRH, ftheta, Ni, fb,fm, fs, Nf, fireProbability,dwood,dleaf,Ag,Ab);
 
 
     // if fire occurs, set fireoccur to 1 and increment fire count
-    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FIRE == true))
+    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 3) && (pdm <= 9) && (firecount[ichrt] == 0) && (fire == true))
     {
         fireoccur = 1;
         firecount[ichrt]++; // Increment fire count
-
-        ofstream fire_occured;
-
-        fire_occured.open("FIRE.csv", ios::app);
-
-        fire_occured << "Fire Occured!  "
-                        << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
-                        << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
-                        << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
-                        << soil.getAWCAPMM() << "," << theta << "," << THETA_E << "," << fb << "," << fRH << ","
-                        << ftheta << "," << fireProbability << "," << severity << ","<<fireProbabilityThreshold<<"," << dampeningFactor << endl;
+     
+    
+        fire_status = 1; // fire status is set to 1 if fire occurs
     }
 
-  
+    ofstream fire_occured;
 
-    /*END FIRE LOGIC*/
+    fire_occured.open("FIRE.csv", ios::app);
 
-    /*Export AET/PET AND OTHER MOISTURE VARIABLES TO CSV*/
-    ofstream moisture_stress;
+    fire_occured << fire_status << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
+                 << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1 << ","
+                 << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << "," << soil.getAWCAPMM()
+                 << "," << theta << "," << theta_e << "," << fire_probability_threshold << "," << fireRandomness << ","
+                 << severity << "," << fRH << "," << ftheta << "," << Ni << "," << fb << "," << fm << "," << fs << ","
+                 << Nf << "," << fireProbability << ","<< Ag << "," << Ab << endl;
+
+                        /*Export AET/PET AND OTHER MOISTURE VARIABLES TO CSV*/
+                        ofstream moisture_stress;
     if ((initFlag == 1) && (pdyr >= 0))
     {
         moisture_stress.open("MMDI.csv", ios::app);
@@ -5492,6 +5376,8 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     }
 
     /*END EXPORT*/
+
+
 
     // avgfac = exp(-1 / average lifetime of leaves, stem, and roots, in months)
 
@@ -5792,8 +5678,6 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         distmnthcnt = 1;
         firemnthcnt = 1;
 
-        dleaf = severity;
-        dwood = severity;
         ag.setNATSEEDC(y[I_SEEDC]);
         ag.setNATSEEDSTON(y[I_SEEDN]);
 
