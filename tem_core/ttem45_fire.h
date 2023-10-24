@@ -2,11 +2,14 @@
 #ifndef TEMFIRE45_H
 #define TEMFIRE45_H
 
-bool isFireTrue(double vegc, double sm, double wiltpt, double awcapmm, double vpr, double vpdn, double vpdd,
-                int vegtype, double col, double row, int pdm,
+bool isFireTrue(double col, double row, int year, int month, int vegtype, double vegc, double sm, double wiltpt,
+                double awcapmm, double ws, double vpr, double vpdn, double vpdd,
+
                 // output
-                double &rh, double &theta, double &THETA_E, double &FIRE_PROBABILITY_THRESHOLD, double &fireRandomness,
-                double &severity, double &fRH, double &ftheta, double &Ni, double &fb, double &fm, double &fs,
-                double &Nf, double &fireProbability, double &dwood, double &dleaf);
+                double &rh, double &theta, double &theta_e,
+                double &fireProbability, double &fire_probability_threshold, double &fireRandomness,double &severity, 
+                double &fb, double &fRH, double &ftheta, double &fm, double &fs,
+                double &Ni, double &Nf, double &Ag, double &Ab,
+                double &dwood, double &dleaf);
 
 #endif
