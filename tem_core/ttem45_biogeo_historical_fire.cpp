@@ -67,6 +67,7 @@ Modifications:
 
 #include <cstdio>
 
+
 using std::printf;
 
 #include <iostream>
@@ -105,6 +106,7 @@ using std::atof;
 using std::atoi;
 
 #include <cmath>
+#include <sstream>
 
 using std::exp;
 using std::fabs;
@@ -147,6 +149,7 @@ using std::toupper;
 #endif
 
 #include "ttem45_disturb.h"
+#include "ttem45_fire.h"
 
 /* **************************************************************
 ************************************************************** */
@@ -5272,7 +5275,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     int tempret_storm = (storm == 0) ? 0 : (1 / storm);
     int tempret_hurr = (hurr == 0) ? 0 : (1 / hurr);
     double rhmoist, dq10;
-    double firemag, vegmax, replace, RH, theta, theta_e, countYear;
+    double firemag, vegmax, replace, RH, countYear;
 
     double cwdloss = 0.0;
     // cout << "entering stepmonth" << " " << y[I_SAPWOODC] << " " << veg.cmnt << " " << ag.cmnt << " " <<
@@ -5310,121 +5313,8 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         stormoccur = 0;
     }
 
-    /*
-                                                         FIRE OCCURENCE LOGIC
-          Adapted from (Melton & Arora, 2016), (Lawrence et al., 2018) & (Li et al., 2012)
+ 
 
-     */
-
-    /*
-        // reset fire occurrence and fire count
-        if ((pdyr == 0 || pdyr == 1) && pdm == 0)
-        {
-            {
-                fireoccur = 0;
-                firecount[ichrt] = 0; // Fire counter
-            }
-        }
-    */
-
-    // define constants
-    const double UPPER_FUEL_THRESHOLD = 1050.0; // gCm^-2
-    const double LOWER_FUEL_THRESHOLD = 155.0;  // gCm^-2
-    const double UPPER_RH_THRESHOLD = 70.0;     // %
-    const double LOWER_RH_THRESHOLD = 30.0;     // %
-    const double THETA_E = 0.69;                // soil moisture threshold
-    const double EPSILON = 1e-6;                // a small number to avoid division by zero
-    const double FIRE_PROB_THRESHOLD = 0.50;   // fire probability threshold, assuming 50% change of fires will ignite and sustain
-
-    // get variables from the environment
-    double vegc = veg.getVEGC();                           // vegetation carbon
-    double sm = y[I_SM];                                   // surface soil wetness
-    double wiltpt = soil.getWILTPT();                      // wilting point
-    double awcapmm = soil.getAWCAPMM();                    // available water capacity
-    double vpr = atms.getVPR();                            // vapor pressure
-    double vpdn = atms.getVPDN();                          // vapor pressure deficit (night)
-    double vpdd = atms.getVPDD();                          // vapor pressure deficit (day)
-    double rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0; // relative humidity
-    double theta = (sm - wiltpt) / awcapmm;                // soil wetness
-    int vegtype = veg.getPOTVEG();                         // potential vegetation type
-
-    // calculate fuel availability
-    double fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
-
-    // calculate relative humidity factor
-    double fRH = 1.0;
-    if (rh > UPPER_RH_THRESHOLD)
-    {
-        fRH = 0.0;
-    }
-    else if (rh > LOWER_RH_THRESHOLD)
-    {
-        fRH = (UPPER_RH_THRESHOLD - rh) / (UPPER_RH_THRESHOLD - LOWER_RH_THRESHOLD);
-    }
-
-    // calculate soil wetness factor
-    double ftheta = exp(-M_PI * pow(theta / THETA_E, 2));
-    if (theta > THETA_E)
-    {
-        ftheta = 0.0;
-    }
-
-    // calculate fire occurrence probability
-    double p = fb * fRH * ftheta;
-
-    // adjust fire probability based on vegetation type
-    if ((vegtype == 13 || vegtype == 15) && vegc <= UPPER_FUEL_THRESHOLD)
-    {
-        p = 0.0; // no fires if vegtype is 13 or 15 and vegc is below UPPER_FUEL_THRESHOLD
-    }
-
-    // check if fire occurs
-    bool FOREST_FIRE = false; // initialize to false
-    if (p >= FIRE_PROB_THRESHOLD && (double)rand() / RAND_MAX < p)
-    {
-        FOREST_FIRE = true; // set to true if probability is high enough and random number is less than probability
-    }
-    /*
-        // if fire occurs, set fireoccur to 1 and increment fire count
-        if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 4) && (pdm <= 10) && (firecount[ichrt] == 0) && (FOREST_FIRE ==
-       true))
-        {
-            fireoccur = 1;
-            firecount[ichrt]++; // Increment fire count
-
-            ofstream fire_occured;
-
-            fire_occured.open("FIRE.csv", ios::app);
-
-            fire_occured << "Fire Occured!  "
-                         << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
-                         << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
-                         << "," << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
-                         << soil.getAWCAPMM() << "," << theta << "," << THETA_E << p << endl;
-        }
-
-        else
-        {
-            if (firecount[ichrt] == 1)
-            {
-                fireoccur = 0;
-            }
-        }
-    */
-    /*END FIRE LOGIC*/
-
-    /*Export AET/PET AND OTHER MOISTURE VARIABLES TO CSV*/
-    ofstream moisture_stress;
-    if ((initFlag == 1) && (pdyr >= 0))
-    {
-        moisture_stress.open("MMDI.csv", ios::app);
-        moisture_stress << col << "," << row << "," << ichrt + 1 << "," << veg.getPOTVEG() << "," << veg.getSUBTYPE()
-                        << "," << pdm + 1 << "," << (startyr + pdyr) - 1 << "," << veg.getACTEVAP() << ","
-                        << veg.getPOTEVAP() << "," << (veg.getACTEVAP()) / (veg.getPOTEVAP()) << ","
-                        << ((veg.getPOTEVAP() - veg.getACTEVAP()) / veg.getPOTEVAP()) << "," << theta << endl;
-    }
-
-    // avgfac = exp(-1 / average lifetime of leaves, stem, and roots, in months)
 
     // Reset all monthly fluxes to zero
 #ifdef DEBUG_CTEM
@@ -5887,19 +5777,47 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     }
 #endif
 
+     // get variables from the environment
+    double vegc = veg.getVEGC();        // vegetation carbon
+    double sm = y[I_SM];                // surface soil wetness
+    double wiltpt = soil.getWILTPT();   // wilting point
+    double awcapmm = soil.getAWCAPMM(); // available water capacity
+    double vpr = atms.getVPR();         // vapor pressure
+    double vpdn = atms.getVPDN();       // vapor pressure deficit (night)
+    double vpdd = atms.getVPDD();       // vapor pressure deficit (day)
+    int vegtype = veg.getPOTVEG();      // potential vegetation type
+    double ws= atms.getWS10();         // wind speed
+    int Yr = (startyr + pdyr) - 1;     // year
+    int Mnth = pdm + 1;                // month
+    int fire_status = 0; // fire status is set to 0 if fire does not occur
+    double rh, theta, theta_e, fireProbability, fire_probability_threshold, fireRandomness,
+                               severity, fb, fRH, ftheta, fm, fs, Ni, Nf, Ag, Ab;
+
+
+    bool fire = isFireTrue(col, row, Yr, Mnth, vegtype, vegc, sm, wiltpt, awcapmm, ws, vpr, vpdn, vpdd,
+                               // output
+                               rh, theta, theta_e, fireProbability, fire_probability_threshold, fireRandomness,
+                               severity, fb, fRH, ftheta, fm, fs, Ni, Nf, Ag, Ab, dwood, dleaf);
+
+
+
+
+
 #ifdef FIRE
 
-    //  cout << "rco = " << pdyr << " " << pdm << " " << rco << " " << rcount << endl;
-    //  if(initFlag == 1 && pdm == 7 && ag.state == 0 && pdyr > 1 && stormoccur == 0)
-    //  vegmax = leafcb[veg.cmnt]+sapwoodcb[veg.cmnt]+heartwoodcb[veg.cmnt]+rootcb[veg.cmnt]+labilecb[veg.cmnt];
-    //  replace = vegmax/(heartwoodcb[veg.cmnt]/veg.getTAUHEARTWOOD( veg.cmnt ));
+   // Burn vegetation and litter
+
     replace = 3.0 * veg.getTAUHEARTWOOD(veg.cmnt);
-    if ((initFlag == 1) && pdm == 7 && ag.state == 0 && pdyr > 1 && stormoccur == 0)
+    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 3) && (pdm <= 9) && (fire == true)&& stormoccur == 0)
+
+     
+
+
+
+    
     {
-        // if(ichrt == 0 || ((veg.cmnt == 8 || veg.cmnt == 6 || veg.cmnt == 14 || veg.cmnt == 27 || veg.cmnt == 31) &&
-        // ichrt == 1))
-        // {
-        double dleaf = 0, dwood = 0;
+  
+        
         int repi = 0, mixi = 0, lowi = 0;
         firecount[ichrt] = 0; // Fire counter
         //
@@ -5984,16 +5902,10 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
             repi = 50;
             vegmax = 4300;
         }
-        //
-        // Set lowi and mixi = 0
-        //
-        // lowi = 0; //When commented out, allows mid intensity fires
-        // mixi = 0;//When commented out, allows mid intensity fires
-        //  repi = 0;
-
+   
         // Fire Suppression
 
-        if (pdyr >= 186 && initFlag == 1)
+        if (initFlag == 1 && (Yr >= 1935 && Yr <= 1980))
         {
             repi = repi * 2.0;
         }
@@ -6006,78 +5918,36 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         repi = rco * repi / 4 + repi;
         mixi = mco * mixi / 4 + mixi;
         lowi = lco * lowi / 4 + lowi;
-        // PCP code
-        //  if(repi != 0 && ((int)rand() % (lowi -1))){
-        //  cout << "diag = " << repi << " " << rcount << " " << rcount % repi << endl;
-        //  if(repi != 0 && ((int)rand() % (repi o-1)) == 1) {
-        //
-        //  Intensity values from Fire Regime Table
-        //
-        // cout << "repi = " << repi << " " << rcount << " " << rco <<  endl;
+ 
         if (repi != 0 && (rcount % repi) < 1)
         {
-            firemag = 1 - ((vegmax - replace * repi) / veg.getVEGC());
-            if (firemag > 0.875)
-            {
-                firemag = 0.875;
-            }
-            //    if(firemag > 0.11) {firemag = 0.11;}
-            if (firemag < 0.0)
-            {
-                firemag = 0.0;
-            }
-            //    dleaf += 0.875;
-            dleaf += firemag;
-            //    dwood += 0.875;
-            dwood += firemag;
+    
+
             rco = (rand() % 2 == 1) ? (double)(rand() % 10 + rand() % 10 + rand() % 10) * -1 / 10
                                     : (double)(rand() % 10 + rand() % 10 + rand() % 10) / 10; // PCP code
             rcount = 0;                                                                       // PCP code
             cwdloss = 0.29;
-            //    sensitivity test
-            //    cwdloss = 0.12;
+         
         }
-        // if(mixi != 0 && ((int)rand() % (lowi -1))){
-        //  if(mixi != 0 && ((int)rand() % (mixi -1)) == 1) {
+     
         if (mixi != 0 && (mcount % mixi) < 1)
         {
-            firemag = 1 - ((vegmax - replace * mixi) / veg.getVEGC());
-            if (firemag > 0.35)
-            {
-                firemag = 0.35;
-            }
-            if (firemag < 0.0)
-            {
-                firemag = 0.0;
-            }
-            //    dleaf += 0.35;
-            dleaf += firemag;
-            //    dwood += 0.35;
-            dwood += firemag;
+
             mco = (rand() % 2 == 1) ? (double)(rand() % 10 + rand() % 10 + rand() % 10) * -1 / 10
                                     : (double)(rand() % 10 + rand() % 10 + rand() % 10) / 10; // PCP code
             mcount = 0;                                                                       // PCP code
             cwdloss = 0.24;
         }
-        //  if(lowi != 0 && ((int)rand() % (lowi -1))){
-        //  if(lowi != 0 && ((int)rand() % (lowi -1)) == 1) {
+    
         if (lowi != 0 && (lcount % lowi) < 1)
         {
-            dleaf += 0.25;
             lco = (rand() % 2 == 1) ? (double)(rand() % 10 + rand() % 10 + rand() % 10) * -1 / 10
                                     : (double)(rand() % 10 + rand() % 10 + rand() % 10) / 10; // PCP code
             lcount = 0;                                                                       // PCP code
             cwdloss = 0.18;
         }
 
-        if (dleaf > 1)
-        {
-            dleaf = 1;
-        }
-        if (dwood > 1)
-        {
-            dwood = 1;
-        }
+  
 
         // fireoccur = 0;
 
@@ -6085,81 +5955,90 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         {
 
             firecount[ichrt]++; // Increment fire count
+            fire_status = 1;
 
-            ofstream fireoccur_vars;
-            fireoccur_vars.open("FIRE_VARS.csv", ios::app);
-            fireoccur_vars << "fire = " << pdyr << " " << veg.cmnt << " " << dwood << " " << dleaf << " " << lowi << " "
-                           << mixi << " " << repi << " " << firemag << " " << vegmax << " " << replace << " "
-                           << veg.getVEGC() << " " << rhmoist << " " << dq10 << endl;
+ 
 
-            ofstream fire_occured;
-            fire_occured.open("FIRE.csv", ios::app);
+            
 
-            fire_occured << "Fire Occured!  "
-                         << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
-                         << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1
-                         << "," << veg.getVEGC() << "," << RH << "," << y[I_VSM] << "," << soil.getWILTPT() << ","
-                         << soil.getAWCAPMM() << "," << theta << "," << theta_e << endl;
-
-            //   fireoccur = 1;
-            //   ag.setVCONVERT(1.0);
-            //   Meigs et al. (2009)
+        
             ag.setVCONVERT(0.0124);
-            // sensitivity test - burn 20% of live
-            //   ag.setVCONVERT(0.20);
-            //   ag.setSCONVERT(0.025);
+         
             ag.setSCONVERT(0.0);
             ag.setPROD10PAR(0.0);
             ag.setPROD100PAR(0.0);
 
             firemnthcnt = 1; // cwd
-            //  distmnthcnt = 1;
+       
             ag.setNATSEEDC(y[I_SEEDC]);
             ag.setNATSEEDSTON(y[I_SEEDN]);
 
             ag.conversion(veg.cmnt,
-                          //                 dwood*y[I_ROOTC],
+                      
                           0.0,
-                          //                 dwood*y[I_ROOTN],
+                       
                           0.0,
-                          //                 dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) + dleaf*y[I_LEAFC],
-                          //                 dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) +
-                          //                 y[I_LEAFC]*(dleaf/ag.getVCONVERT()),
+                     
                           dwood * (y[I_SAPWOODC] + y[I_HEARTWOODC]) + y[I_LEAFC] * (dleaf / ag.getVCONVERT()),
-                          //                 dwood*(y[I_SAPWOODN]+y[I_HEARTWOODN]) + dleaf*y[I_LEAFN],
+                         
                           dwood * (y[I_SAPWOODN] + y[I_HEARTWOODN]) + y[I_LEAFN] * (dleaf / ag.getVCONVERT()),
-                          //                 dwood*y[I_LABILEN],
+                         
                           0.0, y[I_SOLC], y[I_SOLN], cwdloss, 1);
-            //
-            ////  overwrite the slash with same as above but add to standing dead
-            ////
+        
             ag.standingdead(veg.cmnt,
-                            // dwood*y[I_ROOTC],
+                       
                             0.0,
-                            // dwood*y[I_ROOTN],
+                        
                             0.0,
-                            // (1.0-ag.getVCONVERT())*(dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) +
-                            // dleaf*y[I_LEAFC]),
-                            // (1.0-ag.getVCONVERT())*(dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) ),
+              
                             (1.0 - ag.getVCONVERT()) * (dwood * (y[I_SAPWOODC] + y[I_HEARTWOODC])),
-                            // (1.0-ag.getVCONVERT())*(dwood*(y[I_SAPWOODN]+y[I_HEARTWOODN]+y[I_LABILEN]) ),
+                        
                             (1.0 - ag.getVCONVERT()) * (dwood * (y[I_SAPWOODN] + y[I_HEARTWOODN])), cwdloss);
 
-            //  prevy[I_LABILEC] = y[I_LABILEC] = (1. - dwood)*y[I_LABILEC];
-            //  prevy[I_LABILEN] = y[I_LABILEN] = (1. - dwood) * y[I_LABILEN];
+          
             prevy[I_LEAFC] = y[I_LEAFC] = (1. - dleaf) * y[I_LEAFC];
             prevy[I_LEAFN] = y[I_LEAFN] = (1. - dleaf) * y[I_LEAFN];
             prevy[I_SAPWOODC] = y[I_SAPWOODC] = (1. - dwood) * y[I_SAPWOODC];
             prevy[I_SAPWOODN] = y[I_SAPWOODN] = (1. - dwood) * y[I_SAPWOODN];
             prevy[I_HEARTWOODC] = y[I_HEARTWOODC] = (1. - dwood) * y[I_HEARTWOODC];
             prevy[I_HEARTWOODN] = y[I_HEARTWOODN] = (1. - dwood) * y[I_HEARTWOODN];
-            //  prevy[I_ROOTC] = y[I_ROOTC] = (1. - dwood)*y[I_ROOTC];
-            //  prevy[I_ROOTN] = y[I_ROOTN] = (1. - dwood)*y[I_ROOTN];
+         
         }
-        //  }
+
+        
     }
 
 #endif
+
+// Export fire variables
+
+       ofstream fire_occured;
+
+    fire_occured.open("FIRE.csv", ios::app);
+
+    fire_occured << fire_status << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
+                 << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << Mnth << "," << Yr << ","
+                 << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << "," << soil.getAWCAPMM()
+                 << "," << theta << "," << theta_e << "," << fire_probability_threshold << "," << fireRandomness << ","
+                 << severity << "," << fRH << "," << ftheta << "," << Ni << "," << fb << "," << fm << "," << fs << ","
+                 << Nf << "," << fireProbability << ","<< Ag << "," << Ab << endl;
+
+                        /*Export AET/PET AND OTHER MOISTURE VARIABLES TO CSV*/
+                        ofstream moisture_stress;
+    if ((initFlag == 1) && (pdyr >= 0))
+    {
+        moisture_stress.open("MMDI.csv", ios::app);
+        moisture_stress << col << "," << row << "," << ichrt + 1 << "," << veg.getPOTVEG() << "," << veg.getSUBTYPE()
+                        << "," << Mnth << "," << Yr << "," << veg.getACTEVAP() << ","
+                        << veg.getPOTEVAP() << "," << (veg.getACTEVAP()) / (veg.getPOTEVAP()) << ","
+                        << ((veg.getPOTEVAP() - veg.getACTEVAP()) / veg.getPOTEVAP()) << "," << theta << endl;
+    }
+
+    // END EXPORT
+
+
+
+
 
     // cout << "diag = " << veg.getVEGC() << " " << y[I_SOLC] << " " << ag.getSLASHC() << " " << ag.getVOLAC() << " " <<
     // ag.getCONVRTFLXC() << " " << ag.getSTANDDEADC() << endl;
