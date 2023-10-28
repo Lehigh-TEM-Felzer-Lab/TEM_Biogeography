@@ -1,17 +1,37 @@
 {
+    "terminal.integrated.fontSize": 16,
+    "files.watcherExclude": {
+        "**/*": true,
+        "!./**": false
+    },
     "files.associations": {
         "*.rmd": "markdown",
         "*.py": "python",
-        "ostream": "cpp",
-        "iosfwd": "cpp"
+        "*.TEMOUT": "csv",
+        "iostream": "cpp"
     },
-    "workbench.iconTheme": "material-icon-theme",
-    "vsicons.presets.jsonOfficial": false,
-    "vsicons.presets.hideExplorerArrows": false,
-    "vsicons.presets.foldersAllDefaultIcon": false,
-    "vsicons.presets.angular": false,
-    "vsicons.presets.hideFolders": false,
-    "vsicons.presets.jsOfficial": false,
-    "material-icon-theme.files.color": "#90a4ae",
-    "material-icon-theme.folders.color": "#90a4ae"
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**"
+    ],
+    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.autocomplete": "default",
+    "C_Cpp.errorSquiggles": "enabled",
+    "C_Cpp.updateChannel": "Insiders",
+    "C_Cpp.workspaceParsingPriority": "highest",
+    "C_Cpp.workspaceSymbols": "All",
+    "C_Cpp.enhancedColorization": "enabled",
+    "C_Cpp.loggingLevel": "Information",
+    "C_Cpp.dimInactiveRegions": true,
+    "C_Cpp.intelliSenseCacheSize": 16384,
+    "C_Cpp.intelliSenseCachePath": "${workspaceFolder}/.vscode-cache",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cpptools",
+    "files.exclude": {
+        "**/.vscode-cache": true,
+        "**/.ipch": true
+    },
+    "search.exclude": {
+        "**/.vscode-cache": true,
+        "**/.ipch": true
+    }
 }
+
