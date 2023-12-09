@@ -334,7 +334,7 @@ int main()
             //      for( xdyr = 2; xdyr < RTIME; ++xdyr )
             {
 
-                cout << "Year in transient = " <<"("<< xdyr + telmnt[0].clm.startyr<<")" << endl;
+                cout << "Transient Year   = " << (xdyr + telmnt[0].clm.startyr)-1 << endl;
                 //   BSF do not need to call updateTCLMGridCell again
                 //        updateTCLMGridCell( xdyr );
                 //  set year

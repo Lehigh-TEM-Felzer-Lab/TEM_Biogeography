@@ -955,6 +955,7 @@ class Ttem45
     int firemnthcnt;
     int fireoccur;
     int firecount[MAXCHRTS];
+    int lastRepFireYear[MAXCHRTS];
 
     int stormoccur;
     //  PCP code

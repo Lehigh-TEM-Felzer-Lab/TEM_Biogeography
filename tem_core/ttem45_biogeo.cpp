@@ -5320,6 +5320,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
         {
             fireoccur = 0;
             firecount[ichrt] = 0; // Fire counter
+            lastRepFireYear[ichrt] = (startyr-100) + rand() % 101; 
         }
     }
 
@@ -5333,32 +5334,54 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     double vpdd = atms.getVPDD();       // vapor pressure deficit (day)
     int vegtype = veg.getPOTVEG();      // potential vegetation type
     double ws= atms.getWS10();         // wind speed
+    double temperature = atms.getTAIR(); // temperature
+    int Yr = (startyr + pdyr) - 1;     // year
+    int Mnth = pdm + 1;                // month
     int fire_status = 0; // fire status is set to 0 if fire does not occur
-    double rh, theta, theta_e, fire_probability_threshold, fireRandomness, severity, fRH, ftheta, Ni, fb, fm, fs, Nf,
-        fireProbability, Ag,Ab;
+    double rh, theta, theta_e, fireProbability, fire_probability_threshold, fireRandomness,
+                               severity, fb, fRH, ftheta, fm, fs, Ni, Nf, Ag, Ab;
+
+
+    bool fire = isFireTrue(col, row, Yr, Mnth, vegtype, vegc, sm, wiltpt, awcapmm, ws, vpr, vpdn, vpdd,temperature,
+                               // output
+                               rh, theta, theta_e, fireProbability, fire_probability_threshold, fireRandomness,
+                               severity, fb, fRH, ftheta, fm, fs, Ni, Nf, Ag, Ab, dwood, dleaf);
+
+
+
+    bool replacementFire = shouldHistoricalFireOccur(vegtype, lastRepFireYear[ichrt], Yr);
+
+
+    
+        // if fire occurs, set fireoccur to 1 and increment fire count
+    if ((Yr  <= 2014) &&(replacementFire == true)&&(initFlag == 1) && (firecount[ichrt] >= 0) && (pdyr >= 0) && (fire == true))
+        {
+            fireoccur = 1;
+            firecount[ichrt]++; // Increment fire count
+            fire_status = 1; // fire status is set to 1 if fire occurs
+            
+        }
+        
+
+    
+    if ((Yr > 2014)&&(initFlag == 1) && (firecount[ichrt] >= 0) && (pdyr >= 0) && (fire == true))
+        {
+            fireoccur = 1;
+            firecount[ichrt]++; // Increment fire count
+            fire_status = 1; // fire status is set to 1 if fire occurs
+            
+        }
     
 
-    bool fire = isFireTrue(vegc, sm, wiltpt, awcapmm, vpr, vpdn, vpdd, vegtype, col, row, pdm,ws,
-                           // output
-                           rh, theta, theta_e, fire_probability_threshold, fireRandomness, severity, fRH, ftheta, Ni, fb,fm, fs, Nf, fireProbability,dwood,dleaf,Ag,Ab);
 
 
-    // if fire occurs, set fireoccur to 1 and increment fire count
-    if ((initFlag == 1) && (pdyr >= 0) && (pdm >= 3) && (pdm <= 9) && (firecount[ichrt] == 0) && (fire == true))
-    {
-        fireoccur = 1;
-        firecount[ichrt]++; // Increment fire count
-     
-    
-        fire_status = 1; // fire status is set to 1 if fire occurs
-    }
 
     ofstream fire_occured;
 
     fire_occured.open("FIRE.csv", ios::app);
 
     fire_occured << fire_status << "," << col << "," << row << "," << firecount[ichrt] << "," << ichrt + 1 << ","
-                 << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << pdm + 1 << "," << (startyr + pdyr) - 1 << ","
+                 << veg.getPOTVEG() << "," << veg.getSUBTYPE() << "," << Mnth << "," << Yr << ","
                  << veg.getVEGC() << "," << rh << "," << y[I_VSM] << "," << soil.getWILTPT() << "," << soil.getAWCAPMM()
                  << "," << theta << "," << theta_e << "," << fire_probability_threshold << "," << fireRandomness << ","
                  << severity << "," << fRH << "," << ftheta << "," << Ni << "," << fb << "," << fm << "," << fs << ","
@@ -5370,7 +5393,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
     {
         moisture_stress.open("MMDI.csv", ios::app);
         moisture_stress << col << "," << row << "," << ichrt + 1 << "," << veg.getPOTVEG() << "," << veg.getSUBTYPE()
-                        << "," << pdm + 1 << "," << (startyr + pdyr) - 1 << "," << veg.getACTEVAP() << ","
+                        << "," << Mnth << "," << Yr << "," << veg.getACTEVAP() << ","
                         << veg.getPOTEVAP() << "," << (veg.getACTEVAP()) / (veg.getPOTEVAP()) << ","
                         << ((veg.getPOTEVAP() - veg.getACTEVAP()) / veg.getPOTEVAP()) << "," << theta << endl;
     }
@@ -6378,7 +6401,7 @@ int Ttem45::stepmonth(const int &pdyr, const int &pdm, int &intflag, const doubl
 
     if (initFlag == 1)
     {
-        cout << "time = " << pdm + 1 << "/" << startyr + pdyr << endl;
+        cout << "time = " << pdm + 1 << "/" << (startyr + pdyr)-1 << endl;
     }
 
     mintflag = adapt(NUMEQ, y, ptol, pdm, pdyr, nmax_grow[ichrt]);
