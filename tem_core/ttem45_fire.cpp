@@ -39,7 +39,7 @@ std::unordered_map<std::tuple<double, double, double>, Data, KeyHash> &load_fire
     if (data_loaded) // if data is already loaded, return the map
         return fire_data_map;
 
-    FILE *fireData = fopen("./climate_data/fire.data", "r");
+    FILE *fireData = fopen("./dat_files/west_fire.dat", "r");
 
     if (!fireData)
     {
