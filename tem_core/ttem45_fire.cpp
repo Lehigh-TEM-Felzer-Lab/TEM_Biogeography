@@ -1,3 +1,4 @@
+
 #include "ttem45_fire.h"
 #include <algorithm>
 #include <chrono>
@@ -11,7 +12,6 @@
 #include <sstream>
 #include <tuple>
 #include <unordered_map>
-
 
 
 // load fire data into a map
@@ -39,7 +39,7 @@ std::unordered_map<std::tuple<double, double, double>, Data, KeyHash> &load_fire
     if (data_loaded) // if data is already loaded, return the map
         return fire_data_map;
 
-    FILE *fireData = fopen("./dat_files/west_fire.dat", "r");
+    FILE *fireData = fopen("./climate_data/fire.data", "r");
 
     if (!fireData)
     {
@@ -61,20 +61,19 @@ std::unordered_map<std::tuple<double, double, double>, Data, KeyHash> &load_fire
     return fire_data_map;
 }
 
-
+// Fire model
 
 bool isFireTrue(double col, double row, int year, int month, int vegtype, double vegc, double sm, double wiltpt,
                 double awcapmm, double ws, double vpr, double vpdn, double vpdd,double temperature,
 
                 // output
-                double &rh, double &theta, double &theta_e,
-                double &fireProbability, double &fire_probability_threshold, double &fireRandomness,double &severity, 
-                double &fb, double &fRH, double &ftheta, double &fm, double &fs,
-                double &Ni, double &Nf, double &Ag, double &Ab,
-                double &dwood, double &dleaf)
+                double &rh, double &theta, double &theta_e, double &fireProbability, double &fire_probability_threshold,
+                double &fireRandomness, double &severity, double &fb, double &fRH, double &ftheta, double &fm,
+                double &fs, double &Ni, double &Nf, double &Ag, double &Ab, double &dwood, double &dleaf)
 
 {
 
+    // Set the seed for the random number generator
     std::random_device rd; 
     std::mt19937 generator(rd());
     std::uniform_real_distribution<double> distribution(0.0, 1.0);
@@ -88,23 +87,22 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     const double EPSILON = 1e-6;                // a small number to avoid division by zero
 
     // Fire Variables
-    bool fire = false; // fire occurrence
+    bool fire = false;                              // fire occurrence
     rh = vpr / ((vpdn + vpdd) / 2.0 + vpr) * 100.0; // relative humidity
     theta = (sm - wiltpt) / awcapmm;                // soil wetness
-    theta_e = 0.69;                                // soil moisture threshold 
-    fire_probability_threshold = 0.5;              // minimum fire probability threshold
-    severity = 0;                                    // fire severity
-
+    theta_e = 0.69;                                 // soil moisture threshold
+    fire_probability_threshold = 0.5;               // minimum fire probability threshold
+    severity = 0;                                   // fire severity
 
     // Fire Spread Variables
     double g0 = 0.05;
     double beta_low = 0.3;
     double beta_up = 0.7;
-    double tau = 86400; // 1 day average fire duration 
+    double tau = 86400; // 1 day average fire duration
 
     // Compute C_beta using linear function
     double C_beta = beta_low + theta * (beta_up - beta_low);
-    
+
     double LB = 1.0 + 10.0 * (1.0 - exp(-0.06 * ws));
     double HB = LB + (sqrt(pow(LB, 2) - 1)) / (LB - sqrt(pow(LB, 2) - 1));
 
@@ -112,8 +110,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     double gW = (2 * LB / (1 + 1 / HB)) * g0;
     double umax; // Based on the given vegtype, set the umax value
 
-    // Add and Update the umax values as needed
-    switch (vegtype)
+       switch (vegtype)
     {
         case 4:
         case 8:
@@ -140,22 +137,19 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
             break;
     }
 
-
     double up = umax * C_beta * rh * gW;
-    Ab =((M_PI* (pow(up,2)) *(pow(tau,2)) )/ (4 * LB)) * pow((1 + 1 / HB), 2) * 1e-6;
-
+    Ab = ((M_PI * (pow(up, 2)) * (pow(tau, 2))) / (4 * LB)) * pow((1 + 1 / HB), 2) * 1e-6;
 
     double lambda = row; // latitude of the grid cell (initializing to row for now)
     double Il = 0.0;     // lightning flashes (per month)
     double Dp = 0.0;     // population density of the grid cell
-  
-    
-    
+
     auto &fire_data_map = load_fire_data();
     auto it = fire_data_map.find(std::make_tuple(col, row, month));
     if (it == fire_data_map.end())
     {
-        std::cerr << "Error: No data found for area, population density and lightning flashes! : " << col << " " << row << " " << month << std::endl;
+        std::cerr << "Error: No data found for area, population density and lightning flashes! : " << col << " " << row
+                  << " " << month << std::endl;
         exit(1);
     }
     else
@@ -163,39 +157,26 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
         Data &data = it->second;
 
         // Extract relevant variables from the data
-        Il = data.flashes;            // lightning flashes (per month) 
-        Dp = data.population_density; // population density of the grid cell
+        Il = data.flashes;            // lightning flashes (per month)
+        Dp = data.population_density; // population density of the grid cell (Current)
         Ag = data.area;               // area of the grid cell
 
-      if (vegtype == 8)
-      {
-          Ag = Ag / 4; // Each PFT is 1/4 of the grid cell
-          Il = Il / 4;
-           Dp = Dp / 4;
-      }
-      else
+        // Adjust population density based on year
+        Dp = Dp * pow((1 + 0.0070), (year - 2015)); // Assuming USA population growth rate is abouth 0.70% per year
+
+     
+        if (vegtype == 8)
+        {
+            Ag = Ag / 4; // Each PFT is 1/4 of the grid cell
+            Il = Il / 4;
+            Dp = Dp / 4;
+        }
+        else
         {
             Ag = Ag / 3; // Each PFT is 1/3 of the grid cell
-            Il = Il/3;     
-            Dp = Dp / 3;    
-        
-        
-    }
-    }
-
-    if (year >= 1750 && year <= 1850)
-    {
-
-        Dp = Dp / 4;
-    }
-    else if (year >= 1851 && year <= 1950)
-    {
-        Dp = Dp / 2;
-    }
-    else if (year >= 2015) // Adjust population density based on year
-    {
-        Dp = Dp * pow((1 + 0.0070), (year - 2015)); // Assuming USA population growth rate is abouth 0.70% per year
-        
+            Il = Il / 3;
+            Dp = Dp / 3;
+        }
     }
 
     // Calculate In using Equation (4)
@@ -209,22 +190,17 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     double Ia = (alpha * Dp * k_Dp) / n;
 
     // Calculate Ni (Ignition Factor)
-     Ni = (In + Ia) * Ag;
+    Ni = (In + Ia) * Ag;
 
     // Calculate fs (fire suppressed by humans)
     double epsilon1 = 0.99;
     double epsilon2 = 0.98;
-    if (year < 1930){
-        fs = 0;
-    }
-    else{
-        fs = epsilon1 - epsilon2 * exp(-0.025 * Dp);
-    }
-  
+    fs = epsilon1 - epsilon2 * exp(-0.025 * Dp);
 
-      // Calculate temperature factor
+    // Calculate temperature factor
     double temperatureFactor = 1.0;
 
+   
     temperatureFactor = pow((temperature - LOWER_TEMPERATURE_THRESHOLD) / (UPPER_TEMPERATURE_THRESHOLD - LOWER_TEMPERATURE_THRESHOLD), 3);
     if (temperatureFactor < 0.0)
     {
@@ -285,8 +261,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     // Calculate fire severity
     severity =  fb*fm*temperatureFactor;
 
- // Calculate fire randomness
-
+    // Calculate fire randomness
 
 double fireRandom1 = distribution(generator);
 double fireRandom2 = distribution(generator);
@@ -298,24 +273,15 @@ double fireRandom4 = distribution(generator);
 
 double environmentFactor = 1 - severity;
 
-
 double percentAreaBurned = (Ab / Ag) * 100;
-double percentAreaBurnedThreshold;
 
-if (vegtype == 8)
-{
-  percentAreaBurnedThreshold=percentAreaBurned/4;
-}
-else
-{
-    percentAreaBurnedThreshold=percentAreaBurned/3;
-}
 
-  if ((percentAreaBurned  > percentAreaBurnedThreshold ) && (fireRandom1 > environmentFactor) && (fireProbability > fireRandom2 )&& (temperatureFactor > fireRandom3)&&(fireRandom4 > 0.5))
+
+  if ((percentAreaBurned  > 0 ) && (fireRandom1 > environmentFactor) && (fireProbability > fireRandom2 )&& (temperatureFactor > fireRandom3)&&(fireRandom4 > 0.5))
   {
         fire = true; // set to true if probability is high enough and temperature is high enough
   }
-
+  
 switch (vegtype)
 {
     case 4:
@@ -357,89 +323,8 @@ switch (vegtype)
 }
 
 
+    dwood *= (Ab / Ag);
+    dleaf *= (Ab / Ag);
 
-
-   dwood *= (Ab / Ag);
-  dleaf *= (Ab / Ag);
-    return fire;  // Assuming fire is a boolean variable defined in fire.cpp
-}
-
-bool shouldHistoricalFireOccur(int vegtype, int lastRepFireYear, int year) {
-
-    bool replacementFire = false;
-    int yearsSinceLastRepFire = year - lastRepFireYear;
-
-    int fireReturnInterval = 0; 
-    int fireReturnIntervalDeviation = 0;
-
-// Add and Update the fire return interval values as needed
-switch(vegtype)
-{
-    case 2:  // alpine tundra (PNW alpine/subalpine grassland and meadow)
-        fireReturnInterval = 350;
-        fireReturnIntervalDeviation = 0.50;
-        break;
-    case 4:  // boreal forest
-        fireReturnInterval = 265;
-        fireReturnIntervalDeviation = 0.50;
-        break;
-    case 8: // Mixed Temperate Forest
-        fireReturnInterval = 170; 
-        fireReturnIntervalDeviation = 0.50;
-        break;
-    case 9:  // temperate coniferous
-        fireReturnInterval = 150;
-        fireReturnIntervalDeviation = 0.50;
-        break;
-    case 10:  // temperate deciduous
-        fireReturnInterval = 180;
-        fireReturnIntervalDeviation = 0.50;
-        break;
-    case 12: // Tall grassland
-        fireReturnInterval = 8;
-        fireReturnIntervalDeviation = 0.25;
-        break;
-    case 13:  // short grassland
-        fireReturnInterval = 8;
-        fireReturnIntervalDeviation = 0.25;
-        break;
-    case 15:  // arid shrublands
-        fireReturnInterval = 50;
-        fireReturnIntervalDeviation = 0.25;
-        break;
-    case 18://Tropical Deciduous Forests
-        fireReturnInterval = 50;
-        fireReturnIntervalDeviation = 0.25;
-        break;
-    case 19: // xeric forests
-        fireReturnInterval = 65;
-        fireReturnIntervalDeviation = 0.25;
-        break;
-    case 33: // temperate broadleaved evergreen
-        fireReturnInterval = 140;
-        fireReturnIntervalDeviation = 0.50;
-        break;
-    case 35: // Mediterranean shrublands (CA Chaparel or sage shrub)
-        fireReturnInterval = 50;
-        fireReturnIntervalDeviation = 0.25;
-        break;
-    default:
-        fireReturnInterval = 50;
-        fireReturnIntervalDeviation = 0.25;
-        return false;  // Return false for unexpected values
-}
-
-        
-    // Introduce randomness around the fireReturnInterval
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    int deviation = static_cast<int>(fireReturnInterval * fireReturnIntervalDeviation);
-    std::uniform_int_distribution<> distrib(-deviation, deviation);
-    int adjustedFRI = fireReturnInterval + distrib(gen);
-
-    if (yearsSinceLastRepFire >= adjustedFRI) {
-        replacementFire = true;
-    }
-
-    return replacementFire;
+    return fire; // Assuming fire is a boolean variable defined in fire.cpp
 }
