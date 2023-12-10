@@ -274,6 +274,9 @@ double fireRandom4 = distribution(generator);
 double environmentFactor = 1 - severity;
 
 double percentAreaBurned = (Ab / Ag) * 100;
+// < 25% area burned Low 
+// 25% - 75% area burned Medium
+// > 75% area burned Stand Replacement
 
 
 
