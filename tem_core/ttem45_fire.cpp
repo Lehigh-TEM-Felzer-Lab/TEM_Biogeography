@@ -331,3 +331,85 @@ switch (vegtype)
 
     return fire; // Assuming fire is a boolean variable defined in fire.cpp
 }
+
+
+
+bool shouldHistoricalFireOccur(int vegtype, int lastRepFireYear, int year) {
+
+    bool replacementFire = false;
+    int yearsSinceLastRepFire = year - lastRepFireYear;
+
+    int fireReturnInterval = 0; 
+    int fireReturnIntervalDeviation = 0;
+
+// Add and Update the fire return interval values as needed
+switch(vegtype)
+{
+    case 2:  // alpine tundra (PNW alpine/subalpine grassland and meadow)
+        fireReturnInterval = 350;
+        fireReturnIntervalDeviation = 0.50;
+        break;
+    case 4:  // boreal forest
+        fireReturnInterval = 265;
+        fireReturnIntervalDeviation = 0.50;
+        break;
+    case 8: // Mixed Temperate Forest
+        fireReturnInterval = 170; 
+        fireReturnIntervalDeviation = 0.50;
+        break;
+    case 9:  // temperate coniferous
+        fireReturnInterval = 150;
+        fireReturnIntervalDeviation = 0.50;
+        break;
+    case 10:  // temperate deciduous
+        fireReturnInterval = 180;
+        fireReturnIntervalDeviation = 0.50;
+        break;
+    case 12: // Tall grassland
+        fireReturnInterval = 8;
+        fireReturnIntervalDeviation = 0.25;
+        break;
+    case 13:  // short grassland
+        fireReturnInterval = 8;
+        fireReturnIntervalDeviation = 0.25;
+        break;
+    case 15:  // arid shrublands
+        fireReturnInterval = 50;
+        fireReturnIntervalDeviation = 0.25;
+        break;
+    case 18://Tropical Deciduous Forests
+        fireReturnInterval = 50;
+        fireReturnIntervalDeviation = 0.25;
+        break;
+    case 19: // xeric forests
+        fireReturnInterval = 65;
+        fireReturnIntervalDeviation = 0.25;
+        break;
+    case 33: // temperate broadleaved evergreen
+        fireReturnInterval = 140;
+        fireReturnIntervalDeviation = 0.50;
+        break;
+    case 35: // Mediterranean shrublands (CA Chaparel or sage shrub)
+        fireReturnInterval = 50;
+        fireReturnIntervalDeviation = 0.25;
+        break;
+    default:
+        fireReturnInterval = 50;
+        fireReturnIntervalDeviation = 0.25;
+        return false;  // Return false for unexpected values
+}
+
+        
+    // Introduce randomness around the fireReturnInterval
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    int deviation = static_cast<int>(fireReturnInterval * fireReturnIntervalDeviation);
+    std::uniform_int_distribution<> distrib(-deviation, deviation);
+    int adjustedFRI = fireReturnInterval + distrib(gen);
+
+    if (yearsSinceLastRepFire >= adjustedFRI) {
+        replacementFire = true;
+    }
+
+    return replacementFire;
+}
