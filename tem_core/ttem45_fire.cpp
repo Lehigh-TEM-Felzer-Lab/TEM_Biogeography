@@ -274,13 +274,14 @@ double fireRandom4 = distribution(generator);
 double environmentFactor = 1 - severity;
 
 double percentAreaBurned = (Ab / Ag) * 100;
+
 // < 25% area burned Low 
 // 25% - 75% area burned Medium
 // > 75% area burned Stand Replacement
 
 
 
-  if ((percentAreaBurned  > 0 ) && (fireRandom1 > environmentFactor) && (fireProbability > fireRandom2 )&& (temperatureFactor > fireRandom3)&&(fireRandom4 > 0.5))
+  if ((percentAreaBurned  > 0 ) && (fireRandom1 > environmentFactor) && (temperatureFactor > fireRandom3)&&(fireRandom4 > 0.5))
   {
         fire = true; // set to true if probability is high enough and temperature is high enough
   }
