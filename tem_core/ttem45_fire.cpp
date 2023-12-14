@@ -247,7 +247,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     double Nf_max = Ni;
 
     // Calculate  Nf (number of fires)
-     Nf = (Ni * fb * fm * (1.0 - fs))* temperatureFactor;
+     Nf = (Ni * fb * fm * (1.0 - fs));
      
 
      // adjust area burned based on fire count
@@ -259,7 +259,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
 
 
     // Calculate fire severity
-    severity =  fb*fm*temperatureFactor;
+    severity =  fb*fm;
 
     // Calculate fire randomness
 
