@@ -274,7 +274,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
 
 
 
-double environmentFactor = 1 - severity;
+
 
 double percentAreaBurned = (Ab / Ag) * 100;
 
@@ -283,7 +283,7 @@ double percentAreaBurned = (Ab / Ag) * 100;
 // > 75% area burned Stand Replacement
 
 // Calculate a risk score
-double riskScore = (severity * temperatureFactor * environmentFactor);
+double riskScore = (severity * temperatureFactor * fireProbability);
 double fireRandom = distribution(generator);
 
   if ((percentAreaBurned > 0) && (riskScore > fireRandom))
