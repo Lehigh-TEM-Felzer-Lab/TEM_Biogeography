@@ -1,4 +1,3 @@
-
 #include "ttem45_fire.h"
 #include <algorithm>
 #include <chrono>
@@ -261,14 +260,6 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     // Calculate fire severity
     severity =  fb*fm;
 
-    // Calculate fire randomness
-
-double fireRandom1 = distribution(generator);
-double fireRandom2 = distribution(generator);
-double fireRandom3 = distribution(generator);   
-double fireRandom4 = distribution(generator);
-
-   // Bias the fire probability based on factors
 
 
 double environmentFactor = 1 - severity;
@@ -279,9 +270,11 @@ double percentAreaBurned = (Ab / Ag) * 100;
 // 25% - 75% area burned Medium
 // > 75% area burned Stand Replacement
 
+// Calculate a risk score
+double riskScore = (severity * temperatureFactor * environmentFactor);
+double fireRandom = distribution(generator);
 
-
-  if ((percentAreaBurned  > 0 ) && (fireRandom1 > environmentFactor) && (temperatureFactor > fireRandom3)&&(fireRandom4 > 0.5))
+  if ((percentAreaBurned > 0) && (riskScore > fireRandom))
   {
         fire = true; // set to true if probability is high enough and temperature is high enough
   }
