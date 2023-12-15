@@ -161,8 +161,20 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
         Ag = data.area;               // area of the grid cell
 
         // Adjust population density based on year
-        Dp = Dp * pow((1 + 0.0070), (year - 2015)); // Assuming USA population growth rate is abouth 0.70% per year
+        if (year >= 1750 && year < 1850){
+            Dp=Dp/4;
+        }
+        else if (year >= 1850 && year < 1950){
+            Dp=Dp/2;
+        }
+        else if (year >= 1950 && year < 2015){
+            Dp=Dp;
+        }
+        else{
+            Dp = Dp * pow((1 + 0.0070), (year - 2015)); // Assuming USA population growth rate is abouth 0.70% per year
 
+        }
+        
      
         if (vegtype == 8)
         {
