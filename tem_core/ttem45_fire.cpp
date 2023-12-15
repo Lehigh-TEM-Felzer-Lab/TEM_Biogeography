@@ -212,7 +212,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     double temperatureFactor = 1.0;
 
    
-    temperatureFactor = pow((temperature - LOWER_TEMPERATURE_THRESHOLD) / (UPPER_TEMPERATURE_THRESHOLD - LOWER_TEMPERATURE_THRESHOLD), 3);
+    temperatureFactor =  1.0 + (temperature - LOWER_TEMPERATURE_THRESHOLD) / (UPPER_TEMPERATURE_THRESHOLD - LOWER_TEMPERATURE_THRESHOLD);
     if (temperatureFactor < 0.0)
     {
         temperatureFactor = 0.0;
