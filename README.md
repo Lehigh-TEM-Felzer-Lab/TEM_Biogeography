@@ -14,26 +14,17 @@ Version built based on TEM-Hydro, Biogeography in based on BIOME4 Model
 Follow these steps to set up and run the model:
 
  Modify .xlm files, bash scripts  and  paths.py as needed
+ Modify code and data paths:Correct any issues with data paths and formats in the code as needed
 
   
 
 
 # user can automate the process by modifing and running: 
 ```
-
 run_tem.sh  # bash script for linux users
 
- 
 ```
-# for manual execution follow the next instructions:
 
-2. **Compile the tem_core:** Begin by compiling the tem_core using the appropriate compiler command for your system.
-
-3. **Run the executable:** After successful compilation, execute the tem_core using the required input data.
-
-4. **Prepare input files for the Biogeography module:** Ensure that the input files have the required columns, as specified in the biogeography readme file. Modify the input files as necessary to match the expected format (variable names are descriptive of the file and columns needed).
-
-5. **Modify code and data paths:** Correct any issues with data paths and formats in the code as needed.
 
 
 # Model framework
