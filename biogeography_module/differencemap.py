@@ -14,6 +14,7 @@ import warnings
 from scipy.stats import ttest_rel
 from scipy.interpolate import Rbf
 import numpy as np
+import cmocean
 
 warnings.filterwarnings("ignore")  # setting ignore as a parameter
 
@@ -29,16 +30,22 @@ positions = [0.0, 0.5, 1.0]
 YlFG = LinearSegmentedColormap.from_list("", list(zip(positions, colors)))
 
 # Import End of Century Land Cover data
-end_of_century_land_cover = pd.read_csv(
-    "./biogeo/output_bakeoff/end.shift", names=["LON", "LAT", "POTVEG"]
+end_45 = pd.read_csv(
+    "/users/jkodero/scratch/tem/4.5/runs/biogeo/output_bakeoff/end.shift", names=["LON", "LAT", "POTVEG"]
 )
-end_of_century_land_cover = end_of_century_land_cover.drop_duplicates()
-end_of_century_land_cover = end_of_century_land_cover.query(
+end_45 = end_45.drop_duplicates()
+end_45 = end_45.query(
+    "POTVEG != 13 and POTVEG !=15"
+)
+
+end_85 = pd.read_csv("/users/jkodero/scratch/tem/8.5/runs/biogeo/output_bakeoff/end.shift", names=["LON", "LAT", "POTVEG"])
+end_85 = end_85.drop_duplicates()
+end_85 = end_85.query(
     "POTVEG != 13 and POTVEG !=15"
 )
 
 # Function to read in data
-def process_data(filepath, year):
+def process_data(filepath, year,rcp=None):
     variable_data = pd.read_csv(
         filepath,
         names=[
@@ -77,9 +84,10 @@ def process_data(filepath, year):
     )
 
     variable_data = variable_data.query(f"YEAR >= {year}")
-    variable_data = variable_data.merge(
-        end_of_century_land_cover, on=["LAT", "LON", "POTVEG"]
-    )
+    if rcp==45:
+        variable_data = variable_data.merge(end_45, on=["LAT", "LON", "POTVEG"])
+    elif rcp==85:
+        variable_data = variable_data.merge(end_85, on=["LAT", "LON", "POTVEG"])
 
     variable_data = variable_data.drop(
         columns=[
@@ -120,23 +128,33 @@ def process_data(filepath, year):
     return variable_data
 
 
-future_vegc_path = "VEGC.TEMOUT"
-future_npp_path = "NPP.TEMOUT"
-future_nep_path = "NEP.TEMOUT"
-future_soilorgc_path = "SOILORGC.TEMOUT"
+future_vegc_45 = "../4.5/runs/VEGC.TEMOUT"
+future_npp_45 = "../4.5/runs/NPP.TEMOUT"
+future_nep_45 = "../4.5/runs/NEP.TEMOUT"
+future_soilorgc_45 = "../4.5/runs/SOILORGC.TEMOUT"
 
-historical_vegc_path = "./historical/VEGC.TEMOUT"
-historical_npp_path = "./historical/NPP.TEMOUT"
-historical_nep_path = "./historical/NEP.TEMOUT"
-historical_soilorgc_path = "./historical/SOILORGC.TEMOUT"
+future_vegc_85 = "../8.5/runs/VEGC.TEMOUT"
+future_npp_85 = "../8.5/runs/NPP.TEMOUT"
+future_nep_85 = "../8.5/runs/NEP.TEMOUT"
+future_soilorgc_85 = "../8.5/runs/SOILORGC.TEMOUT"
+
+historical_vegc_path = "/users/jkodero/scratch/tem/historical/runs/VEGC.TEMOUT"
+historical_npp_path = "/users/jkodero/scratch/tem/historical/runs/NPP.TEMOUT"
+historical_nep_path = "/users/jkodero/scratch/tem/historical/runs/NEP.TEMOUT"
+historical_soilorgc_path = "/users/jkodero/scratch/tem/historical/runs/SOILORGC.TEMOUT"
 
 
 
 
-vegc_df_future = process_data(future_vegc_path, 2069)
-npp_df_future = process_data(future_npp_path, 2069)
-nep_df_future = process_data(future_nep_path, 2069)
-soilorgc_df_future = process_data(future_soilorgc_path, 2069)
+vegc_45= process_data(future_vegc_45, 2069,rcp=45)
+npp_45= process_data(future_npp_45, 2069,rcp=45)
+nep_45= process_data(future_nep_45, 2069,rcp=45)
+soilorgc_45= process_data(future_soilorgc_45, 2069,rcp=45)
+
+vegc_85= process_data(future_vegc_85, 2069,rcp=85)
+npp_85= process_data(future_npp_85, 2069,rcp=85)
+nep_85= process_data(future_nep_85, 2069,rcp=85)
+soilorgc_85= process_data(future_soilorgc_85, 2069,rcp=85)
 
 vegc_df_historical = process_data(historical_vegc_path, 1984)
 npp_df_historical = process_data(historical_npp_path, 1984)
@@ -194,22 +212,29 @@ def remove_outliers(df):
     return df
 
 
-vegc_difference = remove_outliers(calculate_difference(vegc_df_historical, vegc_df_future))
-npp_difference = remove_outliers(calculate_difference(npp_df_historical, npp_df_future))
-nep_difference = remove_outliers(calculate_difference(nep_df_historical, nep_df_future))
-soilorgc_difference = remove_outliers(calculate_difference(soilorgc_df_historical, soilorgc_df_future))
+vegc_difference_45 = remove_outliers(calculate_difference(vegc_df_historical, vegc_45))
+npp_difference_45 = remove_outliers(calculate_difference(npp_df_historical, npp_45))
+nep_difference_45 = remove_outliers(calculate_difference(nep_df_historical, nep_45))
+soilorgc_difference_45 = remove_outliers(calculate_difference(soilorgc_df_historical, soilorgc_45))
+
+vegc_difference_85 = remove_outliers(calculate_difference(vegc_df_historical, vegc_85))
+npp_difference_85 = remove_outliers(calculate_difference(npp_df_historical, npp_85))
+nep_difference_85 = remove_outliers(calculate_difference(nep_df_historical, nep_85))
+soilorgc_difference_85 = remove_outliers(calculate_difference(soilorgc_df_historical, soilorgc_85))
+
 
 # Drop the rows where the condition is True
 # npp_difference.drop(npp_difference[npp_difference['PERCENT_DIFFERENCE'] > 100].index, inplace=True)
 
-
+vgc_85=pd.read_csv("/users/jkodero/scratch/tem/archive/runs/8.5/vegc_difference.csv",header=0)
+npp_85=pd.read_csv("/users/jkodero/scratch/tem/archive/runs/8.5/npp_difference.csv",header=0)
 
 # Plot the data
-data_list = [vegc_difference, soilorgc_difference,npp_difference, nep_difference, ]
-subplot_titles =["a) Vegetation Carbon", " b) Soil Organic Carbon"," d) Net Primary Productivity", " c) Net Ecosystem Productivity" ]
+data_list = [vegc_difference_45,npp_difference_45,vegc_difference_85, npp_difference_85 ]
+subplot_titles =["a) Vegetation Carbon RCP 4.5 ", " b) Net Primary Productivity RCP 4.5"," c) Vegetation Carbon RCP 8.5", " c) Net Primary Productivity RCP 8.5" ]
 
 # Create the subplot
-fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 10), sharex=True, sharey=True)
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(5, 5), sharex=True, sharey=True)
 
 # Iterate over the data to plot
 for i, data in enumerate(data_list):
@@ -230,7 +255,8 @@ for i, data in enumerate(data_list):
     # Select the axis to plot on
     subplot = ax.flat[i]
 
-    sns.set_theme(style="ticks", font="sans-serif", rc={"lines.linewidth": 2.5})
+    sns.set_theme(style="ticks", font="sans-serif", rc={"lines.linewidth": 0.5})
+    sns.set_context("paper", font_scale=0.5, rc={"lines.linewidth": 0.5})
     m = Basemap(
         projection="mill",
         llcrnrlat=31,
@@ -240,15 +266,19 @@ for i, data in enumerate(data_list):
         resolution="l",
         ax=subplot  # Use the selected axis to plot
     )
-    m.drawcoastlines()
-    m.drawcountries()
-    m.drawstates()
+    m.drawcoastlines(linewidth=0.5)
+    m.drawcountries(linewidth=0.5)
+    m.drawstates(linewidth=0.2,color="gray")
+    # set ocean color to grey
+    
     x, y = m(lon_new, lat_new)
 
     # set the color of grids with PERCENT_DIFFERENCE == -99999 to white
     z_masked = np.ma.masked_where(z == -99999, z)
-
-    pcm = m.pcolormesh(x, y, z_masked, cmap="viridis_r", edgecolor="white", linewidth=0.5)
+    cmap = cmocean.cm.delta
+    pcm = m.pcolormesh(x, y, z_masked, cmap=cmap, edgecolor="white", linewidth=0.5)
+    # set spline line width
+    pcm.set_linewidth(0.5)
 
     # mark grids with p_value ==1 with black bullet and PERCENT_DIFFERENCE != -99999
     """
@@ -262,7 +292,9 @@ for i, data in enumerate(data_list):
 
     # Add colorbar for each plot
     cbar = plt.colorbar(pcm, orientation="vertical", shrink=0.5, pad=0.02)
-    cbar.set_label(label="% change", labelpad=5)
+    # set cbar limits
+    pcm.set_clim(-500, 500)
+    cbar.set_label(label="% change", labelpad=2)
     
     # set the intervals for parallels and meridians
     lat_interval = 5
@@ -272,18 +304,21 @@ for i, data in enumerate(data_list):
     parallels = np.arange(25, 50, lat_interval)
     meridians = np.arange(-130, -104.5, lon_interval)
     m.drawparallels(
-        parallels, labels=[True, False, False, False], fontsize=12, linewidth=0.001 ,dashes=[4,9900]
+        parallels, labels=[True, False, False, False], linewidth=0.001 ,dashes=[4,9900]
     )
     m.drawmeridians(
-        meridians, labels=[False, False, False, True], fontsize=12, linewidth=0.001,dashes=[4,9900])
+        meridians, labels=[False, False, False, True], linewidth=0.001,dashes=[4,9900])
 
     # Set the title for the subplot
     subplot.set_title(f"{subplot_titles[i]}",fontweight='bold')
-
+    
 # Adjust the spacing between subplots
 plt.subplots_adjust(hspace=0.05)
 
-plt.savefig("./biogeo/difference.png", dpi=1200, format="png", bbox_inches="tight")
+
+plt.savefig("difference_combined.png", dpi=1200, format="png", bbox_inches="tight")
+# save as svg
+plt.savefig("difference_combined.svg", dpi=1200, format="svg", bbox_inches="tight")
 
 
 
