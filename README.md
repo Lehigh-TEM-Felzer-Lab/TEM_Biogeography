@@ -22,7 +22,7 @@ Follow these steps to set up and run the model:
 ```
 
 run_tem.sh  # bash script for linux users
-run_tem.ps1 # powershell script for windows users
+
  
 ```
 # for manual execution follow the next instructions:
