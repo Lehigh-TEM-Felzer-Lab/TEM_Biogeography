@@ -14,12 +14,13 @@ Version built based on TEM-Hydro, Biogeography in based on BIOME4 Model
 Follow these steps to set up and run the model:
 
  Modify .xlm files, bash scripts  and  paths.py as needed
+ 
  Modify code and data paths:Correct any issues with data paths and formats in the code as needed
 
   
 
 
-# user can automate the process by modifing and running: 
+# Then run 
 ```
 run_tem.sh  # bash script for linux users
 
