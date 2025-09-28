@@ -33,7 +33,7 @@ def mean_wind(df: pd.DataFrame, varname: str):
             "dec": "mean",
         }
     )
-    mean["year"] = -999
+    mean["year"] = -9999
     mean["varname"] = f" {varname} ".upper()
 
     return mean
