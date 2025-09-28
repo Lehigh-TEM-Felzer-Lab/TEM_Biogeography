@@ -1,0 +1,25 @@
+<file_paths>
+        <input_files>
+            <!-- Moisture stress data for each PFT calculated using AET/PET ratio -->
+            <mean_monthly_moisture_stress>MMDI.csv</mean_monthly_moisture_stress>
+            <mean_summer_moisture_stress>MDI.csv</mean_summer_moisture_stress>
+
+            <!-- temperature data  will only be used if data path not found in the XML file used to run the model -->
+            <temperature_data>./climate_data/tair_rcp45_2006_2099.csv</temperature_data>
+
+             <!-- precipitation data  will only be used if data path not found in the XML file used to run the model -->
+            <precipitation_data>./climate_data/pr_rcp45_2006_2099.csv</precipitation_data>
+
+            <!-- JSON files containing bioclimatic thresholds for each PFT -->
+            <climate_limits>pft_climate_limits.json</climate_limits>
+            <pft_description>pfts_description.json</pft_description>
+
+        </input_files>
+        <output_files>
+            <npp_bakeoff_results>./biogeo/output_bakeoff/npp_bakeoff_result.csv</npp_bakeoff_results>
+            <early_century_persisting_pft_output>./biogeo/output_bakeoff/early.shift</early_century_persisting_pft_output>
+            <mid_century_persisting_pft_output>./biogeo/output_bakeoff/mid.shift</mid_century_persisting_pft_output>
+            <end_century_persisting_pft_output>./biogeo/output_bakeoff/end.shift</end_century_persisting_pft_output>
+            <bakeoff_results_dir>./biogeo/output_bakeoff</bakeoff_results_dir>
+        </output_files>
+    </file_paths>

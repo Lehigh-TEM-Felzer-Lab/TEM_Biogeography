@@ -1,5 +1,4 @@
 {
-    "terminal.integrated.fontSize": 16,
     "files.watcherExclude": {
         "**/*": true,
         "!./**": false
