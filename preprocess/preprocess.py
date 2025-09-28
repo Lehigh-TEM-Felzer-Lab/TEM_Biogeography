@@ -264,7 +264,7 @@ def preprocess(
 
         out_csv = Path(f"./output/{var}{mid}.csv")
         out_csv.parent.mkdir(parents=True, exist_ok=True)
-        df.to_csv(out_csv, index=False, header=True)
+        df.to_csv(out_csv, index=False, header=False)
 
 
 if __name__ == "__main__":
