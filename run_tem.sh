@@ -2,28 +2,20 @@
 
 set -euo pipefail
 
-# Define colors
-CYAN="\033[0;36m"
-GREEN="\033[0;32m"
-YELLOW="\033[0;33m"
-NC="\033[0m" # No Color
-
 # Function to display progress bar
 progress_bar() {
     local width=50
     local percentage=$1
     local completed=$((percentage * width / 100))
     local remaining=$((width - completed))
-    echo -e "${YELLOW}"
     printf " Progress : [%s%s] %.2f%%\r" "$(yes "#" | head -n "$completed" | tr -d '\n')" "$(yes "-" | head -n "$remaining" | tr -d '\n')" "$percentage"
-    echo -e "${NC}"
 }
 
 # Header
 echo " "
-echo -e "${GREEN}*************************************************${NC}"
-echo -e "${GREEN}***       Starting Biogeography Model        ***${NC}"
-echo -e "${GREEN}*************************************************${NC}"
+echo "*************************************************"
+echo "***       Starting Biogeography Model        ***"
+echo "*************************************************"
 
 # Directories
 tem_biogeography="."
@@ -32,7 +24,7 @@ runs="$tem_biogeography/runs"
 echo " "
 clean_tem_core() {
     cd "$tem_core"
-    echo -e "${CYAN}*** Removing all .object files ***${NC}"
+    echo "*** Removing all .object files ***"
     rm -f *.o
     wait
     progress_bar 3
@@ -40,7 +32,7 @@ clean_tem_core() {
 
 compile_tem() {
     echo " "
-    echo -e "${CYAN}*** Compiling TEM ***${NC}"
+    echo "*** Compiling TEM ***"
     echo " "
     make -f Makefile_biogeo.xtem xtem45_biogeo
     wait
@@ -49,7 +41,7 @@ compile_tem() {
 
 copy_executable() {
     echo " "
-    echo -e "${CYAN}*** Copying TEM executable to run directory ***${NC}"
+    echo "*** Copying TEM executable to run directory ***"
     cp xtem45_biogeo "../runs"
     wait
     cd "../"
@@ -58,7 +50,7 @@ copy_executable() {
 
 remove_temout_files() {
     echo " "
-    echo -e "${CYAN}*** Removing all .temout files from runs dir ***${NC}"
+    echo "*** Removing all .temout files from runs dir ***"
     rm -f "$runs"/*.TEMOUT
     wait
     progress_bar 7
@@ -66,7 +58,7 @@ remove_temout_files() {
 
 prep_run_dir() {
     echo " "
-    echo -e "${CYAN}*** Preparing run directory ***${NC}"
+    echo "*** Preparing run directory ***"
     rm -f FIRE.csv FIRE_VARS.csv MMDI.csv *.log
     rm -f *.SUMMARY
     rm -f *.TEMOUT
@@ -78,7 +70,7 @@ prep_run_dir() {
 
 run_tem_executable() {
     echo " "
-    echo -e "${CYAN}*** Running TEM ***${NC}"
+    echo "*** Running TEM ***"
     echo " "
     chmod +x xtem45_biogeo
     ./xtem45_biogeo 
@@ -88,7 +80,7 @@ run_tem_executable() {
 
 biogeography_and_post_processing() {
     echo " "
-    echo -e "${CYAN}*** Running biogeography model ***${NC}"
+    echo "*** Running biogeography model ***"
     echo " "
     pwd
     python main.py
@@ -96,24 +88,22 @@ biogeography_and_post_processing() {
     progress_bar 80
     
     echo " "
-    echo -e "${CYAN}*** Running xtran ***${NC}"
+    echo "*** Running xtran ***"
     echo " "
     
     python xtran.py xbatch.xml
     progress_bar 90
 
     echo " "
-    echo -e "${CYAN}*** Creating Vegetation Maps ***${NC}"
+    echo "*** Creating Vegetation Maps ***"
     python vegetation_maps.py
     wait
     python trends.py
     progress_bar 95
-    
-   
 }
 
 clean_dir(){
-    echo -e "${CYAN}*** Post Run Script ***${NC}"
+    echo "*** Post Run Script ***"
     echo " "
     rm -f *.py
     rm -f *.md
@@ -142,7 +132,7 @@ clean_dir
 pwd
 
 # Completion message
-echo -e "${YELLOW}*************************************************${NC}"
+echo "*************************************************"
 progress_bar 100
-echo -e "${GREEN}*** Complete! ***${NC}"
-echo -e "${YELLOW}*************************************************${NC}"
+echo "*** Complete! ***"
+echo "*************************************************"
