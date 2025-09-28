@@ -364,7 +364,7 @@ bool shouldHistoricalFireOccur(int vegtype, int lastRepFireYear, int year) {
     int yearsSinceLastRepFire = year - lastRepFireYear;
 
     int fireReturnInterval = 0; 
-    int fireReturnIntervalDeviation = 0;
+    double fireReturnIntervalDeviation = 0;
 
 // Add and Update the fire return interval values as needed
 switch(vegtype)
