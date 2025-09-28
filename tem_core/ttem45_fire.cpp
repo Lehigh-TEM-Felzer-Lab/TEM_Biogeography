@@ -12,6 +12,15 @@
 #include <tuple>
 #include <unordered_map>
 
+/* Reference 
+
+// Lawrence, D. et al. CLM5.0 technical description. (2018).
+// Li, F., Zeng, X. D. & Levis, S. A process-based fire parameterization of intermediate complexity in a dynamic global vegetation model. Biogeosciences 9, 2761–2780 (2012).
+
+*/
+
+
+
 
 // load fire data into a map
 struct Data
@@ -38,11 +47,15 @@ std::unordered_map<std::tuple<double, double, double>, Data, KeyHash> &load_fire
     if (data_loaded) // if data is already loaded, return the map
         return fire_data_map;
 
-    FILE *fireData = fopen("./climate_data/fire.data", "r");
+        
+
+    FILE *fireData = fopen("./climate_data/global_0.5_deg_mean_mon_fire.data", "r");
 
     if (!fireData)
     {
-        perror("Error : File containing area, population density and lightning flashes not found");
+        perror( "Error: Could not open fire data file at ./climate_data/global_0.5_deg_mean_mon_fire.data\n"
+                "Expected format: lon,lat,month,area,population_density,flashes (CSV)\n"
+                "Check that the file exists, is readable, and has six comma-separated values per line.\n");
         exit(1);
     }
 
@@ -63,7 +76,8 @@ std::unordered_map<std::tuple<double, double, double>, Data, KeyHash> &load_fire
 // Fire model
 
 bool isFireTrue(double col, double row, int year, int month, int vegtype, double vegc, double sm, double wiltpt,
-                double awcapmm, double ws, double vpr, double vpdn, double vpdd,double temperature,
+                double awcapmm, double 
+                ws, double vpr, double vpdn, double vpdd,double temperature,
 
                 // output
                 double &rh, double &theta, double &theta_e, double &fireProbability, double &fire_probability_threshold,
@@ -77,6 +91,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     std::mt19937 generator(rd());
     std::uniform_real_distribution<double> distribution(0.0, 1.0);
     // Define constants for the model
+    const double MISSING = -99999;
     const double UPPER_FUEL_THRESHOLD = 1050.0; // gCm^-2
     const double LOWER_FUEL_THRESHOLD = 155.0;  // gCm^-2
     const double UPPER_RH_THRESHOLD = 70.0;     // %
@@ -160,6 +175,15 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
         Dp = data.population_density; // population density of the grid cell (Current)
         Ag = data.area;               // area of the grid cell
 
+
+        if (Dp == MISSING || Il == MISSING)
+        {
+            fire = false;
+            return fire;
+        }
+
+
+    
         // Adjust population density based on year
         if (year >= 1750 && year < 1850){
             Dp=Dp/4;
@@ -178,27 +202,27 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
      
         if (vegtype == 8)
         {
-            Ag = Ag / 4; // Each PFT is 1/4 of the grid cell
+            Ag = Ag / 4; // Each PFT is 1/4 of the grid cell (adjust as needed to reflect actual PFT proportions)
             Il = Il / 4;
             Dp = Dp / 4;
         }
         else
         {
-            Ag = Ag / 3; // Each PFT is 1/3 of the grid cell
+            Ag = Ag / 3; // Each PFT is 1/3 of the grid cell (adjust as needed to reflect actual PFT proportions)
             Il = Il / 3;
             Dp = Dp / 3;
         }
     }
 
     // Calculate In using Equation (4)
-    int n = 1; //  number of time steps in a month
-    double psi = 1 / (5.16 + 2.16 * cos(3 * lambda));
+    int t_steps = 1; //  number of time steps in a month (change as needed)
+    double psi = 1.0 / (5.16 + 2.16 * cos(3.0 * lambda));
     double In = psi * Il;
 
     // Calculate Ia (ignition due to anthropogenic sources)
     double alpha = 3.89e-3;
-    double k_Dp = 6.8 * pow(Dp, -0.6);
-    double Ia = (alpha * Dp * k_Dp) / n;
+    double k_Dp = (Dp > 1e-9) ? (6.8 * pow(Dp, -0.6)) : 0.0; // avoid blowup at Dp=0
+    double Ia = (alpha * Dp * k_Dp) / t_steps;
 
     // Calculate Ni (Ignition Factor)
     Ni = (In + Ia) * Ag;
@@ -209,29 +233,19 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     fs = epsilon1 - epsilon2 * exp(-0.025 * Dp);
 
     // Calculate temperature factor
-    double temperatureFactor = 1.0;
-
-   
-    temperatureFactor =  1.0 + (temperature - LOWER_TEMPERATURE_THRESHOLD) / (UPPER_TEMPERATURE_THRESHOLD - LOWER_TEMPERATURE_THRESHOLD);
+    double temperatureFactor = (temperature - LOWER_TEMPERATURE_THRESHOLD) /
+                            (UPPER_TEMPERATURE_THRESHOLD - LOWER_TEMPERATURE_THRESHOLD);
     if (temperatureFactor < 0.0)
-    {
         temperatureFactor = 0.0;
-    }
     else if (temperatureFactor > 1.0)
-    {
         temperatureFactor = 1.0;
-    }
 
-
-        // Calculate fuel availability
+    // Calculate fuel availability
     fb = (vegc - LOWER_FUEL_THRESHOLD) / (UPPER_FUEL_THRESHOLD - LOWER_FUEL_THRESHOLD);
     if (fb < 0.0)
-    {
-    fb = 0.0;
-    }   else if (fb > 1.0)
-    {
-    fb = 1.0;
-    }
+        fb = 0.0;
+    else if (fb > 1.0)
+        fb = 1.0;
 
     // Calculate relative humidity factor
     fRH = 1.0;
@@ -245,7 +259,7 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     }
 
     // Calculate soil wetness factor
-    ftheta = exp(-M_PI * pow(theta / theta_e, 2));
+    ftheta = exp(-M_PI * pow(theta / theta_e, 2.0));
     if (theta > theta_e)
     {
         ftheta = 0.0;
@@ -257,20 +271,24 @@ bool isFireTrue(double col, double row, int year, int month, int vegtype, double
     // Maximum fire count in a grid cell
     double Nf_max = Ni;
 
-    // Calculate  Nf (number of fires)
-     Nf = (Ni * fb * fm * (1.0 - fs));
-     
+    // Calculate Nf (number of fires) safely
+    Nf = (Ni * fb * fm * (1.0 - fs));
 
-     // adjust area burned based on fire count
-    Ab *= (Nf/Nf_max);
-
-
-    // Calculate fire probability
-    fireProbability = Nf / Nf_max;
-
+    // Adjust area burned based on fire count
+    if (Nf_max > 0.0)
+    {
+        Ab *= (Nf / Nf_max);
+        fireProbability = Nf / Nf_max;
+    }
+    else
+    {
+        Ab = 0.0;
+        fireProbability = 0.0;
+    }
 
     // Calculate fire severity
-    severity =  fb*fm;
+    severity = fb * fm;
+
 
 
 
@@ -284,7 +302,7 @@ double percentAreaBurned = (Ab / Ag) * 100;
 
 // Calculate a risk score
 double riskScore = (severity * temperatureFactor * fireProbability);
-double fireRandom = distribution(generator);
+double fireRandom = distribution(generator); // some randomness to fire occurrence
 
   if ((percentAreaBurned > 0) && (riskScore > fireRandom))
   {
