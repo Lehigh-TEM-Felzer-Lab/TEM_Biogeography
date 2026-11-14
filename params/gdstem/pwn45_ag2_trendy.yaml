@@ -1,0 +1,43 @@
+version: 4.5
+site: Pawnee, Colorado USA
+longitude: -105.0
+latitude: 40.5
+developedBy: TWC/BSF/DWK
+updated: 20080821
+community:
+  - type: 21
+    description: Dry Pasture
+    leafcb: 100.0
+    sapwoodcb: 0.0
+    heartwoodcb: 0.0
+    rootcb: 100.0
+    seedcb: 0.0
+    labilecb: 100.0
+    leafnb: 5.0
+    sapwoodnb: 0.0
+    heartwoodnb: 0.0
+    rootnb: 5.0
+    seednb: 0.0
+    labilenb: 5.0
+    solcb: 3436.0
+    solnb: 309.0
+    avlnb: 2.00
+    vegcmax1b: 170.0
+    vegtauleaf: 1.0
+    vegtausapwood: 1.0
+    vegtauheartwood: 1.0
+    vegtauroot: 1.0
+    vegtauseed: 1.0
+    vegkra: 0.5
+    microbekdb: 0.0106
+    microbelcclnc: 57.1
+    microbepropftos: 0.2000
+    vegnmax1b: 250.0
+    microbenupb: 35.0
+    soilnloss: 1.0
+    soildenitr: 1.5
+    microbecnsoil: 11.12
+    vegcnltr: 75.0
+    o3para: 3.9
+    o3parb: 2.0
+    o3parc: 0.0402712

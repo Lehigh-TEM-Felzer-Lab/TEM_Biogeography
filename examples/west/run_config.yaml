@@ -1,0 +1,19 @@
+# CCSM4 RCP8.5, western USA, monthly from 2015 through 2099.
+region: WESTERN_USA
+horizontal_resolution: 0.5
+lon_min: -124.5
+lon_max: -105.0
+lat_min: 31.5
+lat_max: 48.5
+start_year: 2015
+run_length: 85
+run_length_units: years
+climate_file: $TEM_ROOT/examples/west/climate.nc
+static_file: $TEM_ROOT/static/west/static.nc
+lulc_file: $TEM_ROOT/static/west/lulc.nc
+co2_file: $TEM_ROOT/static/west/co2.nc
+lightning_file: $TEM_ROOT/static/flash.nc
+population_file: $TEM_ROOT/static/popdens.nc
+spinflag: 2
+de_nyears: 30
+veg_fire: 0  # 1 needs gdp_file (GDP per person, see technical_desc.md) and the params/gdstem_fire files

@@ -1,0 +1,35 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sources live in src/ only
+        run: |
+          stray=$(git ls-files '*.cpp' '*.h' '*.hpp' | grep -v -e '^src/' -e '^tests/' || true)
+          [ -z "$stray" ] || { echo "sources outside src/ and tests/:"; echo "$stray"; exit 1; }
+          [ ! -e tem_core ] && [ ! -e dat_ecd_files ] || { echo "tem_core/ or dat_ecd_files/ came back (a GDSTEM merge?)"; exit 1; }
+      - name: No XML input code
+        run: "! grep -rIlE -e '^[[:space:]]*#[[:space:]]*include.*[pP]rocessXML' -e ':[[:space:]]*(public[[:space:]]+)?ProcessXML' src"
+      - name: Layering
+        run: |
+          pip install pyyaml
+          python3 .github/scripts/check_layering.py
+
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: sudo apt-get update && sudo apt-get install -y g++ make pkg-config libyaml-dev libnetcdf-dev python3-netcdf4 python3-numpy
+      - name: Build
+        run: make -j4
+      - name: Unit tests
+        run: |
+          make build/timestep_test build/yaml_test build/diag_test
+          build/timestep_test && build/yaml_test && build/diag_test

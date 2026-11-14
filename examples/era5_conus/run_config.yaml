@@ -1,0 +1,26 @@
+# Supply the external ERA5 and static inputs as described in README.md.
+region: CONUS
+horizontal_resolution: 0.5
+lon_min: -125.0
+lon_max: -66.0
+lat_min: 24.0
+lat_max: 50.0
+start_year: 1980
+run_length: 41
+run_length_units: years
+climate_file: /data/era5_conus.nc
+static_file: /data/static.nc
+lulc_file: /data/lulc.nc
+co2_file: /data/co2.nc
+varmap:
+  tmax: t2m_max
+  tmin: t2m_min
+  tair: t2m
+  dewpoint: d2m
+  prec: tp
+  nirr: ssrd
+  u10: u10
+  v10: v10
+  elev: elev
+period_names: [historical]
+period_ends: []

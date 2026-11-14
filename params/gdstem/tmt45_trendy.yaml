@@ -1,0 +1,43 @@
+version: 4.5
+site: Toolik_Lake LTER, Alaska USA
+longitude: -150.0
+latitude: 68.5
+developedBy: BSF/TWC
+updated: 20070110
+community:
+  - type: 3
+    description: Moist/wet tundra
+    leafcb: 100.0
+    sapwoodcb: 200.0
+    heartwoodcb: 100.0
+    rootcb: 100.0
+    seedcb: 0.0
+    labilecb: 250.0
+    leafnb: 2.0
+    sapwoodnb: 4.0
+    heartwoodnb: 1.0
+    rootnb: 2.0
+    seednb: 0.0
+    labilenb: 5.0
+    solcb: 12000.0
+    solnb: 733.0
+    avlnb: 0.4
+    vegcmax1b: 27.0
+    vegtauleaf: 2.0
+    vegtausapwood: 10.0
+    vegtauheartwood: 16.0
+    vegtauroot: 1.0
+    vegtauseed: 1.0
+    vegkra: 0.38
+    microbekdb: 0.0038
+    microbelcclnc: 150.0
+    microbepropftos: 0.2000
+    vegnmax1b: 55.0
+    microbenupb: 0.5
+    soilnloss: 0.05
+    soildenitr: 1.0
+    microbecnsoil: 16.0
+    vegcnltr: 52.0
+    o3para: 2.6
+    o3parb: 1.0
+    o3parc: 0.0080782

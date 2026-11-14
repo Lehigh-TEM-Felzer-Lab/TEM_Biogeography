@@ -1,0 +1,51 @@
+# Include rule of src/, checked by .github/scripts/check_layering.py (ci.yml, job structure).
+# physics is the science and includes nothing from io or driver; io includes only from physics; driver includes from both.
+layers:
+  physics:
+    may_include: []
+    forbid_system: [netcdf.h, yaml.h, mpi.h]
+  io:
+    may_include: [physics]
+  driver:
+    may_include: [physics, io]
+
+# Includes that break the rule today (YAML readers in the getecd methods, NetCDF reads in the record classes, restart state and
+# log in Telm45). A new violation fails, and so does an entry that no longer occurs: remove it. The list can only shrink.
+# python3 .github/scripts/check_layering.py --update rewrites it from the sources.
+exceptions:
+  physics/atmdepdat_gds.cpp:
+  - tem_netcdf_io.h
+  physics/elmnt_gds.cpp:
+  - mpi_layer.h
+  - tem_log.h
+  physics/humnact_gds.h:
+  - tem_yaml.h
+  physics/lulcdat_gds.cpp:
+  - tem_netcdf_io.h
+  physics/nfertdat_gds.cpp:
+  - tem_netcdf_io.h
+  physics/penmon_gds.h:
+  - tem_yaml.h
+  physics/tbiome_gds.h:
+  - tem_yaml.h
+  physics/tclmdat_gds.cpp:
+  - tem_netcdf_io.h
+  physics/telm_gds.cpp:
+  - tem_log.h
+  - tem_netcdf_io.h
+  physics/telm_gds.h:
+  - tem_state_io.h
+  physics/telvdat_gds.cpp:
+  - tem_netcdf_io.h
+  physics/tmaxcohortdat_gds.cpp:
+  - tem_netcdf_io.h
+  physics/tmcrb_gds.h:
+  - tem_yaml.h
+  physics/tsoil_gds.h:
+  - tem_yaml.h
+  physics/tsoldat_gds.cpp:
+  - tem_netcdf_io.h
+  physics/ttem_gds.h:
+  - tem_yaml.h
+  physics/tveg_gds.h:
+  - tem_yaml.h

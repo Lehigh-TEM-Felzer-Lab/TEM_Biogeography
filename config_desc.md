@@ -1,0 +1,324 @@
+# TEM Biogeography configuration reference
+
+# Introduction
+
+`templates/tem_config.yaml` is the model configuration of the TEM version 4.5 used by TEM Biogeography, listed here group by group as in the file, with the comment of each key above it. Input file keys accept a path, a glob or a list. The names of output variables are lowercase and are listed in `src/io/tem_outvars.cpp`.
+
+# NetCDF inputs
+
+```yaml
+# =============================================================================
+# NETCDF INPUTS
+# =============================================================================
+# NetCDF input files (string or list of strings; each a path or a glob). A model input is read
+# from the variable of its own name in the files of its group (tair, prec, dtr, vpr, nirr in the
+# climate files; elev, sand, silt, clay, wind, ndep, ozone in the static files; the land
+# cover fields in the lulc files; co2; lightning_flashes in the fire files; population_density in
+# the population files; nfertcrop and nfertpasture in the nfert files). If the dataset defines the variable
+# under another name, varmap names it. A file key that an enabled input needs and that is not set is an error.
+climate_file: ./INPUT/climate.nc
+static_file: ./INPUT/static.nc
+lulc_file: ./INPUT/lulc.nc
+co2_file: ./INPUT/co2.nc
+lightning_file: ./INPUT/flash.nc
+population_file: ./INPUT/popdens.nc
+gdp_file: ./INPUT/gdp.nc
+storm_file: ./INPUT/storm.nc
+nfert_file: ./INPUT/nfert.nc
+# varmap (flat): <key>: <name of the variable in your NetCDF dataset>. A model input is read from the dataset variable
+# that has the default name listed below; if the dataset defines that variable under another name, give the name here.
+# One variable name per entry (no sums, no options); units come from the units attribute of the variable. A variable
+# that is in neither place stops the run.
+# Key (default variable name): girr, clouds, nirr, par, tair, prec, dtr, vpr (climate_file); wind, ozone, ndep, sand, silt,
+# clay, elev (static_file); co2 (co2_file); lightning (lightning_flashes), popdens (population_density), gdp,
+# storm (storm_return_interval), hurricane (hurricane_return_interval), nfertcrop, nfertpasture.
+# mask (static_file) has no default: with a mask entry the cells where that variable is above 0 run. The land-cover
+# fields (standage, chrtarea, ...) are read by name.
+# Example, a dataset that defines air temperature as t2m and precipitation as tp: varmap: {tair: t2m, prec: tp}
+varmap: {}
+```
+
+# Input options
+
+```yaml
+# =============================================================================
+# INPUT OPTIONS: Which inputs are transient, and the CO2 start values.
+# =============================================================================
+# cldflag (int): radiation input files are for surface radiation (0) or cloudiness (1)
+cldflag: 0
+# parflag (int): if cldflag is 0, is there a dataset for photosynthetically active radiation? (0 - no, 1 - yes)
+parflag: 0
+# xtcldsflag (int): radiation input files are transient (1) or based on long-term averages (0)
+xtcldsflag: 1
+# xttairflag (int): tair input files are transient (1) or based on long-term averages (0)
+xttairflag: 1
+# xtprecflag (int): prec input files are transient (1) or based on long-term averages (0)
+xtprecflag: 1
+# xttrangeflag (int): trange input files are transient (1) or based on long-term averages (0)
+xttrangeflag: 1
+# xtvprflag (int): vpr input files are transient (1) or based on long-term averages (0)
+xtvprflag: 1
+# xtco2flag (int): co2 input file has transient (1) or static (0) data
+xtco2flag: 1
+# xto3flag (int): ozone input file has transient (1) or long-term average (0) data
+xto3flag: 0
+# xtndepflag (int): ndep input file has transient (1) or long-term average (0) data
+xtndepflag: 0
+# xtws10flag (int): wind speed input is transient (1) or based on long-term averages (0)
+xtws10flag: 0
+# xnfertflag (int): fertilizer of crops and pasture is read from annual input data, as in GDSTEM: data without a time axis (1,
+# long-term average) or transient data (2). There is no built-in series. Variables from varmap: nfertcrop, nfertpasture; read when
+# agfertflag is 1 (nfert_file is then required)
+xnfertflag: 1
+# tlclucflag (int): specifies transient (1) or static (0) land use and land cover datasets; 1 needs a land-cover input with a time axis (one record per year)
+tlulcflag: 0
+# lulclastyr (int): last year transient land use data are available
+lulclastyr: 2099
+# initco2 (double): concentration of CO2 during initilalization in ppmv
+initco2: 286.596
+# xco2level (double): final equilibrium concentration of CO2 - should be same as initco2
+xco2level: 286.596
+```
+
+# Run control
+
+```yaml
+# =============================================================================
+# RUN CONTROL: Time step, run length and the cells to run. The run starts on 1 January of clmstartyr.
+# =============================================================================
+# run_dt, run_dt_units (int, string): model time step, a count and a unit: second, minute, hour, day, week, month or year (singular or plural). Every time is converted to seconds on the 365-day noleap year (tem_time.h). The step must divide the year (calendar months for steps longer than 28 days) and be a whole number of days: 1 month, 1 day, 5 days, 86400 seconds and 24 hours are valid; a step shorter than a day needs sub-daily forcing, which the model does not read.
+run_dt: 1
+run_dt_units: month
+# run_length, run_length_units (int, string): duration of the transient run, in any unit of run_dt_units (converted to seconds), counted from 1 January of clmstartyr. It must be a whole number of model steps (run_dt), so 7 days need a daily step (or 5 days a 5-day step). Any length works, for example 85 years, 17 months or 7 days. The time axis of every input with a time dimension must cover it: at least one record per model step for step data, per calendar month for monthly data and per year for annual data (12 days need 12 daily records); the model stops with a message when the data are shorter, and uses the first records when they are longer
+run_length: 85
+run_length_units: years
+# clmstartyear (int): starting year for transient climate in input files; note that the first year of the climate files is usually a year earlier, and represents a long-term average value
+clmstartyr: 2015
+# xequil (int): run xtem in transient (0) or equilibrium (1) mode
+xequil: 0
+# region (string): region label written to the output attributes
+region: WESTERN_USA
+# mxnumgrid (long): in xtem, number of grid cells that will be run
+mxnumgrid: 374
+# grdcnt (long): number of gridcells to output a timestamp for in the logfile
+grdcnt: 100
+# strtflag (int): start at the beginning of the GIS files (1), or partway through (0). 0 isn't really an option right now
+strtflag: 1
+# numskip (long): number of grid cells to skip if strtflag is 0. not really an option right now
+numskip: 0
+# endflag (int): finish at the end of the GIS files (1) or partway through (0)
+endflag: 1
+# numgrids (long): if skipping grid cells, how many to run TEM for?
+numgrids: 1
+```
+
+# Initialization and equilibrium
+
+```yaml
+# =============================================================================
+# INITIALIZATION AND EQUILIBRIUM
+# =============================================================================
+# spinflag (int): flag describing method of initialization for each grid cell: equilibrate to long-term average climate (0); equilibration as in (0) followed by a set number of 'spins' (1); dynamic equilibration (2)
+spinflag: 2
+# numspin (int): number of 'spins' to use in initialization if spinflag is 1
+numspin: 3
+# spintime (int): time in years of each spin
+spintime: 40
+# de_startyear (int): starting climate year for dynamic equilibration
+de_startyear: 2015
+# de_nyears (int): number of years of climate input used in dynamic equilibration
+de_nyears: 30
+# equil_min_years (int): years to run before the first equilibrium check; set it to at least equil_tau_years
+equil_min_years: 500
+# equil_rh (int): decomposition (RH) must reach equilibrium for a cell to count as initialized (1) or not (0)
+equil_rh: 1
+# equil_max_years (int): upper limit of years run to reach equilibrium, several times equil_tau_years. A cell that does not
+# converge within it gets missing results, so do not cap it for production runs.
+equil_max_years: 3000
+# equil_max_attempts (int): number of times the equilibration of a cell is restarted before it is given up
+equil_max_attempts: 1
+# equil_tau_years (double): averaging time in years of the annual fluxes used to test equilibrium
+equil_tau_years: 500.0
+# wtol (double): absolute tolerance of the water cycle, in mm per year
+wtol: 1.0
+# ctol (double): absolute tolerance of the carbon cycle, in gC per square meter per year
+ctol: 100.0
+# ntol (double): absolute tolerance of the nitrogen cycle, in gN per square meter per year
+ntol: 20.0
+# inittol (double): proportional tolerance of the integrator; 0.01 is normal value and means fluxes of n and n+1 order integrators are allowed to differ by 1 percent
+inittol: 0.01
+# maxit (int): maximum number of iterations of the adaptive integrator in a month; 20 is normal value
+maxit: 20
+# maxitmon (int): maximum number of times that the integrator can reach maxit iterations in a month; 100 is normal value
+maxitmon: 200
+# ode_dtmax (double): largest sub-step of the integrator (ode_solver 1), as a fraction of the model step; 0 (default) is automatic: 0.03333 (30 sub-steps,
+# about a day) for steps of a week or longer and 0.25 for shorter steps. inittol still decides whether a sub-step is accepted. Results change within
+# inittol; compare against a smaller value before production runs
+ode_dtmax: 0
+# istateflag (int): start from equilibration (0); start from the NetCDF state file istatefile written at equilibrium (1) or at year istateyear (2)
+istateflag: 0
+# istatefile (string): NetCDF state file read when istateflag is 1 or 2 (one file, all cells and cohorts)
+istatefile: ./OUTPUT/temstate.nc
+# istateyear (int): year the state file was written for, if istateflag is 2
+istateyear: 0
+```
+
+# Processes
+
+```yaml
+# =============================================================================
+# PROCESSES
+# =============================================================================
+# sradflag (int): run solar radiation model in TEM (1) or do not run it (0)
+sradflag: 1
+# avlnflag (int): run model allowing available n to vary (1) or not (0)
+avlnflag: 1
+# nfeed (int): run model with nitrogen limitation on gpp (1) or without (0)
+nfeed: 1
+# baseline (int): solve for baseline soil nitrogen during initialization (1) or do not (0)
+baseline: 0
+# moistlim (int): run model with moisture limitation on gpp (1) or without (0)
+moistlim: 1
+# o3flag (int): run model with ozone damage to gpp (1) or without (0)
+o3flag: 1
+# dc2n (double): factor for relative change of c:n for a change in co2
+dc2n: 0.0
+# ode_solver (int): integrator of the daily/monthly state equations: 1 Bogacki-Shampine (rkbs), 2 Runge-Kutta-Fehlberg (rkf)
+ode_solver: 1
+# rsoil_method (int): soil respiration function: 1 Q10 form (tim), 2 SiB form (sib)
+rsoil_method: 2
+# rhmoist_method (int): moisture response of heterotrophic respiration: 1 water-filled pore space, 2 DNDC, 3 sech
+rhmoist_method: 1
+# agtillflag (int): specifies whether tillage is (1) or is not (0) used in agriculture
+agtillflag: 0
+# agirrgflag (int): specifies whether irrigation is (1) or is not (0) used in agriculture
+agirrgflag: 0
+# agfertflag (int): specifies whether fertilization is (1) or is not (0) used in agriculture
+agfertflag: 0
+# veg_fire (int): wildfire, off (0) or on (1); runs at any run_dt. The fire model is GDSTEM-FIRE (Li et al. 2012 with the CLM5 terms) and needs the parameter files of params/gdstem_fire (igef in the site file; fsr and fd in the vegetation file).
+# Inputs read when veg_fire is 1: lightning flashes (km-2 month-1, 12 months), population density (km-2) and GDP per capita (thousand US dollars per person) (varmap: lightning, popdens, gdp). The cell area comes from the grid.
+veg_fire: 0
+storm_disturbance: false
+```
+
+# Output and state
+
+```yaml
+# =============================================================================
+# NETCDF INPUT AND OUTPUT
+# =============================================================================
+# Parameters of netcdf_io.h, adapted from fms2_io of FMS (NOAA-GFDL/FMS 2026.03) with its names; all are optional.
+# num_io_buffers (int): tiles of every input kept in memory; a tile holds all time steps and latitudes of several longitudes. 2 as in time_interp_external_nml of FMS; -1 reads each input once, whole
+num_io_buffers: 2
+# io_buffer_mb (int): MiB of one tile; the tile is widened to whole chunks of the file, so any chunking is read once
+io_buffer_mb: 256
+# netcdf_read_broadcast (bool): the check of the inputs at the start reads the same tiles on every rank: the root (rank 0) reads and broadcasts them (netcdf_read_data of FMS with broadcast); false: every rank reads
+netcdf_read_broadcast: true
+# use_netcdf_mpi (bool): open the inputs with the HDF5 MPI-IO driver, every rank reads its own hyperslab; needs a parallel NetCDF build (make NETCDF_PAR=1), else it is ignored with a message
+use_netcdf_mpi: false
+# use_collective (bool): with use_netcdf_mpi: collective reads in the check of the inputs
+use_collective: false
+# ncchksz (int): bytes: buffer size hint of nc__open (read by classic files; netCDF-4 files ignore it)
+ncchksz: 65536
+# header_buffer_val (int): bytes of free space after the header of an output or state file (nc__enddef)
+header_buffer_val: 16384
+# deflate_level (int): compression of the output variables, 0 (none) to 9
+deflate_level: 2
+# output_chunk_lonlat (int): longitude and latitude chunk of the output variables (all time steps and one cohort per chunk), 16 by default. 0 leaves the chunking to
+# NetCDF, as FMS does when no chunk sizes are given; that gives a map per time step, which is 10 times slower and 13 times larger when the cells are written one by one
+output_chunk_lonlat: 16
+# shuffle (bool): shuffle filter of the output variables
+shuffle: true
+
+# =============================================================================
+# OUTPUT AND STATE
+# =============================================================================
+# output_file (string): NetCDF output file holding all variables of temoutvars and the diagnostics; there is no output without it
+output_file: ./OUTPUT/tem.nc
+# output_new_file_freq, output_new_file_freq_units (int, string: month, year): start a new file every so often. A file covers whole years (output_new_file_freq must be a multiple of 12 months, otherwise the run stops) and starts
+# with the first year that can be written (the earlier of clmstartyr and startyr, minus spinoutyrs when spinoutflag is not 0); a year is never split
+# between two files. Records of earlier years (the
+# equilibration labels its records year 0) are not written and are counted in a note at the end; a variable, cohort, cell and year written twice, or a
+# coordinate that is not a value of the grid axes, stops the run
+# (0 writes one file); files insert _<YYYYMM>-<YYYYMM> before the extension, if present
+output_new_file_freq: 0
+output_new_file_freq_units: year
+# startyr (int): first year that data will be collected for output
+startyr: 2015
+# endyr (int): last year that data will be collected for output
+endyr: 2099
+# diffyr (int): data for output will be collected every diffyr years (1 means every year, 2 every other year, etc.)
+diffyr: 1
+# temoutflag (int): specifies whether files with TEM output will (1) or will not (0) be written
+temoutflag: 1
+# temoutvars: YAML sequence of lowercase output variable names
+temoutvars: [vegc, npp, nep, gpp, smoist, netnmin, availn, soilorgc, h2oyield, veginnpp, vsm, nce, rh, volac, convertc]
+# clmoutflag (int): write climate data to files (1) or do not (0)
+clmoutflag: 1
+# clmoutvars: YAML sequence of lowercase output variable names
+clmoutvars: []
+# spinoutflag (int): output for all years (1), output for some years (2), or do not output (0) tem variables during spinup
+spinoutflag: 0
+# spinoutyrs (int): if spinoutflag is 2, the starting year of spinup output
+spinoutyrs: 0
+# ostateflag (int): do not write the state (0); write it at equilibrium (1); write it at the end of year ostateyear (2)
+ostateflag: 0
+# ostatefile (string): NetCDF state file written when ostateflag is 1 or 2, separate from the output file. Under MPI the compute ranks send their records to rank 0, which writes this one file (no file per rank, no merge).
+ostatefile: ./OUTPUT/temstate.nc
+# ostateyear (int): year of the state written if ostateflag is 2
+ostateyear: 0
+```
+
+# Parameter files
+
+```yaml
+# =============================================================================
+# PARAMETER FILES
+# =============================================================================
+# cmntecd (string): file describing vegetation mosaics as assemblages of pfts
+cmntecd: ../../params/gdstem/tcomm45_lulc.yaml
+# rootzecd (string): filename for rooting-depth parameters
+rootzecd: ../../params/gdstem/trotz45_lulc.yaml
+# vegecd (string): filename for vegetation parameters
+vegecd: ../../params/gdstem/tveg45_lulc.yaml
+# conductecd (string): filename for stomatal conductance and hydraulic parameters
+conductecd: ../../params/gdstem/tconduct45_lulc.yaml
+# mcrbecd (string): filename for microbial parameters
+mcrbecd: ../../params/gdstem/tmcrv45_lulc.yaml
+# agecd (string): filename for agricultural parameters
+agecd: ../../params/gdstem/ag45_lulc.yaml
+```
+
+# Site calibration files
+
+```yaml
+# =============================================================================
+# SITE CALIBRATION FILES: Top-level *_dat keys. Each file declares its TEM community ID.
+# =============================================================================
+ice_dat: "../../params/gdstem/ice45_openn_303.yaml"
+tpd_dat: "../../params/gdstem/tpd45_trendy.yaml"
+tmt_dat: "../../params/gdstem/tmt45_trendy.yaml"
+bnz_dat: "../../params/gdstem/bnz45_trendy.yaml"
+hvc_dat: "../../params/gdstem/hvc45_trendy.yaml"
+hvd_dat: "../../params/gdstem/hvd45_trendy.yaml"
+tai_dat: "../../params/gdstem/tai45_trendy.yaml"
+pwn_dat: "../../params/gdstem/pwn45_trendy.yaml"
+knz_ag0_dat: "../../params/gdstem/knz45_ag0_trendy.yaml"
+gum_dat: "../../params/gdstem/gum45_trendy.yaml"
+cur_dat: "../../params/gdstem/cur45_trendy.yaml"
+gux_dat: "../../params/gdstem/gux45_trendy.yaml"
+duc_evergreen_dat: "../../params/gdstem/duc45_evergreen_trendy.yaml"
+duc_deciduous_dat: "../../params/gdstem/duc45_deciduous_trendy.yaml"
+impervious_dat: "../../params/gdstem/impervious_trendy.yaml"
+turf_dat: "../../params/gdstem/turf45_trendy.yaml"
+kbs_dat: "../../params/gdstem/kbs45_trendy.yaml"
+kbm_dat: "../../params/gdstem/kbm45_trendy.yaml"
+osg_dat: "../../params/gdstem/osg45_trendy.yaml"
+knz_ag2_dat: "../../params/gdstem/knz45_ag2_trendy.yaml"
+pwn_ag2_dat: "../../params/gdstem/pwn45_ag2_trendy.yaml"
+```
+
+# Other
+
+```yaml
+```

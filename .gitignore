@@ -1,0 +1,12 @@
+__pycache__/
+.ruff_cache/
+build/
+build_mpi/
+**/INPUT/
+**/OUTPUT/
+**/logs/
+**/tem_config.yaml
+!templates/tem_config.yaml
+*.log
+*.log.*
+**/regrid/

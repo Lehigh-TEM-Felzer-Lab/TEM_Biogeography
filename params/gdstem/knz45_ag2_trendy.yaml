@@ -1,0 +1,43 @@
+version: 4.5
+site: Konza, Kansas USA
+longitude: -97.0
+latitude: 39.0
+developedBy: TWC/BSF/DWK
+updated: 20090121
+community:
+  - type: 22
+    description: Moist Pasture
+    leafcb: 100.0
+    sapwoodcb: 100.0
+    heartwoodcb: 0.0
+    rootcb: 100.0
+    seedcb: 0.0
+    labilecb: 100.0
+    leafnb: 5.0
+    sapwoodnb: 1.0
+    heartwoodnb: 0.0
+    rootnb: 5.0
+    seednb: 0.0
+    labilenb: 5.0
+    solcb: 7193.0
+    solnb: 586.005
+    avlnb: 0.80
+    vegcmax1b: 20.0
+    vegtauleaf: 1.0
+    vegtausapwood: 1.0
+    vegtauheartwood: 0.2696
+    vegtauroot: 1.0
+    vegtauseed: 1.0
+    vegkra: 0.28
+    microbekdb: 0.0073
+    microbelcclnc: 57.1
+    microbepropftos: 0.2000
+    vegnmax1b: 195.0
+    microbenupb: 40.0
+    soilnloss: 5.0
+    soildenitr: 1.0
+    microbecnsoil: 11.12
+    vegcnltr: 45.0
+    o3para: 3.9
+    o3parb: 2.0
+    o3parc: 0.0402712

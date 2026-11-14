@@ -1,0 +1,932 @@
+version: 4.5
+temveg:
+  - type: 1
+    description: Ice
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 2
+    description: Alpine Tundra/Polar Desert
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 2
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 3
+    description: Moist/Wet Tundra
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 3
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 4
+    description: Boreal Forest
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 4
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 5
+    description: Boreal Woodlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 2
+    subtype1: 3
+    pcttype1: 50.00
+    subtype2: 4
+    pcttype2: 50.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 6
+    description: Forested Boreal Wetlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 4
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 7
+    description: Non-forested Boreal Wetlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 3
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 8
+    description: Temperate Coniferous Forests
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 5
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 9
+    description: Temperate Deciduous Forests
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 6
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 10
+    description: Mixed Temperate Forests
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 2
+    subtype1: 5
+    pcttype1: 50.00
+    subtype2: 6
+    pcttype2: 50.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 11
+    description: Temperate Broadleaved Evergreen Forests
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 7
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 12
+    description: Temperate Savannas
+    developedBy: A. David McGuire
+    updated: 19931114
+    numtype: 2
+    subtype1: 6
+    pcttype1: 50.00
+    subtype2: 8
+    pcttype2: 50.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 13
+    description: Temperate Forested Wetlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 6
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 14
+    description: Temperate Non-forested Wetlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 9
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 15
+    description: Temperate Forested Floodplains
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 6
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 16
+    description: Temperate Non-forested Floodplain
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 9
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 17
+    description: Salt Marsh
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 9
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 18
+    description: Tidal Freshwater Marshes
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 9
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 19
+    description: Short Grasslands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 8
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 20
+    description: Tall Grasslands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 9
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 21
+    description: Mediterranean Shrublands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 10
+    pcttype1: 100.0
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 22
+    description: Arid Shrublands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 11
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 23
+    description: Xeromorphic Forests and Woodlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 12
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 24
+    description: Tropical Evergreen Forests
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 13
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 25
+    description: Tropical Deciduous Forests
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 14
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 26
+    description: Tropical Savannas
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 2
+    subtype1: 9
+    pcttype1: 50.00
+    subtype2: 14
+    pcttype2: 50.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 27
+    description: Wet Savannas
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 2
+    subtype1: 9
+    pcttype1: 50.00
+    subtype2: 13
+    pcttype2: 50.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 28
+    description: Tropical Forested Wetlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 13
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 29
+    description: Tropical Non-forested Wetlands
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 9
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 30
+    description: Tropical Forested Floodplains
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 14
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 31
+    description: Tropical Non-forested Floodplains
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 9
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 32
+    description: Mangroves
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 13
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 33
+    description: Deserts
+    developedBy: A. David McGuire
+    updated: 19931111
+    numtype: 1
+    subtype1: 11
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 34
+    description: Reserved1
+    developedBy: A. David McGuire
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 35
+    description: Reserved2
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 36
+    description: Reserved3
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 37
+    description: Reserved4
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 38
+    description: Reserved5
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 39
+    description: Reserved6
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 40
+    description: Urban with Boreal Forest trees
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 55.00
+    subtype2: 16
+    pcttype2: 25.00
+    subtype3: 3
+    pcttype3: 20.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 41
+    description: Urban with Temperate Coniferous Forest trees
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 55.00
+    subtype2: 16
+    pcttype2: 25.00
+    subtype3: 5
+    pcttype3: 20.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 42
+    description: Urban with Temperate Deciduous Forest trees
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 55.00
+    subtype2: 16
+    pcttype2: 25.00
+    subtype3: 6
+    pcttype3: 20.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 43
+    description: Urban with Temperate Broadleaved Evergreen Forest trees
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 55.00
+    subtype2: 16
+    pcttype2: 25.00
+    subtype3: 7
+    pcttype3: 20.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 44
+    description: Urban with Xeromorphic Forest and Woodland trees
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 55.00
+    subtype2: 16
+    pcttype2: 25.00
+    subtype3: 12
+    pcttype3: 20.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 45
+    description: Urban with Tropical Evergreen Forest trees
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 55.00
+    subtype2: 16
+    pcttype2: 25.00
+    subtype3: 13
+    pcttype3: 20.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 46
+    description: Urban with Tropical Deciduous Forest trees
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 55.00
+    subtype2: 16
+    pcttype2: 25.00
+    subtype3: 14
+    pcttype3: 20.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 47
+    description: Impervious Surfaces
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 15
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 48
+    description: Turf Lawn
+    developedBy: TWC/BSF
+    updated: 20090121
+    numtype: 1
+    subtype1: 16
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 49
+    description: Reserved7
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 50
+    description: C3 annual Crops
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 18
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 51
+    description: C4 annual Crops
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 18
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 52
+    description: Perennial Crops
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 18
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 53
+    description: Soybean
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 17
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 54
+    description: Maize
+    developedBy: BSF/EM
+    updated: 20250420
+    numtype: 1
+    subtype1: 18
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 55
+    description: Switchgrass
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 19
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 56
+    description: Vegetable Farm
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 18
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 57
+    description: Reserved8
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 58
+    description: Reserved9
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 59
+    description: Reserved10
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 1
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 60
+    description: Pasture
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 21
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 61
+    description: Moist Pasture
+    developedBy: David W. Kicklighter
+    updated: 20020331
+    numtype: 1
+    subtype1: 22
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00
+  - type: 62
+    description: Rangeland
+    developedBy: Erwan Monier
+    updated: 20251125
+    numtype: 1
+    subtype1: 21
+    pcttype1: 100.00
+    subtype2: -99
+    pcttype2: 0.00
+    subtype3: -99
+    pcttype3: 0.00
+    subtype4: -99
+    pcttype4: 0.00
+    subtype5: -99
+    pcttype5: 0.00

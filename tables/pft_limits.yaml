@@ -1,0 +1,81 @@
+- potveg: 4
+  subtype: 4
+  description: Boreal Forest
+  min_gdd: 350
+  max_gdd: 900
+  tc: -60
+  tw: 21
+  min_annual_prec: 200
+  min_aet_pet: 0.65
+- potveg: 8
+  subtype: 9
+  description: Mixed Temperate Forest
+  min_gdd: 900
+  max_gdd: 3000
+  tc: -5
+  tw: 25
+  min_annual_prec: 300
+  min_aet_pet: 0.7
+- potveg: 8
+  subtype: 10
+  description: Mixed Temperate Forest
+  min_gdd: 900
+  max_gdd: 3000
+  tc: -5
+  tw: 21
+  min_annual_prec: 750
+  min_aet_pet: 0.7
+- potveg: 9
+  subtype: 9
+  description: Temperate Coniferous Forests
+  min_gdd: 900
+  max_gdd: 3000
+  tc: -40
+  tw: 25
+  min_annual_prec: 300
+  min_aet_pet: 0.7
+- potveg: 10
+  subtype: 10
+  description: Temperate Deciduous Forests
+  min_gdd: 900
+  max_gdd: 3000
+  tc: -10
+  tw: 21
+  min_annual_prec: 750
+  min_aet_pet: 0.6
+- potveg: 13
+  subtype: 13
+  description: Short Grasslands
+  min_gdd: 500
+  max_gdd: 5000
+  tc: -20
+  tw: 35
+  min_annual_prec: 500
+  min_aet_pet: 0.5
+- potveg: 15
+  subtype: 15
+  description: Arid Shrublands
+  min_gdd: 500
+  max_gdd: 5000
+  tc: 0
+  tw: 35
+  min_annual_prec: 150
+  min_aet_pet: 0.5
+- potveg: 19
+  subtype: 19
+  description: Xeromorphic Forests and Woodlands
+  min_gdd: 900
+  max_gdd: 3000
+  tc: -5
+  tw: 32
+  min_annual_prec: 380
+  min_aet_pet: 0.5
+- potveg: 33
+  subtype: 33
+  description: Temperate Broadleaved Evergreen Forests
+  min_gdd: 3000
+  max_gdd: 5000
+  tc: -10
+  tw: 25
+  min_annual_prec: 300
+  min_aet_pet: 0.65

@@ -1,0 +1,43 @@
+version: 4.5
+site: Bonanza Creek, AK USA
+longitude: -148.5
+latitude: 64.5
+developedBy: TWC/BSF/DWK
+updated: 20090629
+community:
+  - type: 4
+    description: Boreal Forest
+    leafcb: 400.0
+    sapwoodcb: 900.0
+    heartwoodcb: 7500.0
+    rootcb: 150.0
+    seedcb: 0.0
+    labilecb: 500.0
+    leafnb: 10.0
+    sapwoodnb: 1.5
+    heartwoodnb: 15.0
+    rootnb: 5.0
+    seednb: 0.0
+    labilenb: 5.0
+    solcb: 11000.0
+    solnb: 370.0
+    avlnb: 0.5
+    vegcmax1b: 9.9
+    vegtauleaf: 2.0
+    vegtausapwood: 39.0
+    vegtauheartwood: 135.0
+    vegtauroot: 1.0
+    vegtauseed: 1.0
+    vegkra: 0.495
+    microbekdb: 0.008
+    microbelcclnc: 95.0
+    microbepropftos: 0.2000
+    vegnmax1b: 260.0
+    microbenupb: 9.0
+    soilnloss: 1.0
+    soildenitr: 2.0
+    microbecnsoil: 29.73
+    vegcnltr: 60.0
+    o3para: 0.7
+    o3parb: 1.0
+    o3parc: 0.0080782

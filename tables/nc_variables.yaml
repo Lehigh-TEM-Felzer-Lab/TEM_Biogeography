@@ -1,0 +1,115 @@
+coordinates:
+  lat:
+    long_name: latitude of cell centre
+    units: degrees_north
+    standard_name: latitude
+    axis: Y
+  lon:
+    long_name: longitude of cell centre
+    units: degrees_east
+    standard_name: longitude
+    axis: X
+  time:
+    long_name: time, start of the year or month
+    standard_name: time
+    axis: T
+  cohort:
+    long_name: cohort index within the cell
+    units: '1'
+  potveg:
+    long_name: potential vegetation type (PFT code)
+    units: '1'
+metadata:
+  standage:
+    long_name: stand age
+    units: year
+  potveg:
+    long_name: potential vegetation type of the cohort
+    units: '1'
+  currentveg:
+    long_name: current vegetation type of the cohort
+    units: '1'
+  subtype:
+    long_name: vegetation subtype index
+    units: '1'
+  cmnt:
+    long_name: TEM community type index
+    units: '1'
+  carea:
+    long_name: grid cell area
+    units: km2
+  subarea:
+    long_name: area occupied by the cohort
+    units: km2
+mmdi:
+  potveg:
+    long_name: potential vegetation type of the cohort
+    units: '1'
+  subtype:
+    long_name: vegetation subtype index
+    units: '1'
+  aet:
+    long_name: actual evapotranspiration
+    units: mm month-1
+  pet:
+    long_name: potential evapotranspiration
+    units: mm month-1
+  aet_pet:
+    long_name: ratio of actual to potential evapotranspiration (missing where PET
+      is not positive)
+    units: '1'
+  dryness:
+    long_name: moisture deficit (PET - AET) / PET (missing where PET is not positive)
+    units: '1'
+  theta:
+    long_name: relative soil wetness (soil moisture - wilting point) / available water
+      capacity
+    units: '1'
+biogeo:
+  potveg:
+    long_name: potential vegetation type selected for the year
+    units: '1'
+  possible:
+    long_name: selected PFT is climatically possible
+    units: '1'
+  any_possible:
+    long_name: at least one PFT is climatically possible
+    units: '1'
+  gdd:
+    long_name: annual growing degree days above the base temperature
+    units: degree_C day
+  t_min:
+    long_name: mean temperature of the coldest month
+    units: degree_C
+  t_max:
+    long_name: mean temperature of the warmest month
+    units: degree_C
+  annual_prec:
+    long_name: annual precipitation
+    units: mm
+  aet_pet:
+    long_name: summer mean ratio of actual to potential evapotranspiration
+    units: '1'
+  potveg_period:
+    long_name: persisting potential vegetation type of the period
+    units: '1'
+summary:
+  ngrid:
+    long_name: number of cells
+    units: '1'
+  area:
+    long_name: total cell area
+    units: km2
+summary_statistic:
+  mean:
+    long_name: mean over cells
+  max:
+    long_name: maximum over cells
+  min:
+    long_name: minimum over cells
+  std:
+    long_name: standard deviation over cells
+  area_weighted_mean:
+    long_name: area-weighted mean over cells
+  area_integral:
+    long_name: mean x total area / 1e6

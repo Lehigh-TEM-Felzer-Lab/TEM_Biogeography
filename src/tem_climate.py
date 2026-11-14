@@ -1,0 +1,228 @@
+# tem_climate.py
+"""Read the input NetCDF file(s) and convert its variables to TEM inputs (monthly or daily) on the model grid.
+
+20241109 Fixed: noleap and 360_day daily or hourly forcing is mapped to the standard calendar before 29
+         February is dropped; monthly precipitation rates are scaled by the days of the month.
+"""
+
+import logging
+import re
+from glob import glob
+from pathlib import Path
+
+import metpy.calc as mpcalc
+import metpy.xarray  # noqa: F401  registers the .metpy accessor
+import numpy as np
+import pandas as pd
+import xarray as xr
+from metpy.units import units
+from pint import DimensionalityError
+
+log = logging.getLogger("PREPROCESS")
+
+RENAME = {
+    "latitude": "lat",
+    "longitude": "lon",
+    "valid_time": "time",
+    "x": "lon",
+    "y": "lat",
+}
+STEP_SECONDS = {"hourly": 3600.0, "daily": 86400.0}
+
+
+def open_dataset(
+    path: Path | list[Path],
+    bbox: tuple[float, float, float, float],
+    frequency: str = "monthly",
+) -> xr.Dataset:
+    """Open the input file(s) (paths or globs), merge them by coordinates, normalise names and longitudes, subset to bbox."""
+    paths = sorted(
+        {f for p in (path if isinstance(path, list) else [path]) for f in glob(str(p))}
+    )
+    if not paths:
+        raise FileNotFoundError(
+            f"No file matches climate_file: {[str(p) for p in (path if isinstance(path, list) else [path])]}"
+        )
+    log.info("Reading %d input file(s)", len(paths))
+    ds = xr.open_mfdataset(paths, combine="by_coords", chunks={}, engine="netcdf4")
+    ds = ds.rename({k: v for k, v in RENAME.items() if k in ds.dims or k in ds.coords})
+    ds = ds.assign_coords(lon=((ds.lon + 180) % 360) - 180).sortby("lon").sortby("lat")
+    if (
+        frequency in ("daily", "hourly")
+        and "time" in ds.coords
+        and not isinstance(ds.indexes["time"], pd.DatetimeIndex)
+    ):
+        # model calendars (noleap, 360_day): map to the standard calendar, repeating the value
+        # before a missing day (29 February) so that every calendar day has a value
+        ds = ds.convert_calendar(
+            "standard", dim="time", missing=np.nan, use_cftime=False
+        )
+        ds = ds.ffill("time", limit=24 if frequency == "hourly" else 1)
+    lon_min, lon_max, lat_min, lat_max = bbox
+    return ds.sel(lon=slice(lon_min, lon_max), lat=slice(lat_min, lat_max))
+
+
+def get(ds: xr.Dataset, varmap: dict, key: str) -> xr.DataArray | None:
+    """Variable of the input file that varmap assigns to key, or None if key is not mapped."""
+    name = key if key in ds else varmap.get(key)
+    if name is None:
+        return None
+    if name not in ds:
+        raise KeyError(f"varmap: '{name}' (TEM input '{key}') is not in the input file")
+    if "units" not in ds[name].attrs:
+        raise ValueError(f"Input variable '{name}' has no 'units' attribute")
+    return ds[name]
+
+
+def convert(da: xr.DataArray, unit: str) -> xr.DataArray:
+    """Convert da to unit using its units attribute (MetPy/pint, offset units included)."""
+    try:
+        out = da.metpy.quantify().metpy.convert_units(unit).metpy.dequantify()
+    except DimensionalityError as error:
+        raise ValueError(
+            f"Input variable '{da.name}' has units '{da.attrs['units']}', not convertible to {unit}"
+        ) from error
+    return out.assign_attrs(units=unit)
+
+
+def temperature(da: xr.DataArray, delta: bool = False) -> xr.DataArray:
+    """Degrees Celsius, or a temperature difference in K when delta is true."""
+    if delta:
+        da = da.assign_attrs(
+            units=re.sub(r"\bdegC\b|degree_Celsius", "delta_degC", da.attrs["units"])
+        )
+        return convert(da, "delta_degC")
+    return convert(da, "degC")
+
+
+def precipitation(da: xr.DataArray) -> xr.DataArray:
+    """Precipitation as mm per day (kind 'rate') or mm per step (kind 'amount')."""
+    unit = da.attrs["units"]
+    per_month = re.sub(r"\s*(/\s*month|month-1)", "", unit)
+    if per_month != unit:  # amount per calendar month, e.g. "mm month-1"
+        return convert(da.assign_attrs(units=per_month), "mm").assign_attrs(
+            kind="amount"
+        )
+    dim = units.Quantity(1.0, unit).dimensionality
+    if (
+        dim == units.Quantity(1.0, "kg m-2 s-1").dimensionality
+    ):  # 1 kg m-2 = 1 mm of water
+        return convert(da, "kg m-2 day-1").assign_attrs(kind="rate")
+    if dim == units.Quantity(1.0, "kg m-2").dimensionality:
+        return convert(da, "kg m-2").assign_attrs(kind="amount")
+    if dim == units.Quantity(1.0, "m").dimensionality:
+        return convert(da, "mm").assign_attrs(kind="amount")
+    return convert(da, "mm day-1").assign_attrs(kind="rate")
+
+
+def radiation(da: xr.DataArray, frequency: str) -> xr.DataArray:
+    """Downward shortwave radiation in W m-2; energy per step (J m-2) is divided by the step length."""
+    dimension = units.Quantity(1.0, da.attrs["units"]).dimensionality
+    if dimension == units.Quantity(1.0, "J m-2").dimensionality:
+        if frequency == "monthly":
+            return convert(da, "J m-2") / (86400 * da.time.dt.days_in_month)
+        return convert(da, "J m-2") / STEP_SECONDS[frequency]
+    return convert(da, "W m-2")
+
+
+def derive(
+    name: str, ds: xr.Dataset, varmap: dict, frequency: str, surface_pressure_hpa: float
+) -> xr.DataArray | None:
+    """TEM variable name in TEM units on the file's native time step, or None if varmap lacks it."""
+
+    def has(*keys: str) -> bool:
+        return all(k in ds or k in varmap for k in keys)
+
+    def var(key: str) -> xr.DataArray:
+        return get(ds, varmap, key)
+
+    if name == "tair":
+        if has("tair"):
+            return temperature(var("tair"))
+        if has("tmin", "tmax"):
+            return (temperature(var("tmin")) + temperature(var("tmax"))) / 2
+    elif name == "dtr":
+        if has("dtr"):
+            return temperature(var("dtr"), delta=True)
+        if has("tmin", "tmax"):
+            return temperature(var("tmax")) - temperature(var("tmin"))
+    elif name == "prec" and has("prec"):
+        return precipitation(var("prec"))
+    elif name == "nirr" and has("nirr"):
+        return radiation(var("nirr"), frequency)
+    elif name == "vpr":
+        if has("vpr"):
+            return convert(var("vpr"), "hPa")
+        if has("dewpoint"):
+            e = mpcalc.saturation_vapor_pressure(var("dewpoint").metpy.quantify())
+            return e.metpy.convert_units("hPa").metpy.dequantify()
+        if has("huss"):
+            p = (
+                var("ps").metpy.quantify()
+                if has("ps")
+                else units.Quantity(surface_pressure_hpa, "hPa")
+            )
+            q = var("huss").metpy.quantify()
+            e = mpcalc.vapor_pressure(p, mpcalc.mixing_ratio_from_specific_humidity(q))
+            return e.metpy.convert_units("hPa").metpy.dequantify()
+    elif name == "wind":
+        if has("wind"):
+            return convert(var("wind"), "m s-1")
+        if has("u10", "v10"):
+            speed = mpcalc.wind_speed(
+                var("u10").metpy.quantify(), var("v10").metpy.quantify()
+            )
+            return speed.metpy.convert_units("m s-1").metpy.dequantify()
+    elif name == "elev" and has("elev"):
+        return convert(var("elev"), "m")
+    return None
+
+
+def monthly(da: xr.DataArray, name: str, frequency: str) -> xr.DataArray:
+    """Values per month in TEM units; precipitation becomes mm per month."""
+    if name == "elev" or "month" in da.dims:
+        return da
+    if frequency == "monthly":
+        if name == "prec" and da.attrs["kind"] == "rate":
+            return da * da.time.dt.days_in_month
+        return da
+    if name == "prec":
+        if da.attrs["kind"] == "amount":
+            return da.resample(time="MS").sum(min_count=1)
+        out = da.resample(time="MS").mean()
+        return out * out.time.dt.days_in_month
+    return da.resample(time="MS").mean()
+
+
+def to_grid(
+    da: xr.DataArray, lon: np.ndarray, lat: np.ndarray, method: str, resolution: float
+) -> xr.DataArray:
+    """Regrid to the model grid. box_mean averages the source cells inside each target cell (area
+    weighted) when the source is finer; otherwise bilinear or nearest."""
+    if np.isin(lon, da.lon).all() and np.isin(lat, da.lat).all():
+        return da.sel(lon=lon, lat=lat)
+    if method == "nearest" or abs(source_res(da) - resolution) < 1e-6:
+        return da.reindex(lon=lon, lat=lat, method="nearest", tolerance=resolution / 2)
+    if method == "box_mean" and source_res(da) < resolution * 0.99:
+        half = resolution / 2
+        dlat = da.lat.values[None, :] - lat[:, None]
+        dlon = da.lon.values[None, :] - lon[:, None]
+        wlat = xr.DataArray(
+            ((dlat >= -half) & (dlat < half))
+            * np.cos(np.deg2rad(da.lat.values))[None, :],
+            dims=("tlat", "lat"),
+        )
+        wlon = xr.DataArray(
+            ((dlon >= -half) & (dlon < half)) * 1.0, dims=("tlon", "lon")
+        )
+        num = xr.dot(da.fillna(0.0), wlat, wlon, dim=["lat", "lon"])
+        den = xr.dot(da.notnull().astype(float), wlat, wlon, dim=["lat", "lon"])
+        out = (num / den.where(den > 0)).rename(tlat="lat", tlon="lon")
+        return out.assign_coords(lat=lat, lon=lon)
+    return da.interp(lon=lon, lat=lat, method="linear")
+
+
+def source_res(da: xr.DataArray) -> float:
+    return (
+        float(np.median(np.abs(np.diff(da.lon.values)))) if da.lon.size > 1 else np.inf
+    )

@@ -1,0 +1,43 @@
+version: 4.5
+site: Reserve_Ducke_Amazonas_Brazil
+longitude: -60.0
+latitude: -3.0
+developedBy: BSF/TWC
+updated: 20070110
+community:
+  - type: 13
+    description: Tropical Evergreen Forests
+    leafcb: 4000.0
+    sapwoodcb: 1500.0
+    heartwoodcb: 15000.0
+    rootcb: 300.0
+    seedcb: 0.0
+    labilecb: 1000.0
+    leafnb: 10.0
+    sapwoodnb: 50.0
+    heartwoodnb: 50.0
+    rootnb: 12.0
+    seednb: 0.0
+    labilenb: 10.0
+    solcb: 4770.0
+    solnb: 238.5
+    avlnb: 2.20
+    vegcmax1b: 24.45
+    vegtauleaf: 1.0
+    vegtausapwood: 10.0
+    vegtauheartwood: 29.0
+    vegtauroot: 1.0
+    vegtauseed: 1.0
+    vegkra: 0.145
+    microbekdb: 0.013
+    microbelcclnc: 70.87
+    microbepropftos: 0.2000
+    vegnmax1b: 1000.0
+    microbenupb: 14.2
+    soilnloss: 1.0
+    soildenitr: 1.0
+    microbecnsoil: 20.0
+    vegcnltr: 52.0
+    o3para: 2.6
+    o3parb: 1.0
+    o3parc: 0.0080782

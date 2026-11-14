@@ -1,0 +1,43 @@
+version: 4.5
+site: Curlew
+longitude: -113.5
+latitude: 41.0
+developedBy: BSF/TWC
+updated: 20100604
+community:
+  - type: 11
+    description: Xeric Shrubland
+    leafcb: 100.0
+    sapwoodcb: 200.0
+    heartwoodcb: 100.0
+    rootcb: 100.0
+    seedcb: 0.0
+    labilecb: 1000.0
+    leafnb: 5.0
+    sapwoodnb: 5.0
+    heartwoodnb: 5.0
+    rootnb: 5.0
+    seednb: 0.0
+    labilenb: 10.0
+    solcb: 2500.0
+    solnb: 210.0
+    avlnb: 1.6
+    vegcmax1b: 60.0
+    vegtauleaf: 2.0
+    vegtausapwood: 10.0
+    vegtauheartwood: 11.00
+    vegtauroot: 1.0
+    vegtauseed: 1.0
+    vegkra: 0.25
+    microbekdb: 0.01
+    microbelcclnc: 70.87
+    microbepropftos: 0.2000
+    vegnmax1b: 1050.0
+    microbenupb: 86
+    soilnloss: 1.00
+    soildenitr: 1.00
+    microbecnsoil: 11.9
+    vegcnltr: 30.0
+    o3para: 2.6
+    o3parb: 1.0
+    o3parc: 0.0080782

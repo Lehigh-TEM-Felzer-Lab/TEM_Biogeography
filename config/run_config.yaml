@@ -1,0 +1,262 @@
+# =============================================================================
+# TEM Biogeography run configuration
+# Builds the NetCDF inputs and tem_config.yaml of XTEM from your data, then runs the model.
+# =============================================================================
+# The launcher reads the case-local run_config.yaml from the submission directory and fills any
+# unset key from this default file. Unknown keys are rejected at submission time, so keep case
+# files aligned with the keys below. Relative paths are relative to the case directory;
+# environment variables such as $USER and $HOME are expanded, and {tem_src} in a path is replaced
+# by the value of tem_src.
+#
+# Sections:
+#   0. Job environment (system)
+#   1. Job submission (SLURM)
+#   2. Case metadata
+#   3. Grid and regridding
+#   4. NetCDF inputs and varmap
+#   5. Input options
+#   6. Run control
+#   7. Initialization and equilibrium
+#   8. Processes
+#   9. Output and model state
+#  10. Parameter and site files
+#  11. Biogeography and workflow stages
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 0. JOB ENVIRONMENT (SYSTEM)
+# -----------------------------------------------------------------------------
+
+tem_src: $TEM_ROOT # TEM 4.5 source, parameters, templates and build
+tem_exe: null # Auto-select build/xtem or build_mpi/xtem from n_cpus
+modules: [] # Modules loaded before the run (the libraries the executable was built with)
+
+# -----------------------------------------------------------------------------
+# 1. JOB SUBMISSION (SLURM)
+# -----------------------------------------------------------------------------
+# Parameters forwarded to sbatch by launchers/case_submit.py, as in pyUFS:
+#
+#   key              sbatch flag
+#   constraint_node  --constraint=<value>   (omitted when null)
+#   exclusive_node   --exclusive            (omitted when false)
+#   walltime         --time=<walltime>:00:00
+#   n_nodes          --nodes
+#   n_cpus           --ntasks and --ntasks-per-node
+#   n_cpus_per_task  --cpus-per-task
+#   partition        --partition            (omitted when null)
+#   mem              --mem=<mem>g on one node, --mem-per-cpu=<mem // tasks>g on several
+#   sbatch_options   appended to the sbatch call unchanged
+#
+# Tasks per node are n_cpus // n_nodes and the task count submitted is (n_cpus // n_nodes) * n_nodes.
+# The model runs on that many MPI tasks; the cells are shared between them.
+
+run_mode: local # local: build and run in the foreground | slurm: submit with sbatch
+run_model: true # false: only build the case (INPUT/ and tem_config.yaml)
+constraint_node: null # Node constraint passed as --constraint=<value>, for example a CPU architecture or feature tag defined by the host
+exclusive_node: false # true requests exclusive node access (--exclusive)
+walltime: 1 # Walltime in whole hours, submitted as <walltime>:00:00
+n_nodes: 1 # Number of nodes to request
+n_cpus: 1 # Total number of tasks to request, rounded down to a multiple of n_nodes
+partition: null # Partition to submit the job to
+n_cpus_per_task: 1 # CPUs per task
+mem: 0 # Total job memory [GB]. Used only when above 2 GB per task (mem > 2 * tasks); otherwise, and for 0, the scheduler default applies.
+sbatch_options: "" # Additional raw options passed directly to sbatch, for example "--account=myproj --mail-type=END"
+
+# -----------------------------------------------------------------------------
+# 2. CASE METADATA
+# -----------------------------------------------------------------------------
+
+case_name: null # Case identifier and SLURM job name; null falls back to the directory name
+region: TEM # Label written to the output files
+
+# -----------------------------------------------------------------------------
+# 3. GRID AND REGRIDDING (the core does no regridding; this app does it)
+# -----------------------------------------------------------------------------
+
+horizontal_resolution: 0.5 # degrees
+lon_min: null # REQUIRED
+lon_max: null # REQUIRED
+lat_min: null # REQUIRED
+lat_max: null # REQUIRED
+regrid_method: box_mean # box_mean (area average, when the source is finer) | bilinear | nearest. Other fields (not the land cover) use this.
+land_fraction_min: 0.5 # land cover: a model cell is land, and gets cohorts, when its land area is at least this fraction of the cell. The land cover is summed by area (chrtarea), takes the majority by area for categories and is never placed over water.
+
+# -----------------------------------------------------------------------------
+# 4. NETCDF INPUTS AND VARMAP
+# -----------------------------------------------------------------------------
+# Each key is a path, a glob or a list of them (null: not used). The files are regridded to the
+# grid above and written to INPUT/ as climate.nc, static.nc, lulc.nc, co2.nc, flash.nc and
+# popdens.nc. Floats are written as float32 and categorical fields as int64.
+
+climate_file: null # Climate (REQUIRED), merged by coordinates; units come from the "units" attribute
+netcdf_climate_in_frequency: monthly # hourly | daily | monthly, the time step of climate_file
+static_file: null # elev, sand, silt, clay, ndep (lat, lon); wind, ozone (month, lat, lon)
+lulc_file: null # Land cover, (cohort, lat, lon); the fields of XTEM technical_desc.md#data-and-parameter-files
+co2_file: null # co2 (time), annual
+lightning_file: null # lightning_flashes, km-2 month-1 (12 months, lat, lon); needed when veg_fire is 1
+population_file: null # population_density, km-2 (lat, lon); needed when veg_fire is 1
+gdp_file: null # gdp, thousand US dollars per person (lat, lon); needed when veg_fire is 1
+storm_file: null # NetCDF return-interval grids in years, needed when storm_disturbance is true
+nfert_file: null # nfertcrop and nfertpasture, needed when agfertflag is 1
+surface_pressure_hpa: 1013.25 # Used for vpr from huss when ps is not in varmap
+
+# varmap (flat): <model variable>: <name of that variable in your NetCDF dataset>. The model variable is used as it is when
+# the dataset has a variable of that name; list the others here. Keys:
+#   climate (REQUIRED, derived to TEM units):  tair or tmin + tmax;  dtr or tmin + tmax;  prec;  nirr;
+#       vpr or dewpoint or huss (+ ps)
+#   optional from the climate files:  wind or u10 + v10;  elev
+#   passed to the model for the other files:  sand, silt, clay, lulc, co2, ozone,
+#       ndep, wind, elev, lightning, popdens, nfertcrop, nfertpasture, mask
+varmap: {}
+
+# -----------------------------------------------------------------------------
+# 5. INPUT OPTIONS (keys of XTEM templates/tem_config.yaml, whose comments describe them)
+# -----------------------------------------------------------------------------
+
+xtco2flag: 1 # 1: transient CO2 from co2_file | 0: static
+xto3flag: 0 # 1: transient ozone | 0: long-term average
+xtndepflag: 0 # 1: transient N deposition | 0: long-term average
+xtws10flag: 0 # 1: transient wind | 0: long-term average
+xnfertflag: 1 # 1: annual input without time (long-term average) | 2: transient input
+tlulcflag: 0 # 1: transient land use (the lulc input needs a time axis)
+initco2: 286.596 # ppmv at the start
+xco2level: 286.596 # ppmv of the equilibrium
+
+# -----------------------------------------------------------------------------
+# 6. RUN CONTROL
+# -----------------------------------------------------------------------------
+
+run_dt: 1 # Model time step, 1
+run_dt_units: month # month; TEM_Biogeography runs monthly steps (daily steps: XTEM)
+start_year: null # First year of the run; the climate years from here on are read (REQUIRED)
+run_length: null # Duration of the transient run, in run_length_units (REQUIRED)
+run_length_units: null # months | years, counted from 1 January of start_year (REQUIRED)
+
+# -----------------------------------------------------------------------------
+# 7. INITIALIZATION AND EQUILIBRIUM
+# -----------------------------------------------------------------------------
+
+spinflag: 0 # 0: equilibrate to long-term average climate | 1: then numspin spins | 2: dynamic equilibrium
+numspin: 3 # Spins when spinflag is 1
+spintime: 40 # Years per spin
+de_nyears: 30 # Years of climate used in dynamic equilibration
+equil_min_years: 500 # Years before the first equilibrium check
+equil_max_years: 3000 # Upper limit of years to reach equilibrium
+equil_max_attempts: 1 # Restarts of the equilibration of a cell
+equil_tau_years: 500.0 # Averaging time of the equilibrium test
+equil_rh: 1 # 1: decomposition must reach equilibrium
+wtol: 1.0 # Tolerance of the water cycle
+ctol: 100.0 # Tolerance of the carbon cycle
+ntol: 20.0 # Tolerance of the nitrogen cycle
+inittol: 0.01 # Proportional tolerance of the integrator
+maxit: 20 # Iterations of the integrator per month
+maxitmon: 200 # Times maxit can be reached in a month
+ode_dtmax: 0 # Largest integrator sub-step, fraction of the model step (0: automatic, 0.03333 for steps of a week or longer and 0.25 for shorter steps; larger is faster, results change within inittol)
+istateflag: 0 # 0: initialize | 1: read the state at equilibrium | 2: read the state of istateyear
+istatefile: ./OUTPUT/temstate.nc # State file read
+istateyear: 0 # Year of the state read when istateflag is 2
+
+# -----------------------------------------------------------------------------
+# 8. PROCESSES
+# -----------------------------------------------------------------------------
+
+avlnflag: 1 # Available N may vary
+nfeed: 1 # N feedback on GPP
+baseline: 0 # Solve for baseline soil N
+moistlim: 1 # Moisture limitation of GPP
+o3flag: 1 # Ozone damage to GPP
+dc2n: 0.0 # Relative change of C:N per change in CO2
+ode_solver: 1 # 1 Bogacki-Shampine | 2 Runge-Kutta-Fehlberg
+rsoil_method: 2 # 1 Q10 | 2 SiB
+rhmoist_method: 1 # 1 WFPS | 2 DNDC | 3 sech
+agtillflag: 0 # Tilling
+agirrgflag: 0 # Irrigation
+agfertflag: 0 # Fertilizer
+veg_fire: 0 # 1: wildfire (GDSTEM-FIRE); needs lightning_file, population_file and gdp_file; use the params/gdstem_fire files
+storm_disturbance: false # Enable transient storm and hurricane damage. Needs a STORM=1 build.
+
+# -----------------------------------------------------------------------------
+# 9. OUTPUT AND MODEL STATE
+# -----------------------------------------------------------------------------
+
+clmoutvars: [tair] # Climate variables written (lowercase model names)
+temoutvars: [vegc, npp, nep, gpp, smoist, netnmin, availn, soilorgc, h2oyield, veginnpp, vsm, nce, rh, volac, convertc]
+output_file: ./OUTPUT/tem.nc # Native TEM output, relative to the case directory
+output_new_file_freq: 0 # 0: one file. Split output is available for TEM-only runs.
+output_new_file_freq_units: year
+spinoutflag: 0 # 1: also write the spin-up years
+spinoutyrs: 0 # Number of spin-up years written
+ostateflag: 0 # 0: no state written | 1: at equilibrium | 2: at ostateyear
+ostatefile: ./OUTPUT/temstate.nc # State file written (rank 0 writes the one file)
+ostateyear: 0 # Year of the state written when ostateflag is 2
+# NetCDF input and output, adapted from fms2_io of FMS (see XTEM netcdf_io.h)
+num_io_buffers: 2 # Tiles of each input kept in memory (-1: whole input once)
+io_buffer_mb: 256 # MiB of one tile (widened to whole file chunks)
+netcdf_read_broadcast: true # Rank 0 reads and broadcasts the check of the inputs (false: every rank reads)
+use_netcdf_mpi: false # HDF5 MPI-IO reads of the inputs; needs make NETCDF_PAR=1
+use_collective: false # With use_netcdf_mpi: collective reads in the check of the inputs
+ncchksz: 65536 # Bytes, nc__open buffer hint (classic files only)
+header_buffer_val: 16384 # Bytes of free header space in output and state files
+deflate_level: 2 # Compression of the output variables, 0 to 9
+output_chunk_lonlat: 16 # Lon and lat chunk of the output variables, all time steps per chunk; 0: NetCDF chooses (slow for cell-by-cell writes)
+shuffle: true # Shuffle filter of the output variables
+
+# -----------------------------------------------------------------------------
+# 10. PARAMETER AND SITE FILES
+# -----------------------------------------------------------------------------
+# One set of params/ per run: biogeography, gdstem, gdstem_fire or glstem.
+
+cmntecd: "{tem_src}/params/gdstem/tcomm45_lulc.yaml" # Vegetation mosaics
+rootzecd: "{tem_src}/params/gdstem/trotz45_lulc.yaml" # Rooting depth
+vegecd: "{tem_src}/params/gdstem/tveg45_lulc.yaml" # Vegetation
+conductecd: "{tem_src}/params/gdstem/tconduct45_lulc.yaml" # Hydraulic conductance
+mcrbecd: "{tem_src}/params/gdstem/tmcrv45_lulc.yaml" # Microbial
+agecd: "{tem_src}/params/gdstem/ag45_lulc.yaml" # Agriculture
+# Site calibrations use top-level *_dat keys. Each file declares its TEM community ID.
+ice_dat: "{tem_src}/params/gdstem/ice45_openn_303.yaml"
+tpd_dat: "{tem_src}/params/gdstem/tpd45_trendy.yaml"
+tmt_dat: "{tem_src}/params/gdstem/tmt45_trendy.yaml"
+bnz_dat: "{tem_src}/params/gdstem/bnz45_trendy.yaml"
+hvc_dat: "{tem_src}/params/gdstem/hvc45_trendy.yaml"
+hvd_dat: "{tem_src}/params/gdstem/hvd45_trendy.yaml"
+tai_dat: "{tem_src}/params/gdstem/tai45_trendy.yaml"
+pwn_dat: "{tem_src}/params/gdstem/pwn45_trendy.yaml"
+knz_ag0_dat: "{tem_src}/params/gdstem/knz45_ag0_trendy.yaml"
+gum_dat: "{tem_src}/params/gdstem/gum45_trendy.yaml"
+cur_dat: "{tem_src}/params/gdstem/cur45_trendy.yaml"
+gux_dat: "{tem_src}/params/gdstem/gux45_trendy.yaml"
+duc_evergreen_dat: "{tem_src}/params/gdstem/duc45_evergreen_trendy.yaml"
+duc_deciduous_dat: "{tem_src}/params/gdstem/duc45_deciduous_trendy.yaml"
+impervious_dat: "{tem_src}/params/gdstem/impervious_trendy.yaml"
+turf_dat: "{tem_src}/params/gdstem/turf45_trendy.yaml"
+kbs_dat: "{tem_src}/params/gdstem/kbs45_trendy.yaml"
+kbm_dat: "{tem_src}/params/gdstem/kbm45_trendy.yaml"
+osg_dat: "{tem_src}/params/gdstem/osg45_trendy.yaml"
+knz_ag2_dat: "{tem_src}/params/gdstem/knz45_ag2_trendy.yaml"
+pwn_ag2_dat: "{tem_src}/params/gdstem/pwn45_ag2_trendy.yaml"
+
+# -----------------------------------------------------------------------------
+# 11. BIOGEOGRAPHY AND WORKFLOW STAGES
+# -----------------------------------------------------------------------------
+run_biogeography: true # Select and summarize PFTs after the model completes
+plot_biogeography: true # Render the period maps
+preprocess_only: false # Build model inputs and tem_config.yaml
+run_only: false # Run the executable using the staged files
+convert_only: false # Rebuild annual and moisture products from native NetCDF
+biogeo_only: false # Rebuild the derived and PFT products from native NetCDF
+
+pft_limits_file: $TEM_ROOT/tables/pft_limits.yaml
+pft_names_file: $TEM_ROOT/tables/pft_names.yaml
+base_temperature: 5.0 # degC for growing degree days
+summer_months: [5, 6, 7, 8, 9, 10] # Months averaged for AET/PET
+use_max_gdd: true
+period_names: [early, mid, late]
+period_ends: [2045, 2070] # Inclusive end years. Periods are clipped to the run.
+
+summary_region_code: 99
+summary_lon_min: null
+summary_lon_max: null
+summary_lat_min: null
+summary_lat_max: null
+summary_year_min: null
+summary_year_max: null

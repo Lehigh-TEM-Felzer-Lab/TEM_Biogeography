@@ -1,0 +1,43 @@
+version: 4.5
+site: Chicago suburb
+longitude: -72.5
+latitude: 42.5
+developedBy: BSF
+updated: 20150828
+community:
+  - type: 15
+    description: Impervious Surface
+    leafcb: 00.0
+    sapwoodcb: 0.0
+    heartwoodcb: 0.0
+    rootcb: 0.0
+    seedcb: 0.0
+    labilecb: 0.0
+    leafnb: 0.0
+    sapwoodnb: 0.0
+    heartwoodnb: 0.0
+    rootnb: 0.0
+    seednb: 0.0
+    labilenb: 0.0
+    solcb: 0.0
+    solnb: 0.0
+    avlnb: 0.0
+    vegcmax1b: 0.0
+    vegtauleaf: 1.0
+    vegtausapwood: 1.0
+    vegtauheartwood: 1.0
+    vegtauroot: 2.0
+    vegtauseed: 2.0
+    vegkra: 0.0
+    microbekdb: 0.0
+    microbelcclnc: 0.0
+    microbepropftos: 0.0
+    vegnmax1b: 0.0
+    microbenupb: 0.0
+    soilnloss: 0.0
+    soildenitr: 0.0
+    microbecnsoil: 0.0
+    vegcnltr: 1.0
+    o3para: 0.0
+    o3parb: 0.0
+    o3parc: 0.0

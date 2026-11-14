@@ -1,0 +1,78 @@
+version: 4.5
+site: Dummy File
+longitude: -999.9
+latitude: -999.9
+developedBy: BSF/TWC
+updated: 20070110
+community:
+  - type: 1
+    description: Ice/Missing
+    leafca: 0.0
+    leafcb: 0.0
+    sapwoodca: 0.0
+    sapwoodcb: 1500.0
+    heartwoodca: 0.0
+    heartwoodcb: 15000.0
+    rootca: 0.0
+    rootcb: 300.0
+    seedca: 0.0
+    seedcb: 0.0
+    labileca: 0.0
+    labilecb: 1000.0
+    leafna: 0.0
+    leafnb: 0.0
+    sapwoodna: 0.0
+    sapwoodnb: 5.0
+    heartwoodna: 0.0
+    heartwoodnb: 50.0
+    rootna: 0.0
+    rootnb: 12.0
+    seedna: 0.0
+    seednb: 0.0
+    labilena: 0.0
+    labilenb: 10.0
+    solca: 0.0
+    solcb: 4770.0
+    solna: 0.0
+    solnb: 238.5
+    avlna: 0.0
+    avlnb: 2.20
+    unleaf12: 0.50
+    initleafmx: 1.00
+    vegcmaxcut: 0.55
+    vegcmax1a: 0.0
+    vegcmax1b: 700.0
+    vegcmax2a: 0.0
+    vegcmax2b: 700.0
+    vegtauleaf: 1.0
+    vegtausapwood: 10.0
+    vegtauheartwood: 57.5
+    vegtauroot: 1.0
+    vegtauseed: 1.0
+    vegkra: 5.8
+    vegkrb: 0.13
+    microbekda: 0.0
+    microbekdb: 0.047
+    microbelcclnc: 70.87
+    microbepropftos: 0.2000
+    vegnmaxcut: 0.35
+    vegnmax1a: 0.0
+    vegnmax1b: 91.0
+    vegnmax2a: 0.0
+    vegnmax2b: 91.0
+    vegnfall: 0.0118
+    microbenupa: 0.0
+    microbenupb: 2.17
+    soilnloss: 0.00
+    soildenitr: 1.50
+    microbenfixpar: 0.00
+    veginitcneven: 59.35
+    vegcnmin: 0.00
+    vegc2na: 0.0000
+    vegc2nb: 300.0
+    vegc2nmin: 300.0
+    microbecnsoil: 20.0
+    vegcnltr: 52.0
+    o3para: 2.6
+    o3parb: 1.0
+    o3parc: 0.0080782

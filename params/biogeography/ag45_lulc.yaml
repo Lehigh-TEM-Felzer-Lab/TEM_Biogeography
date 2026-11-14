@@ -1,0 +1,381 @@
+version: 4.5
+community:
+  - type: 1
+    description: Ice
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 2
+    description: Alpine Tundra/Polar Desert
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 3
+    description: Wet Tundra
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 4
+    description: Boreal Forest
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 5
+    description: Temperate Coniferous Forest
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 6
+    description: Temperate Deciduous Forest
+    developedBy: DWK/TWC
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.80
+    harvstN: 0.80
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 30.0
+    cropseedSTON: 0.01
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 80000.0
+    tkill: -20.0
+    isPerennial: 1
+  - type: 7
+    description: Tall Grassland
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 0
+  - type: 8
+    description: Short Grassland
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 0
+  - type: 9
+    description: Xeric Shrubland
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 10
+    description: Tropical Forest
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 11
+    description: Xeric Woodland
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 12
+    description: Temperate Broadleaved Evergreen Forest
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 13
+    description: Mediterranean Shrubland
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 1
+  - type: 14
+    description: Switchgrass
+    developedBy: TWC
+    updated: 20061218
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: -20.0
+    isPerennial: 1
+  - type: 15
+    description: Maize
+    developedBy: TWC
+    updated: 20080826
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 15.0
+    cropseedSTON: 0.25
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2400.0
+    tkill: 0.0
+    isPerennial: 0
+  - type: 16
+    description: Soybean
+    developedBy: TWC
+    updated: 20061218
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2400.0
+    tkill: 0.0
+    isPerennial: 0
+  - type: 17
+    description: Turf Lawn
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 0
+  - type: 18
+    description: Pasture
+    developedBy: David W. Kicklighter
+    updated: 20070105
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 0
+  - type: 19
+    description: Vegetable Farm
+    developedBy: TWC
+    updated: 20080826
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.2000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.500000
+    residueN: 0.000000
+    cropseedC: 15.0
+    cropseedSTON: 0.25
+    gddmin: 9.0
+    gddseed: 300.0
+    gddharvst: 1500.0
+    tkill: 0.0
+    isPerennial: 0
+  - type: 20
+    description: Moist Pasture
+    developedBy: BSF
+    updated: 2015
+    nvretconv: 0.85
+    nsretconv: 0.85
+    vrespar: 0.01
+    tillfactor: 1.0000000
+    harvstC: 0.40
+    harvstN: 0.40
+    residueC: 0.000000
+    residueN: 0.000000
+    cropseedC: 3.0
+    cropseedSTON: 0.001
+    gddmin: 5.0
+    gddseed: 300.0
+    gddharvst: 2000.0
+    tkill: 0.0
+    isPerennial: 0

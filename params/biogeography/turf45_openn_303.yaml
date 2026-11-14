@@ -1,0 +1,43 @@
+version: 4.5
+site: Chicago suburb
+longitude: -72.5
+latitude: 42.5
+developedBy: BSF
+updated: 20150828
+community:
+  - type: 17
+    description: Turf Lawn
+    leafcb: 80.0
+    sapwoodcb: 0.0
+    heartwoodcb: 0.0
+    rootcb: 80.0
+    seedcb: 0.0
+    labilecb: 40.0
+    leafnb: 3.0
+    sapwoodnb: 0.0
+    heartwoodnb: 0.0
+    rootnb: 3.0
+    seednb: 0.0
+    labilenb: 2.0
+    solcb: 16260.0
+    solnb: 1406.0
+    avlnb: 2.00
+    vegcmax1b: 7.24
+    vegtauleaf: 1.0
+    vegtausapwood: 1.0
+    vegtauheartwood: 1.0
+    vegtauroot: 2.0
+    vegtauseed: 2.0
+    vegkra: 0.088
+    microbekdb: 0.0068
+    microbelcclnc: 32.0
+    microbepropftos: 0.2000
+    vegnmax1b: 2500.0
+    microbenupb: 40.0
+    soilnloss: 7.0
+    soildenitr: 1.00
+    microbecnsoil: 11.56
+    vegcnltr: 45.0
+    o3para: 3.9
+    o3parb: 2.0
+    o3parc: 0.0402712

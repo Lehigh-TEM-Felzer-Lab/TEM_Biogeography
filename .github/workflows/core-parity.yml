@@ -1,0 +1,23 @@
+# TEM_Biogeography holds a copy of the XTEM model sources. This fails when src/physics, src/io, src/driver or flowchart.md
+# (the call hierarchy of those sources)
+# differ from XTEM main, so a change made in one place is not forgotten in the other.
+name: core-parity
+on:
+  pull_request:
+    paths: ["src/physics/**", "src/io/**", "src/driver/**", "flowchart.md"]
+  schedule:
+    - cron: "41 6 * * 1"
+  workflow_dispatch:
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Lehigh-TEM-Felzer-Lab/XTEM
+          path: xtem
+      - name: Compare
+        run: |
+          for d in physics io driver; do diff -rq "src/$d" "xtem/src/$d"; done
+          diff -q flowchart.md xtem/flowchart.md
